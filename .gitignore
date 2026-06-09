@@ -1,2 +1,4 @@
 preview*.jpeg
 assets/_*
+assets/**/_*
+_*.json
