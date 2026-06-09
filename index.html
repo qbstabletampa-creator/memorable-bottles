@@ -43,7 +43,7 @@
     --shadow-sm: 0 14px 34px -20px rgba(47,62,77,0.45);
   }
   * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior:smooth; }
+  html { scroll-behavior:smooth; scroll-padding-top:72px; }
   body {
     font-family:'Jost',sans-serif; color:var(--ink); background:var(--porcelain);
     line-height:1.75; font-weight:300; -webkit-font-smoothing:antialiased;
@@ -207,7 +207,9 @@
     .step-grid,.occasions,.qgrid{ grid-template-columns:1fr; }
     .gallery{ grid-template-columns:repeat(2,1fr); }
     .g-tall,.g-wide,.g-sq{ grid-column:span 1; aspect-ratio:1/1; }
-    .nav-links{ display:none; }
+    .nav-links a:not(.nav-cta){ display:none; }
+    .nav-links{ gap:0; }
+    .brand,.logo .wm .m{ font-size:1.3rem; }
     section.block{ padding:3.8rem 0; }
     .crow{ grid-template-columns:1.2fr .9fr .9fr; }
     .crow > div{ padding:.8rem .7rem; font-size:.85rem; }
