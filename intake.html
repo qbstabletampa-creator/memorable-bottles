@@ -8,13 +8,15 @@
 
 <!-- ============================================================
      INTAKE FORM — automated, emails each submission to Kirklyn.
-     Backend: Web3Forms (free, no server to run). To turn it on:
-       1. Go to https://web3forms.com, enter Kirklyn's email, get a free Access Key.
-       2. Paste it into ACCESS_KEY below (one line).
-     Until then it runs in DEMO mode: the form works and shows the
-     thank-you screen so you can test the flow, but nothing is sent.
-     Turnaround + shipping copy matches the FAQ (2 weeks after arrival,
-     ship with lots of cushion).
+     Backend: FormSubmit (free, NO signup, NO new email, NO API key).
+     TO TURN IT ON: replace PASTE_EMAIL in the <form action> below with
+     Kirklyn's email (personal or family). That's the only change.
+     The very first submission triggers a one-time confirmation email to
+     that address — she clicks the link once, then every lead emails her
+     automatically forever. Submissions redirect to thanks.html.
+     Until a real email is set, it runs in DEMO mode (flow testable,
+     nothing sent). Support contact for customers = Kirklyn's cell (footer).
+     Turnaround + shipping copy matches the FAQ (2 weeks after arrival).
 ============================================================ -->
 
 <link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
@@ -122,12 +124,13 @@
       </div>
     </div>
 
-    <form id="intake" novalidate>
-      <!-- Web3Forms hidden config -->
-      <input type="hidden" name="access_key" value="PASTE_WEB3FORMS_KEY" />
-      <input type="hidden" name="subject" value="New Memorable Bottles inquiry 🍾" />
-      <input type="hidden" name="from_name" value="Memorable Bottles site" />
-      <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" />
+    <form id="intake" action="https://formsubmit.co/PASTE_EMAIL" method="POST" enctype="multipart/form-data" novalidate>
+      <!-- FormSubmit config -->
+      <input type="hidden" name="_subject" value="New Memorable Bottles inquiry 🍾" />
+      <input type="hidden" name="_template" value="table" />
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="hidden" name="_next" value="https://qbstabletampa-creator.github.io/memorable-bottles/thanks.html" />
+      <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" />
 
       <div class="field">
         <label>Which best describes you?</label>
@@ -185,7 +188,7 @@
       <button class="submit" type="submit">Reserve My Piece</button>
       <p class="form-msg" id="msg"></p>
       <p class="reassure">After you send this, we'll reply with the studio address so you can ship your bottle in. <b>Turnaround is about two weeks</b> from the day it arrives.</p>
-      <p class="demo" id="demo">Demo mode — add a Web3Forms key to send for real (see top of file).</p>
+      <p class="demo" id="demo">Demo mode — add Kirklyn's email to the form action to send for real (see top of file).</p>
     </form>
   </div>
 
@@ -208,9 +211,7 @@
 
 <script>
   const form = document.getElementById('intake');
-  const msg = document.getElementById('msg');
-  const ACCESS_KEY = form.access_key.value;
-  const isDemo = ACCESS_KEY === 'PASTE_WEB3FORMS_KEY';
+  const isDemo = form.getAttribute('action').includes('PASTE_EMAIL');
   if (isDemo) document.getElementById('demo').style.display = 'block';
 
   function showDone(){
@@ -219,27 +220,16 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    msg.textContent = '';
-    if (!form.checkValidity()) { form.reportValidity(); return; }
+  form.addEventListener('submit', (e) => {
+    if (!form.checkValidity()) { e.preventDefault(); form.reportValidity(); return; }
     const btn = form.querySelector('.submit');
     btn.disabled = true; btn.textContent = 'Sending…';
-
-    if (isDemo) { setTimeout(showDone, 600); return; }  // test the flow without a key
-
-    try {
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body: new FormData(form)
-      });
-      const data = await res.json();
-      if (data.success) { showDone(); }
-      else { throw new Error(data.message || 'Something went wrong'); }
-    } catch (err) {
-      msg.textContent = 'Sorry, that didn\'t go through. Please try again or message us on Instagram.';
-      btn.disabled = false; btn.textContent = 'Reserve My Piece';
+    if (isDemo) {                 // placeholder email — don't post, just show the flow
+      e.preventDefault();
+      setTimeout(showDone, 600);
+      return;
     }
+    // real email set: let the browser POST to FormSubmit, which redirects to thanks.html
   });
 </script>
 </body>

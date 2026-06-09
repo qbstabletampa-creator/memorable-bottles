@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Thank You — Memorable Bottles</title>
+<meta name="robots" content="noindex" />
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@0,400;0,500&family=Jost:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet" />
+<style>
+  :root{--porcelain:#f6f3ee;--white:#fff;--mist:#eaeff3;--dust:#9fb3c6;--dust-deep:#6d869e;--navy:#2f3e4d;--ink:#3c4854;--ink-soft:#5c6772;--gold:#c4a86a;--line:rgba(109,134,158,.22);}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Jost',sans-serif;color:var(--ink);background:var(--porcelain);line-height:1.7;font-weight:300;min-height:100vh;display:flex;flex-direction:column;}
+  h1,h2{font-family:'Cormorant Garamond',serif;font-weight:500;color:var(--navy);}
+  .script{font-family:'Pinyon Script',cursive;color:var(--dust-deep);}
+  header{border-bottom:1px solid var(--line);}
+  nav{width:min(1000px,92vw);margin-inline:auto;display:flex;align-items:center;justify-content:space-between;padding:.8rem 0;}
+  .logo{display:flex;align-items:center;gap:.6rem;text-decoration:none;}
+  .logo img{width:34px;height:34px;}
+  .logo .m{font-family:'Pinyon Script',cursive;font-size:1.35rem;color:var(--navy);line-height:1;display:block;margin-bottom:-3px;}
+  .logo .b{text-transform:uppercase;letter-spacing:.32em;font-size:.58rem;color:var(--dust-deep);}
+  main{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;padding:3rem 1.2rem;}
+  .card{max-width:34rem;}
+  .mark{width:78px;height:78px;border-radius:50%;border:1px solid var(--dust);display:flex;align-items:center;justify-content:center;margin:0 auto 1.6rem;background:var(--mist);}
+  h1{font-size:clamp(2.2rem,6vw,3rem);margin-bottom:.9rem;}
+  .card > p{color:var(--ink-soft);margin:0 auto 1.6rem;max-width:30rem;}
+  .next{background:var(--white);border:1px solid var(--line);border-radius:5px;padding:1.4rem 1.6rem;text-align:left;font-size:.92rem;color:var(--ink);max-width:30rem;margin:0 auto 1.8rem;box-shadow:0 14px 34px -24px rgba(47,62,77,.4);}
+  .next b{color:var(--navy);}
+  .next div{margin-top:.4rem;}
+  .back{display:inline-block;font-size:.74rem;text-transform:uppercase;letter-spacing:.16em;color:var(--navy);text-decoration:none;border:1px solid var(--dust-deep);border-radius:2px;padding:.85rem 2rem;transition:all .25s;}
+  .back:hover{background:var(--dust-deep);color:var(--white);}
+  footer{text-align:center;padding:1.6rem;font-size:.74rem;color:var(--ink-soft);}
+</style>
+</head>
+<body>
+<header><nav>
+  <a class="logo" href="index.html"><img src="assets/logo.svg" alt="" /><span><span class="m">Memorable</span><span class="b">Bottles</span></span></a>
+</nav></header>
+<main>
+  <div class="card">
+    <div class="mark"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#6d869e" stroke-width="1.6"><path d="M5 13l4 4L19 7"/></svg></div>
+    <h1>Your moment is in <span class="script">good hands</span></h1>
+    <p>Thank you. Kirklyn has your details and will be in touch within one business day with everything you need.</p>
+    <div class="next">
+      <b>What happens next</b>
+      <div>1. We reply with the studio address.</div>
+      <div>2. You ship your bottle to us, packed with lots of cushion.</div>
+      <div>3. About two weeks after it arrives, your piece is ready to hang.</div>
+    </div>
+    <a class="back" href="index.html">Back to site</a>
+  </div>
+</main>
+<footer>Preserving your special moments, one bottle at a time. Tampa, FL · Ships nationwide.</footer>
+</body>
+</html>
