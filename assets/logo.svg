@@ -1,0 +1,13 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Memorable Bottles">
+  <!-- frame -->
+  <rect x="28" y="14" width="64" height="92" rx="2" stroke="#6d869e" stroke-width="2.5"/>
+  <rect x="35" y="21" width="50" height="78" rx="1" stroke="#c4a86a" stroke-width="1"/>
+  <!-- champagne bottle silhouette -->
+  <path d="M60 30c-2.2 0-3.6 1.6-3.6 4.2v9.5c0 2-1 3-2.4 4.4-2.2 2.2-3.2 4.6-3.2 8.4V86c0 3 1.6 4.6 4.6 4.6h9.2c3 0 4.6-1.6 4.6-4.6V56.9c0-3.8-1-6.2-3.2-8.4-1.4-1.4-2.4-2.4-2.4-4.4v-9.5c0-2.6-1.4-4.2-3.6-4.2z" stroke="#2f3e4d" stroke-width="2" stroke-linejoin="round"/>
+  <line x1="60" y1="26" x2="60" y2="30" stroke="#2f3e4d" stroke-width="2" stroke-linecap="round"/>
+  <line x1="51.5" y1="64" x2="68.5" y2="64" stroke="#9fb3c6" stroke-width="1.4"/>
+  <!-- shatter sparkles -->
+  <path d="M86 40l1.6 4 4 1.6-4 1.6L86 51l-1.6-3.8-4-1.6 4-1.6z" fill="#c4a86a"/>
+  <path d="M34 70l1.1 2.7 2.7 1.1-2.7 1.1L34 78.6l-1.1-2.6-2.7-1.1 2.7-1.1z" fill="#9fb3c6"/>
+  <circle cx="80" cy="88" r="2" fill="#9fb3c6"/>
+</svg>
