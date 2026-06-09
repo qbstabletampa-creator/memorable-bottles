@@ -150,7 +150,9 @@
   .occasion:hover { transform:translateY(-5px); box-shadow:var(--shadow-sm); }
   .occasion h3 { font-size:1.4rem; margin-bottom:.3rem; }
   .occasion p { color:var(--ink-soft); font-size:.93rem; }
-  .occasion .em { font-size:1.4rem; }
+  .occasion .oc-ic { display:block; margin-bottom:.8rem; height:54px; }
+  .occasion .oc-ic img { width:54px; height:54px; transition:transform .4s cubic-bezier(.2,.7,.2,1); }
+  .occasion:hover .oc-ic img { transform:scale(1.1) rotate(-3deg); }
 
   /* COMPARISON */
   .compare { background:var(--white); }
@@ -201,6 +203,27 @@
   .foot-links a:hover { color:var(--gold); }
   .foot-bottom { text-align:center; margin-top:2.2rem; padding-top:1.4rem; border-top:1px solid rgba(159,179,198,.18); font-size:.74rem; letter-spacing:.04em; }
 
+  /* === elite motion === */
+  header { transition:box-shadow .35s ease; }
+  header.scrolled { box-shadow:0 10px 34px -22px rgba(47,62,77,.42); }
+  @media (prefers-reduced-motion: no-preference){
+    .anim .reveal { opacity:0; transform:translateY(30px); transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); will-change:opacity,transform; }
+    .anim .reveal.in { opacity:1; transform:none; }
+    .hero-grid > div:first-child > * { animation:heroIn .75s cubic-bezier(.2,.7,.2,1) both; }
+    .hero-grid > div:first-child > :nth-child(1){ animation-delay:.05s; }
+    .hero-grid > div:first-child > :nth-child(2){ animation-delay:.13s; }
+    .hero-grid > div:first-child > :nth-child(3){ animation-delay:.21s; }
+    .hero-grid > div:first-child > :nth-child(4){ animation-delay:.29s; }
+    .hero-grid > div:first-child > :nth-child(5){ animation-delay:.37s; }
+    .hero-photo { animation:heroIn .85s cubic-bezier(.2,.7,.2,1) .2s both; }
+    .hero-photo .tag { animation:heroIn .6s ease .75s both, floaty 5.5s ease-in-out 1.4s infinite; }
+    @keyframes heroIn { from{opacity:0;transform:translateY(26px);} to{opacity:1;transform:none;} }
+    @keyframes floaty { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+    .btn-solid { position:relative; overflow:hidden; }
+    .btn-solid::after { content:""; position:absolute; top:0; left:-130%; width:55%; height:100%; background:linear-gradient(120deg,transparent,rgba(255,255,255,.28),transparent); transform:skewX(-20deg); transition:left .65s ease; }
+    .btn-solid:hover::after { left:135%; }
+  }
+
   @media (max-width:880px){
     .hero-grid,.promise-grid{ grid-template-columns:1fr; gap:2.6rem; }
     .hero{ padding:2.5rem 0; }
@@ -215,6 +238,7 @@
     .crow > div{ padding:.8rem .7rem; font-size:.85rem; }
   }
 </style>
+<script>document.documentElement.classList.add('anim');</script>
 </head>
 <body>
 
@@ -348,12 +372,12 @@
       <p>If a bottle marked the moment, it deserves to be more than a memory.</p>
     </div>
     <div class="occasions">
-      <div class="occasion"><div class="em">💍</div><h3>Weddings</h3><p>The toast after the vows, framed forever. Our most loved piece, and a gift that stops every bride in her tracks.</p></div>
-      <div class="occasion"><div class="em">💞</div><h3>Engagements</h3><p>The bottle you popped when the question got a yes. Start the marriage with the memory on the wall.</p></div>
-      <div class="occasion"><div class="em">🥂</div><h3>Anniversaries</h3><p>Save the year, the date, the night. A milestone gift that says you remember every detail.</p></div>
-      <div class="occasion"><div class="em">🎉</div><h3>Big Milestones</h3><p>The promotion, the launch, the win you celebrated. Some bottles are worth keeping.</p></div>
-      <div class="occasion"><div class="em">🎁</div><h3>The Perfect Gift</h3><p>For the couple who has everything. Nothing else turns their own memory into art.</p></div>
-      <div class="occasion"><div class="em">✨</div><h3>Just Because It Mattered</h3><p>If you saved the bottle, there was a reason. We'll help you keep it for good.</p></div>
+      <div class="occasion"><span class="oc-ic"><img src="assets/icons/weddings.png" alt="" width="54" height="54" loading="lazy" /></span><h3>Weddings</h3><p>The toast after the vows, framed forever. Our most loved piece, and a gift that stops every bride in her tracks.</p></div>
+      <div class="occasion"><span class="oc-ic"><img src="assets/icons/engagement.png" alt="" width="54" height="54" loading="lazy" /></span><h3>Engagements</h3><p>The bottle you popped when the question got a yes. Start the marriage with the memory on the wall.</p></div>
+      <div class="occasion"><span class="oc-ic"><img src="assets/icons/anniversary.png" alt="" width="54" height="54" loading="lazy" /></span><h3>Anniversaries</h3><p>Save the year, the date, the night. A milestone gift that says you remember every detail.</p></div>
+      <div class="occasion"><span class="oc-ic"><img src="assets/icons/milestone.png" alt="" width="54" height="54" loading="lazy" /></span><h3>Big Milestones</h3><p>The promotion, the launch, the win you celebrated. Some bottles are worth keeping.</p></div>
+      <div class="occasion"><span class="oc-ic"><img src="assets/icons/gift.png" alt="" width="54" height="54" loading="lazy" /></span><h3>The Perfect Gift</h3><p>For the couple who has everything. Nothing else turns their own memory into art.</p></div>
+      <div class="occasion"><span class="oc-ic"><img src="assets/icons/justbecause.png" alt="" width="54" height="54" loading="lazy" /></span><h3>Just Because It Mattered</h3><p>If you saved the bottle, there was a reason. We'll help you keep it for good.</p></div>
     </div>
   </div>
 </section>
@@ -450,6 +474,38 @@
     </div>
   </div>
 </footer>
+
+<script>
+(function(){
+  var hdr = document.querySelector('header');
+  if (hdr) addEventListener('scroll', function(){ hdr.classList.toggle('scrolled', window.scrollY > 12); }, { passive:true });
+
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var sels = ['.section-head','.promise-photo','.promise','.occasion','.gcard','.step','.q','.ctable',
+              '.cta .eyebrow','.cta h2','.cta p','.cta-actions'];
+  function revealAll(){ document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); }); }
+  try {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold:0.12, rootMargin:'0px 0px -6% 0px' });
+
+    sels.forEach(function(sel){
+      document.querySelectorAll(sel).forEach(function(el){ el.classList.add('reveal'); io.observe(el); });
+    });
+    ['.occasion','.gcard','.step','.q'].forEach(function(sel){
+      document.querySelectorAll(sel).forEach(function(el,i){ el.style.transitionDelay = ((i%3)*0.09)+'s'; });
+    });
+    // failsafe: nothing should ever stay hidden if something goes wrong
+    addEventListener('load', function(){ setTimeout(function(){
+      document.querySelectorAll('.reveal:not(.in)').forEach(function(el){
+        var r = el.getBoundingClientRect();
+        if (r.top < innerHeight && r.bottom > 0) el.classList.add('in');
+      });
+    }, 1200); });
+  } catch (err) { revealAll(); }
+})();
+</script>
 
 </body>
 </html>
