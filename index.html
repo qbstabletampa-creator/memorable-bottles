@@ -1,509 +1,930 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Memorable Bottles — Your Special Bottle, Preserved Forever</title>
-<meta name="description" content="Handmade shadow box art that preserves the champagne bottle from your wedding or biggest moment. The pop is the memory. The art is forever. Tampa, FL — ships nationwide." />
-
-<!-- ============================================================
-     DRAFT v2 — built for CJ to review (nightshift, 2026-06-08)
-     Real business confirmed from CJ's uploaded photos + IG @memorablebottles:
-       Artist Kirklyn Paige, Tampa FL, ships US. "Preserving your special
-       moments, one bottle at a time." She preserves the actual shattered
-       champagne bottle from a wedding/special day inside a shadow box frame
-       as wall art. As seen on The Bride's List.
-     Photos in /assets are REAL, cropped from CJ's IG screenshots.
-     Logo + icons are custom SVG (AIML API key not found on this machine —
-     SVG is crisper than AI raster for a wordmark/icons anyway; can swap later).
-     Marked NEEDS KIRKLYN: pricing, exact turnaround, testimonials, order link.
-     Best practices applied from wiki captures: pdp-conversion-audit-framework,
-     morvyn-pdp-optimization (hero promise, gallery-as-sales-deck, proof near
-     CTA, comparison, guarantee, FAQ, soft real urgency — no hype).
-============================================================ -->
-
-<link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Memorable Bottles — Custom Framed Bottle Keepsakes, Tampa Bay</title>
+<meta name="description" content="Your wedding champagne, proposal wine, or closing bottle, preserved by hand into one of one framed wall art. Handmade in Tampa Bay, ships nationwide.">
+<meta property="og:title" content="Memorable Bottles — Capture the bottle. Keep the moment.">
+<meta property="og:description" content="Custom framed keepsakes made from celebration bottles with a story. Handmade in Tampa Bay.">
+<meta property="og:image" content="assets/v3/hero-editorial.jpg">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
-  :root {
-    --porcelain: #f6f3ee;
-    --white: #ffffff;
-    --mist: #eaeff3;
-    --dust: #9fb3c6;
-    --dust-deep: #6d869e;
-    --navy: #2f3e4d;
-    --ink: #3c4854;
-    --ink-soft: #5c6772;
-    --gold: #c4a86a;
-    --line: rgba(109,134,158,0.20);
-    --shadow: 0 30px 70px -34px rgba(47,62,77,0.40);
-    --shadow-sm: 0 14px 34px -20px rgba(47,62,77,0.45);
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior:smooth; scroll-padding-top:72px; }
-  body {
-    font-family:'Jost',sans-serif; color:var(--ink); background:var(--porcelain);
-    line-height:1.75; font-weight:300; -webkit-font-smoothing:antialiased;
-  }
-  h1,h2,h3,h4 { font-family:'Cormorant Garamond',serif; font-weight:500; line-height:1.12; color:var(--navy); }
-  .script { font-family:'Pinyon Script',cursive; color:var(--dust-deep); font-weight:400; }
-  .wrap { width:min(1160px,90vw); margin-inline:auto; }
-  img { display:block; max-width:100%; }
+/* ============================================================
+   Memorable Bottles v3 — Champagne Gallery
+   Ivory base, ink structure, champagne accent. Gallery, not store.
+   ============================================================ */
+:root {
+  --font-head: 'Playfair Display', serif;
+  --font-accent: 'Cormorant Garamond', serif;
+  --font-body: 'Inter', 'Helvetica Neue', sans-serif;
 
-  .eyebrow {
-    font-family:'Jost',sans-serif; text-transform:uppercase; letter-spacing:0.34em;
-    font-size:0.70rem; font-weight:400; color:var(--dust-deep);
-  }
-  .btn {
-    display:inline-block; font-family:'Jost',sans-serif; text-transform:uppercase;
-    letter-spacing:0.18em; font-size:0.74rem; font-weight:400; padding:1.05rem 2.3rem;
-    border-radius:2px; text-decoration:none; transition:all .3s ease; cursor:pointer;
-    border:1px solid var(--navy);
-  }
-  .btn-solid { background:var(--navy); color:var(--porcelain); }
-  .btn-solid:hover { background:transparent; color:var(--navy); }
-  .btn-ghost { background:transparent; color:var(--navy); border-color:var(--dust-deep); }
-  .btn-ghost:hover { background:var(--dust-deep); color:var(--white); border-color:var(--dust-deep); }
+  --bg: #F7F2EA;
+  --surface: #FFFFFF;
+  --ink: #111111;
+  --ink-soft: #6E6257;
+  --accent: #B89B5E;
+  --glass: #DDE7E5;
+  --line: rgba(184, 155, 94, 0.35);
+  --band: #111111;
+  --band-ink: #F7F2EA;
+  --band-soft: rgba(247, 242, 234, 0.62);
+}
 
-  /* NAV */
-  header { position:sticky; top:0; z-index:50; background:rgba(246,243,238,.88); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
-  nav { display:flex; align-items:center; justify-content:space-between; padding:.85rem 0; }
-  .logo { display:flex; align-items:center; gap:.7rem; text-decoration:none; }
-  .logo svg { width:38px; height:38px; }
-  .logo .wm { line-height:1; }
-  .logo .wm .m { font-family:'Pinyon Script',cursive; font-size:1.5rem; color:var(--navy); display:block; margin-bottom:-4px; }
-  .logo .wm .b { font-family:'Jost',sans-serif; text-transform:uppercase; letter-spacing:.34em; font-size:.62rem; color:var(--dust-deep); }
-  .nav-links { display:flex; gap:2rem; align-items:center; }
-  .nav-links a { color:var(--ink-soft); text-decoration:none; font-size:.78rem; letter-spacing:.06em; text-transform:uppercase; transition:color .2s; }
-  .nav-links a:hover { color:var(--dust-deep); }
-  .nav-cta { padding:.55rem 1.3rem; border:1px solid var(--navy); border-radius:2px; color:var(--navy)!important; }
-  .nav-cta:hover { background:var(--navy); color:var(--porcelain)!important; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
-  /* HERO */
-  .hero { padding:4.5rem 0 4rem; }
-  .hero-grid { display:grid; grid-template-columns:1.02fr .98fr; gap:4rem; align-items:center; }
-  .hero h1 { font-size:clamp(2.7rem,5.6vw,4.5rem); margin:1rem 0 1.3rem; }
-  .hero h1 .script { font-size:1.05em; }
-  .hero p.lead { font-size:1.1rem; color:var(--ink-soft); max-width:31rem; margin-bottom:2rem; }
-  .hero-actions { display:flex; gap:1rem; flex-wrap:wrap; }
-  .hero-note { margin-top:1.6rem; font-size:.8rem; letter-spacing:.04em; color:var(--ink-soft); }
-  .hero-note b { color:var(--navy); font-weight:500; }
-  .hero-photo { position:relative; }
-  .hero-photo img { width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:3px; box-shadow:var(--shadow); }
-  .hero-photo .tag {
-    position:absolute; bottom:-16px; left:-16px; background:var(--white);
-    border:1px solid var(--line); border-radius:2px; padding:.7rem 1rem; box-shadow:var(--shadow-sm);
-    font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.05rem; color:var(--navy);
-  }
-  .hero-photo .tag small { display:block; font-family:'Jost',sans-serif; font-style:normal; text-transform:uppercase; letter-spacing:.18em; font-size:.58rem; color:var(--dust-deep); margin-top:2px; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+img, video { display: block; max-width: 100%; }
+a { color: inherit; }
 
-  /* TRUST BAND */
-  .band { background:var(--navy); color:var(--porcelain); padding:1.3rem 0; }
-  .band-inner { display:flex; gap:2.6rem; justify-content:center; align-items:center; flex-wrap:wrap; }
-  .band span { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.18rem; opacity:.94; }
-  .band span::before { content:"✦"; color:var(--gold); margin-right:.7rem; font-style:normal; font-size:.7rem; vertical-align:middle; }
+.wrap { width: min(1240px, 92vw); margin-inline: auto; }
 
-  /* SECTION SHELL */
-  section.block { padding:5.5rem 0; }
-  .section-head { text-align:center; max-width:40rem; margin:0 auto 3.2rem; }
-  .section-head h2 { font-size:clamp(2.1rem,4.4vw,3.1rem); margin:.8rem 0 .9rem; }
-  .section-head p { color:var(--ink-soft); }
+.label {
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+h1, h2, h3 { font-family: var(--font-head); font-weight: 600; line-height: 1.08; }
+h2 { font-size: clamp(2rem, 4.2vw, 3.4rem); letter-spacing: -0.01em; }
+h3 { font-size: 1.35rem; }
 
-  /* PROMISE / STORY */
-  .promise { background:var(--white); }
-  .promise-grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; }
-  .promise-photo img { width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:3px; box-shadow:var(--shadow-sm); }
-  .promise h2 { font-size:clamp(2rem,4vw,2.9rem); margin:.7rem 0 1.2rem; }
-  .promise p { color:var(--ink-soft); margin-bottom:1.05rem; }
-  .promise .pull { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.5rem; color:var(--navy); line-height:1.4; border-left:2px solid var(--gold); padding-left:1.2rem; margin:1.4rem 0; }
+.hairline { border: 0; height: 1px; background: var(--line); }
 
-  /* GALLERY (sales deck) */
-  .gallery { display:grid; grid-template-columns:repeat(12,1fr); gap:1rem; }
-  .gcard { position:relative; overflow:hidden; border-radius:3px; box-shadow:var(--shadow-sm); }
-  .gcard img { width:100%; height:100%; object-fit:cover; transition:transform .6s ease; }
-  .gcard:hover img { transform:scale(1.05); }
-  .gcard figcaption {
-    position:absolute; left:0; right:0; bottom:0; padding:1.4rem 1.1rem .9rem;
-    background:linear-gradient(transparent, rgba(47,62,77,.82)); color:#fff;
-    font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.08rem;
-  }
-  .g-tall { grid-column:span 4; aspect-ratio:3/4.4; }
-  .g-wide { grid-column:span 4; aspect-ratio:1/1; }
-  .g-sq { grid-column:span 4; aspect-ratio:1/1; }
+.btn {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 1.1rem 2.4rem;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--bg);
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.btn:hover { background: transparent; color: var(--ink); }
+.btn-ghost { background: transparent; color: var(--bg); border-color: rgba(247,242,234,0.55); }
+.btn-ghost:hover { background: var(--bg); color: var(--ink); }
 
-  /* HOW IT WORKS */
-  .steps { background:var(--mist); }
-  .step-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2.6rem; }
-  .step { text-align:center; }
-  .step .ic { width:62px; height:62px; margin:0 auto 1.1rem; display:flex; align-items:center; justify-content:center; border:1px solid var(--dust); border-radius:50%; background:var(--white); }
-  .step .ic svg { width:30px; height:30px; }
-  .step .n { font-family:'Pinyon Script',cursive; font-size:1.6rem; color:var(--gold); line-height:1; }
-  .step h3 { font-size:1.55rem; margin:.2rem 0 .5rem; }
-  .step p { color:var(--ink-soft); font-size:.96rem; max-width:18rem; margin-inline:auto; }
+.textlink {
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ink);
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 0.35rem;
+  transition: color 0.25s ease;
+}
+.textlink:hover { color: var(--accent); }
 
-  /* OCCASIONS */
-  .occasions { display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem; }
-  .occasion { background:var(--white); border:1px solid var(--line); border-radius:3px; padding:1.8rem 1.6rem; transition:transform .3s, box-shadow .3s; }
-  .occasion:hover { transform:translateY(-5px); box-shadow:var(--shadow-sm); }
-  .occasion h3 { font-size:1.4rem; margin-bottom:.3rem; }
-  .occasion p { color:var(--ink-soft); font-size:.93rem; }
-  .occasion .oc-ic { display:block; margin-bottom:.8rem; height:54px; }
-  .occasion .oc-ic img { width:54px; height:54px; transition:transform .4s cubic-bezier(.2,.7,.2,1); }
-  .occasion:hover .oc-ic img { transform:scale(1.1) rotate(-3deg); }
+/* ---------- reveal ---------- */
+[data-reveal] { opacity: 0; transform: translateY(26px); transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
+[data-reveal].in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1; transform: none; transition: none; }
+}
 
-  /* COMPARISON */
-  .compare { background:var(--white); }
-  .ctable { max-width:780px; margin:0 auto; border:1px solid var(--line); border-radius:4px; overflow:hidden; }
-  .crow { display:grid; grid-template-columns:1.4fr 1fr 1fr; }
-  .crow > div { padding:1rem 1.2rem; border-bottom:1px solid var(--line); font-size:.95rem; }
-  .crow:last-child > div { border-bottom:0; }
-  .crow .lab { color:var(--ink); font-weight:400; }
-  .crow .head { font-family:'Cormorant Garamond',serif; font-size:1.2rem; color:var(--navy); text-align:center; }
-  .crow .head.mb { background:var(--navy); color:#fff; }
-  .crow .yes { text-align:center; color:var(--dust-deep); background:rgba(159,179,198,.12); }
-  .crow .no { text-align:center; color:#b9bfc6; }
-  .crow .yes::before { content:"✦ "; color:var(--gold); }
+/* ---------- gold thread ---------- */
+.thread {
+  display: block;
+  width: 1px;
+  height: 110px;
+  margin: 0 auto;
+  background: linear-gradient(to bottom, transparent, var(--accent) 30%, var(--accent) 70%, transparent);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.thread.in { transform: scaleY(1); }
+.thread-dot {
+  display: block;
+  width: 5px; height: 5px;
+  margin: -3px auto 0;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity 0.6s ease 0.9s;
+}
+.thread.in + .thread-dot { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .thread { transform: none; transition: none; }
+  .thread-dot { opacity: 1; transition: none; }
+}
 
-  /* TESTIMONIALS */
-  .quotes { background:var(--navy); color:var(--porcelain); }
-  .quotes .section-head h2 { color:var(--porcelain); }
-  .quotes .section-head .eyebrow { color:var(--dust); }
-  .qgrid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.6rem; }
-  .q { border:1px solid rgba(159,179,198,.28); border-radius:3px; padding:1.9rem 1.6rem; background:rgba(255,255,255,.03); }
-  .q .st { color:var(--gold); letter-spacing:.18em; font-size:.82rem; margin-bottom:.9rem; }
-  .q p { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.22rem; line-height:1.5; margin-bottom:1rem; color:#eef2f5; }
-  .q .who { font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--dust); }
+/* ---------- nav ---------- */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 90;
+  background: transparent;
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+}
+.nav.is-scrolled { background: rgba(247, 242, 234, 0.92); backdrop-filter: blur(10px); box-shadow: 0 1px 0 var(--line); }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 0; }
+.wordmark {
+  font-family: var(--font-head); font-weight: 600; font-size: 1.05rem;
+  letter-spacing: 0.04em; text-decoration: none; color: var(--ink);
+}
+.nav-links { display: flex; gap: 2.2rem; }
+.nav-links a {
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+  text-decoration: none; color: var(--ink-soft); transition: color 0.25s ease;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav .btn { padding: 0.7rem 1.5rem; }
+@media (max-width: 760px) {
+  .nav-links { display: none; }
+  .wordmark { white-space: nowrap; font-size: 0.92rem; }
+  .nav .btn { padding: 0.6rem 1rem; font-size: 0.64rem; white-space: nowrap; }
+}
 
-  /* FAQ */
-  .faq-wrap { max-width:760px; margin:0 auto; }
-  details { border-bottom:1px solid var(--line); padding:1.25rem 0; }
-  summary { font-family:'Cormorant Garamond',serif; font-size:1.4rem; color:var(--navy); cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; gap:1rem; }
-  summary::-webkit-details-marker { display:none; }
-  summary::after { content:"+"; font-family:'Jost',sans-serif; font-size:1.4rem; color:var(--dust-deep); transition:transform .25s; }
-  details[open] summary::after { transform:rotate(45deg); }
-  details p { color:var(--ink-soft); margin-top:.8rem; font-size:.98rem; }
+/* ---------- masthead ---------- */
+.masthead { padding: 7.2rem 0 0; }
+.masthead-title {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: clamp(2.8rem, 11.4vw, 11rem);
+  line-height: 0.92;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+.masthead-title .line1 { display: block; }
+.masthead-title .line2 {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: clamp(0.8rem, 3vw, 2.5rem);
+}
+.masthead-title .of {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-weight: 500;
+  text-transform: none;
+  font-size: 0.34em;
+  letter-spacing: 0;
+  color: var(--accent);
+  transform: translateY(-0.25em);
+}
+.masthead-sub {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 1.1rem 0 1.4rem;
+  border-bottom: 1px solid var(--ink);
+  margin-bottom: 0;
+}
+.masthead-sub p {
+  font-family: var(--font-accent); font-style: italic; font-size: clamp(0.95rem, 1.6vw, 1.25rem);
+  color: var(--ink-soft);
+}
+@media (max-width: 600px) {
+  .masthead { padding-top: 5.6rem; }
+  .masthead-sub { flex-direction: column; gap: 0.1rem; }
+}
 
-  /* CTA */
-  .cta { text-align:center; background:linear-gradient(165deg,var(--mist),var(--porcelain)); }
-  .cta h2 { font-size:clamp(2.3rem,5vw,3.6rem); margin:.8rem 0 1rem; }
-  .cta p { color:var(--ink-soft); max-width:32rem; margin:0 auto 1.4rem; }
-  .cta .reassure { font-size:.82rem; color:var(--ink-soft); margin-bottom:2rem; }
-  .cta .reassure b { color:var(--navy); font-weight:500; }
-  .cta-actions { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
+/* ---------- hero ---------- */
+.hero { position: relative; min-height: 92vh; display: flex; align-items: flex-end; overflow: hidden; }
+.hero-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover; object-position: 50% 38%;
+  transform: scale(1.06);
+  animation: heroSettle 2.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes heroSettle { to { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .hero-img { animation: none; transform: none; } }
+.hero::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(17,17,17,0.78) 0%, rgba(17,17,17,0.25) 45%, rgba(17,17,17,0.12) 100%);
+}
+.hero-copy { position: relative; z-index: 2; color: var(--bg); padding: 0 0 5.5rem; }
+.hero-copy .label { color: var(--accent); }
+.hero-copy h1 {
+  font-size: clamp(2.4rem, 5vw, 4.6rem);
+  font-weight: 500;
+  max-width: 14em;
+  margin: 1.2rem 0 1.4rem;
+}
+.hero-sub { max-width: 34rem; font-size: 1.02rem; color: var(--band-soft); margin-bottom: 2.4rem; }
+.hero-ctas { display: flex; gap: 1.6rem; align-items: center; flex-wrap: wrap; }
+.hero-ctas .btn { background: var(--bg); color: var(--ink); border-color: var(--bg); }
+.hero-ctas .btn:hover { background: transparent; color: var(--bg); }
+.hero-ctas .textlink { color: var(--bg); }
+.hero-ctas .textlink:hover { color: var(--accent); }
 
-  /* FOOTER */
-  footer { background:var(--navy); color:rgba(246,243,238,.72); padding:3rem 0 2rem; }
-  .foot-grid { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.3rem; }
-  .foot-grid .logo .m { color:var(--porcelain); }
-  .foot-links { display:flex; gap:1.5rem; }
-  .foot-links a { color:rgba(246,243,238,.72); text-decoration:none; font-size:.8rem; letter-spacing:.06em; transition:color .2s; }
-  .foot-links a:hover { color:var(--gold); }
-  .foot-bottom { text-align:center; margin-top:2.2rem; padding-top:1.4rem; border-top:1px solid rgba(159,179,198,.18); font-size:.74rem; letter-spacing:.04em; }
+/* ---------- sections ---------- */
+.section { padding: 7rem 0; }
+.section-head { max-width: 42rem; }
+.section-head h2 { margin-top: 1rem; }
 
-  /* === elite motion === */
-  header { transition:box-shadow .35s ease; }
-  header.scrolled { box-shadow:0 10px 34px -22px rgba(47,62,77,.42); }
-  @media (prefers-reduced-motion: no-preference){
-    .anim .reveal { opacity:0; transform:translateY(30px); transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); will-change:opacity,transform; }
-    .anim .reveal.in { opacity:1; transform:none; }
-    .hero-grid > div:first-child > * { animation:heroIn .75s cubic-bezier(.2,.7,.2,1) both; }
-    .hero-grid > div:first-child > :nth-child(1){ animation-delay:.05s; }
-    .hero-grid > div:first-child > :nth-child(2){ animation-delay:.13s; }
-    .hero-grid > div:first-child > :nth-child(3){ animation-delay:.21s; }
-    .hero-grid > div:first-child > :nth-child(4){ animation-delay:.29s; }
-    .hero-grid > div:first-child > :nth-child(5){ animation-delay:.37s; }
-    .hero-photo { animation:heroIn .85s cubic-bezier(.2,.7,.2,1) .2s both; }
-    .hero-photo .tag { animation:heroIn .6s ease .75s both, floaty 5.5s ease-in-out 1.4s infinite; }
-    @keyframes heroIn { from{opacity:0;transform:translateY(26px);} to{opacity:1;transform:none;} }
-    @keyframes floaty { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
-    .btn-solid { position:relative; overflow:hidden; }
-    .btn-solid::after { content:""; position:absolute; top:0; left:-130%; width:55%; height:100%; background:linear-gradient(120deg,transparent,rgba(255,255,255,.28),transparent); transform:skewX(-20deg); transition:left .65s ease; }
-    .btn-solid:hover::after { left:135%; }
-  }
+/* ---------- the moment ---------- */
+.memory-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2.5rem, 6vw, 6.5rem); align-items: center; }
+.memory-copy h2 { margin: 1rem 0 1.6rem; }
+.memory-copy .lede { font-size: 1.12rem; color: var(--ink-soft); max-width: 30rem; }
+.memory-rule { width: 72px; margin: 0 0 1.6rem; }
+.frame { background: var(--ink); padding: clamp(10px, 1.4vw, 18px); box-shadow: 0 40px 80px -42px rgba(17,17,17,0.55); }
+.frame .mat { background: var(--surface); padding: clamp(8px, 1.1vw, 14px); }
+.frame img { width: 100%; height: 100%; object-fit: cover; }
+@media (max-width: 860px) {
+  .memory-grid { grid-template-columns: 1fr; }
+}
 
-  @media (max-width:880px){
-    .hero-grid,.promise-grid{ grid-template-columns:1fr; gap:2.6rem; }
-    .hero{ padding:2.5rem 0; }
-    .step-grid,.occasions,.qgrid{ grid-template-columns:1fr; }
-    .gallery{ grid-template-columns:repeat(2,1fr); }
-    .g-tall,.g-wide,.g-sq{ grid-column:span 1; aspect-ratio:1/1; }
-    .nav-links a:not(.nav-cta){ display:none; }
-    .nav-links{ gap:0; }
-    .brand,.logo .wm .m{ font-size:1.3rem; }
-    section.block{ padding:3.8rem 0; }
-    .crow{ grid-template-columns:1.2fr .9fr .9fr; }
-    .crow > div{ padding:.8rem .7rem; font-size:.85rem; }
-  }
+/* ---------- transformation (full-bleed video) ---------- */
+.transform-section { position: relative; height: 320vh; background: var(--band); }
+.transform-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+.transform-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.transform-sticky::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(17,17,17,0.66), rgba(17,17,17,0.08) 55%, rgba(17,17,17,0.3));
+}
+.transform-caps { position: absolute; left: 0; right: 0; bottom: 9vh; z-index: 3; text-align: center; color: var(--band-ink); }
+.transform-caps .cap { position: absolute; left: 0; right: 0; bottom: 0; opacity: 0; transition: opacity 0.7s ease; padding: 0 6vw; }
+.transform-caps .cap h3 { font-size: clamp(1.6rem, 3.4vw, 2.8rem); font-weight: 500; margin-top: 0.9rem; }
+.transform-static { display: none; position: relative; z-index: 3; text-align: center; color: var(--band-ink); padding: 38vh 6vw 0; }
+.transform-static h3 { font-size: clamp(1.6rem, 3.4vw, 2.8rem); font-weight: 500; margin-top: 0.9rem; }
+.transform-section.is-static { height: 100vh; }
+.transform-section.is-static .transform-caps { display: none; }
+.transform-section.is-static .transform-static { display: block; }
+
+/* ---------- stat band ---------- */
+.stats { background: var(--bg); }
+.stats-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--line);
+}
+.stat { padding: 3.6rem 2rem 3.2rem; text-align: center; position: relative; }
+.stat + .stat::before {
+  content: ""; position: absolute; left: 0; top: 22%; bottom: 22%;
+  width: 1px; background: var(--line);
+}
+.stat-num {
+  font-family: var(--font-head); font-weight: 600;
+  font-size: clamp(3rem, 6.5vw, 5.4rem); line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.stat-num sup { font-size: 0.45em; color: var(--accent); margin-left: 0.04em; }
+.stat-label {
+  margin-top: 0.9rem;
+  font-family: var(--font-accent); font-style: italic;
+  font-size: 1.12rem; color: var(--ink-soft);
+}
+@media (max-width: 760px) {
+  .stats-grid { grid-template-columns: 1fr; }
+  .stat + .stat::before { left: 24%; right: 24%; top: 0; bottom: auto; width: auto; height: 1px; }
+}
+
+/* ---------- gallery ---------- */
+.gallery-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; margin-bottom: 4rem; flex-wrap: wrap; }
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2.4rem, 5vw, 5rem) clamp(2rem, 4.5vw, 4.5rem);
+}
+.piece { margin: 0; }
+.piece:nth-child(even) { transform: translateY(clamp(1.5rem, 4vw, 4rem)); }
+.piece .frame { transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.6s ease; }
+.piece:hover .frame { transform: translateY(-8px); box-shadow: 0 56px 96px -44px rgba(17,17,17,0.6); }
+@media (prefers-reduced-motion: reduce) { .piece:hover .frame { transform: none; } }
+.piece-caption { margin-top: 1.3rem; }
+.piece-caption .label { display: block; margin-bottom: 0.3rem; }
+.piece-caption p { font-family: var(--font-accent); font-style: italic; font-size: 1.15rem; color: var(--ink-soft); }
+@media (max-width: 700px) {
+  .gallery-grid { grid-template-columns: 1fr; }
+  .piece:nth-child(even) { transform: none; }
+}
+
+/* ---------- manifesto ---------- */
+.manifesto { background: var(--band); color: var(--band-ink); padding: 10rem 0; position: relative; overflow: hidden; }
+.manifesto-line {
+  font-family: var(--font-accent); font-style: italic; font-weight: 500;
+  font-size: clamp(2rem, 5.4vw, 4.4rem); line-height: 1.18;
+  text-align: center; max-width: 18em; margin: 0 auto;
+}
+.manifesto-line em { font-style: normal; font-family: var(--font-head); color: var(--accent); }
+.bubble {
+  position: absolute; bottom: -12px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(184,155,94,0.85), rgba(184,155,94,0.15));
+  opacity: 0;
+}
+@keyframes rise {
+  0% { transform: translateY(0); opacity: 0; }
+  12% { opacity: 0.85; }
+  100% { transform: translateY(-118vh) translateX(2.2vw); opacity: 0; }
+}
+.manifesto.in .bubble { animation: rise linear infinite; }
+.bubble.b1 { left: 16%; width: 7px; height: 7px; animation-duration: 13s; animation-delay: 0s; }
+.bubble.b2 { left: 38%; width: 4px; height: 4px; animation-duration: 17s; animation-delay: 4s; }
+.bubble.b3 { left: 64%; width: 6px; height: 6px; animation-duration: 15s; animation-delay: 8s; }
+.bubble.b4 { left: 84%; width: 4px; height: 4px; animation-duration: 19s; animation-delay: 2s; }
+@media (prefers-reduced-motion: reduce) { .manifesto.in .bubble { animation: none; } }
+
+/* ---------- process ---------- */
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.6rem; margin-top: 4rem; }
+.step { border-top: 1px solid var(--ink); padding-top: 1.6rem; }
+.step-num { font-family: var(--font-head); font-size: 1rem; color: var(--accent); letter-spacing: 0.1em; }
+.step h3 { margin: 0.9rem 0 0.6rem; font-size: 1.2rem; }
+.step p { font-size: 0.93rem; color: var(--ink-soft); }
+@media (max-width: 900px) { .steps { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 540px) { .steps { grid-template-columns: 1fr; } }
+
+/* ---------- gift lanes ---------- */
+.lanes { display: grid; grid-template-columns: repeat(5, 1fr); margin-top: 4rem; border-left: 1px solid var(--line); }
+.lane {
+  border-right: 1px solid var(--line); border-top: 1px solid var(--ink);
+  padding: 1.8rem 1.4rem 2.6rem; text-decoration: none; color: var(--ink);
+  display: flex; flex-direction: column; gap: 0.8rem;
+  transition: background 0.35s ease;
+}
+.lane:hover { background: var(--surface); }
+.lane h3 { font-size: 1.16rem; }
+.lane p { font-size: 0.88rem; color: var(--ink-soft); flex: 1; }
+.lane-arrow { color: var(--accent); font-size: 1rem; transition: transform 0.3s ease; }
+.lane:hover .lane-arrow { transform: translateX(6px); }
+@media (max-width: 980px) { .lanes { grid-template-columns: 1fr 1fr; } .lane:nth-child(5) { grid-column: 1 / -1; } }
+@media (max-width: 540px) { .lanes { grid-template-columns: 1fr; } .lane:nth-child(5) { grid-column: auto; } }
+
+/* ---------- quotes ---------- */
+.quotes-inner { text-align: center; max-width: 46rem; margin-inline: auto; }
+.quote-stage { position: relative; min-height: 11rem; margin-top: 2.6rem; }
+.quote { position: absolute; inset: 0; opacity: 0; transition: opacity 0.8s ease; }
+.quote.active { opacity: 1; }
+.quote p { font-family: var(--font-accent); font-style: italic; font-size: clamp(1.3rem, 2.6vw, 1.85rem); line-height: 1.4; }
+.quote cite { display: block; margin-top: 1.4rem; font-style: normal; }
+.quote-dots { display: flex; gap: 0.7rem; justify-content: center; margin-top: 2rem; }
+.quote-dot { width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--accent); background: transparent; cursor: pointer; padding: 0; }
+.quote-dot.active { background: var(--accent); }
+
+/* ---------- local ---------- */
+.local { text-align: center; max-width: 38rem; margin-inline: auto; }
+.local h2 { margin: 1rem 0 1.6rem; }
+.local-rule { width: 72px; margin: 0 auto 1.6rem; }
+.local p { color: var(--ink-soft); }
+
+/* ---------- final + intake ---------- */
+.final { background: var(--band); color: var(--band-ink); padding: 7.5rem 0; }
+.final-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(3rem, 7vw, 7rem); align-items: start; }
+.final-copy h2 { margin: 1.1rem 0 1.2rem; font-weight: 500; }
+.final-copy .micro { font-family: var(--font-accent); font-style: italic; font-size: 1.15rem; color: var(--band-soft); }
+.final-reassure { margin-top: 2.6rem; display: grid; gap: 0.5rem; }
+.final-reassure p { font-size: 0.85rem; color: var(--band-soft); }
+.final-reassure p::before { content: "—"; color: var(--accent); margin-right: 0.6rem; }
+@media (max-width: 860px) { .final-grid { grid-template-columns: 1fr; } }
+
+.intake { background: var(--bg); color: var(--ink); padding: clamp(1.8rem, 3.4vw, 3rem); }
+.intake-progress { display: flex; gap: 6px; margin-bottom: 0.9rem; }
+.intake-progress span { flex: 1; height: 2px; background: var(--line); }
+.intake-progress span.done { background: var(--accent); }
+.intake-step-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.6rem; }
+.intake-step { display: none; }
+.intake-step.active { display: block; }
+.intake-step h3 { font-weight: 600; font-size: 1.45rem; margin-bottom: 1.6rem; }
+.chip-row { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+.chip {
+  font-family: var(--font-body); font-size: 0.86rem; font-weight: 500;
+  padding: 0.85rem 1.4rem; background: var(--surface); border: 1px solid var(--line);
+  cursor: pointer; transition: border-color 0.25s ease, background 0.25s ease;
+}
+.chip:hover { border-color: var(--accent); }
+.chip.selected { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.field { margin-top: 1.6rem; }
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.field label { display: block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 0.55rem; }
+.field input, .field textarea {
+  width: 100%; font-family: var(--font-body); font-size: 1rem;
+  padding: 0.95rem 1.1rem; background: var(--surface);
+  border: 1px solid var(--line); color: var(--ink); resize: vertical;
+}
+.field input:focus, .field textarea:focus { outline: none; border-color: var(--accent); }
+.intake-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 2.2rem; }
+.intake-back { background: none; border: none; font-family: var(--font-body); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); cursor: pointer; }
+.intake-back:hover { color: var(--ink); }
+.btn-card { border: 1px solid var(--ink); background: var(--ink); color: var(--bg); font-family: var(--font-body); font-size: 0.74rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; padding: 1rem 2.1rem; cursor: pointer; transition: background 0.3s ease, color 0.3s ease; }
+.btn-card:hover { background: transparent; color: var(--ink); }
+.intake-note { margin-top: 1.4rem; font-size: 0.8rem; color: var(--ink-soft); }
+.hp { position: absolute; left: -5000px; opacity: 0; }
+@media (max-width: 540px) { .field-grid { grid-template-columns: 1fr; } }
+
+/* ---------- footer ---------- */
+.footer { padding: 3rem 0 3.4rem; border-top: 1px solid var(--line); }
+.footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 1.6rem; flex-wrap: wrap; }
+.footer-links { display: flex; gap: 1.8rem; }
+.footer-links a { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; text-decoration: none; color: var(--ink-soft); }
+.footer-links a:hover { color: var(--ink); }
+.footer-note { font-size: 0.78rem; color: var(--ink-soft); }
 </style>
-<script>document.documentElement.classList.add('anim');</script>
 </head>
 <body>
 
-<!-- NAV -->
-<header>
-  <div class="wrap">
-    <nav>
-      <a class="logo" href="#top">
-        <img src="assets/logo.svg" alt="" width="38" height="38" />
-        <span class="wm"><span class="m">Memorable</span><span class="b">Bottles</span></span>
-      </a>
-      <div class="nav-links">
-        <a href="#how">How It Works</a>
-        <a href="#gallery">The Work</a>
-        <a href="#occasions">Occasions</a>
-        <a href="#faq">FAQ</a>
-        <a class="nav-cta" href="intake.html">Reserve Yours</a>
-      </div>
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a class="wordmark" href="#top">Memorable Bottles</a>
+    <nav class="nav-links">
+      <a href="#gallery">Gallery</a>
+      <a href="#process">Process</a>
+      <a href="#gifts">Gifts</a>
     </nav>
+    <a class="btn" href="#begin">Start Your Piece</a>
   </div>
 </header>
 
-<!-- HERO -->
-<section class="hero" id="top">
-  <div class="wrap hero-grid">
-    <div>
-      <span class="eyebrow">Handmade in Tampa · Ships Nationwide</span>
-      <h1>The bottle from your best day,<br /><span class="script">kept</span> forever.</h1>
-      <p class="lead">You popped it when you said "I do." Don't let it end up in a recycling bin. We turn the real bottle from your wedding or biggest moment into shadow box art made to hang on your wall.</p>
-      <div class="hero-actions">
-        <a class="btn btn-solid" href="intake.html">Reserve Your Piece</a>
-        <a class="btn btn-ghost" href="#gallery">See the Work</a>
+<main id="top">
+
+  <!-- Masthead -->
+  <section class="masthead">
+    <div class="wrap">
+      <h1 class="masthead-title"><span class="line1">Memorable</span><span class="line2"><span class="of">of the moment</span>Bottles</span></h1>
+      <div class="masthead-sub">
+        <p>Custom framed bottle keepsakes</p>
+        <p>Handmade in Tampa Bay</p>
       </div>
-      <p class="hero-note">Featured on <b>The Bride's List</b> · One of a kind, every time · Loved by Tampa brides</p>
     </div>
-    <div class="hero-photo">
-      <img src="assets/feature-brideslist.jpg" alt="A bride holds a finished Memorable Bottles shadow box preserving her shattered wedding champagne bottle" />
-      <div class="tag">As seen on The Bride's List<small>Real piece, real bride</small></div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- TRUST BAND -->
-<div class="band">
-  <div class="wrap band-inner">
-    <span>Weddings</span>
-    <span>Engagements</span>
-    <span>Anniversaries</span>
-    <span>Big Wins</span>
-    <span>The Toast You'll Never Forget</span>
-  </div>
-</div>
+  <!-- Hero -->
+  <section class="hero">
+    <img class="hero-img" src="assets/v3/hero-editorial.jpg" alt="Shattered Veuve Clicquot champagne bottle preserved with rose gold leaf in a black resin keepsake">
+    <div class="wrap hero-copy">
+      <p class="label">One of one wall art, made from your bottle</p>
+      <h1>Capture the bottle. Keep the moment.</h1>
+      <p class="hero-sub">Wedding champagne, proposal wine, closing gifts, and celebration bottles with a story, preserved by hand into framed keepsakes.</p>
+      <div class="hero-ctas">
+        <a class="btn" href="#begin">Start Your Custom Piece</a>
+        <a class="textlink" href="#gallery">See The Gallery</a>
+      </div>
+    </div>
+  </section>
 
-<!-- PROMISE / STORY -->
-<section class="block promise">
-  <div class="wrap promise-grid">
-    <div class="promise-photo">
-      <img src="assets/g3.jpg" alt="A finished shadow box with the preserved bottle, glass, and label arranged as art" />
-    </div>
-    <div class="promise">
-      <span class="eyebrow">What We Make</span>
-      <h2>Your moment, preserved one bottle at a time</h2>
-      <p>That bottle wasn't just champagne. It was the toast after the vows. The yes. The night everything changed.</p>
-      <p class="pull">"Preserving your special moments, one bottle at a time."</p>
-      <p>We take the actual bottle from your day and arrange every piece of it, the glass, the label, the cork, into a one of a kind shadow box. No two are ever the same, because no two moments are. It hangs on your wall as art and tells the story every time you look at it.</p>
-    </div>
-  </div>
-</section>
-
-<!-- GALLERY -->
-<section class="block" id="gallery">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">The Work</span>
-      <h2>Made by hand, one moment at a time</h2>
-      <p>Every piece is built around one bottle and one story. Here are a few recent keepsakes.</p>
-    </div>
-    <div class="gallery">
-      <figure class="gcard g-tall"><img src="assets/g6.jpg" alt="Preserved bottle shadow box, vertical frame" /><figcaption>Every shard, placed by hand</figcaption></figure>
-      <figure class="gcard g-sq"><img src="assets/g2.jpg" alt="Close detail of the shattered bottle arrangement" /><figcaption>The label, kept intact</figcaption></figure>
-      <figure class="gcard g-sq"><img src="assets/g1.jpg" alt="Finished framed keepsake" /><figcaption>Ready for the wall</figcaption></figure>
-      <figure class="gcard g-wide"><img src="assets/g5.jpg" alt="Detail of preserved glass and florals" /><figcaption>A story in the details</figcaption></figure>
-      <figure class="gcard g-wide"><img src="assets/g4.jpg" alt="A finished piece held by its owner" /><figcaption>Made to be treasured</figcaption></figure>
-      <figure class="gcard g-wide"><img src="assets/g8.jpg" alt="Finished keepsake styled outdoors" /><figcaption>One of a kind, always</figcaption></figure>
-    </div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="block steps" id="how">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">Simple From Pop to Wall</span>
-      <h2>How it works</h2>
-    </div>
-    <div class="step-grid">
-      <div class="step">
-        <div class="ic">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#2f3e4d" stroke-width="1.4"><path d="M3 7l9-4 9 4v10l-9 4-9-4V7z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>
+  <!-- The Moment -->
+  <section class="section">
+    <div class="wrap memory-grid">
+      <div class="memory-copy" data-reveal>
+        <p class="label">The Moment</p>
+        <h2>The bottle is more than glass.</h2>
+        <hr class="hairline memory-rule">
+        <p class="lede">It is the toast, the table, the people, the date, and the night you still talk about. You saved it for a reason. Let it become something you can see every day.</p>
+      </div>
+      <div class="memory-art" data-reveal>
+        <div class="frame">
+          <div class="mat">
+            <img src="assets/v3/detail-goldleaf.jpg" alt="Champagne bottle fragments with gold leaf, preserved in a black frame" style="aspect-ratio: 4 / 5;">
+          </div>
         </div>
-        <div class="n">1</div>
-        <h3>Send Your Bottle</h3>
-        <p>Reach out and tell us about your moment. We'll walk you through safely getting your bottle to the studio.</p>
       </div>
-      <div class="step">
-        <div class="ic">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#2f3e4d" stroke-width="1.4"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M12 7v8M9 11h6"/><path d="M16 4l.7 1.6L18.3 6l-1.6.7L16 8l-.7-1.3L13.7 6l1.6-.4z" fill="#c4a86a" stroke="none"/></svg>
+    </div>
+  </section>
+
+  <span class="thread" data-thread></span><span class="thread-dot"></span>
+
+  <!-- The Transformation -->
+  <section class="transform-section" id="transformation">
+    <div class="transform-sticky">
+      <video class="transform-video" src="assets/v3/transformation.mp4" poster="assets/v3/transformation-poster.jpg" muted loop playsinline preload="metadata"></video>
+      <div class="transform-caps" aria-hidden="true">
+        <div class="cap"><p class="label">The Transformation</p><h3>It starts whole.</h3></div>
+        <div class="cap"><p class="label">The Transformation</p><h3>Every fragment, placed with intention.</h3></div>
+        <div class="cap"><p class="label">The Transformation</p><h3>And kept, forever, behind glass.</h3></div>
+      </div>
+      <div class="transform-static">
+        <p class="label">The Transformation</p>
+        <h3>From the bottle you saved to the piece you keep.</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="section stats">
+    <div class="wrap" data-reveal>
+      <div class="stats-grid">
+        <div class="stat">
+          <p class="stat-num"><span data-count="54">0</span><sup>+</sup></p>
+          <p class="stat-label">"I do's" preserved</p>
         </div>
-        <div class="n">2</div>
-        <h3>We Preserve It</h3>
-        <p>Each piece is designed and arranged by hand inside its frame. You approve the look before it's finished.</p>
-      </div>
-      <div class="step">
-        <div class="ic">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#2f3e4d" stroke-width="1.4"><path d="M12 3l2 3"/><rect x="5" y="6" width="14" height="14" rx="1"/><circle cx="12" cy="13" r="3"/></svg>
+        <div class="stat">
+          <p class="stat-num">$<span data-count="1.7" data-decimals="1">0</span>M<sup>+</sup></p>
+          <p class="stat-label">in closings, celebrated</p>
         </div>
-        <div class="n">3</div>
-        <h3>Hang It Forever</h3>
-        <p>It arrives ready to hang. The champagne is long gone. The memory is on your wall for good.</p>
+        <div class="stat">
+          <p class="stat-num"><span data-count="1">0</span></p>
+          <p class="stat-label">unforgettable moment, captured</p>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- OCCASIONS -->
-<section class="block" id="occasions">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">Every Reason to Keep It</span>
-      <h2>More than a wedding keepsake</h2>
-      <p>If a bottle marked the moment, it deserves to be more than a memory.</p>
-    </div>
-    <div class="occasions">
-      <div class="occasion"><span class="oc-ic"><img src="assets/icons/weddings.png" alt="" width="54" height="54" loading="lazy" /></span><h3>Weddings</h3><p>The toast after the vows, framed forever. Our most loved piece, and a gift that stops every bride in her tracks.</p></div>
-      <div class="occasion"><span class="oc-ic"><img src="assets/icons/engagement.png" alt="" width="54" height="54" loading="lazy" /></span><h3>Engagements</h3><p>The bottle you popped when the question got a yes. Start the marriage with the memory on the wall.</p></div>
-      <div class="occasion"><span class="oc-ic"><img src="assets/icons/anniversary.png" alt="" width="54" height="54" loading="lazy" /></span><h3>Anniversaries</h3><p>Save the year, the date, the night. A milestone gift that says you remember every detail.</p></div>
-      <div class="occasion"><span class="oc-ic"><img src="assets/icons/milestone.png" alt="" width="54" height="54" loading="lazy" /></span><h3>Big Milestones</h3><p>The promotion, the launch, the win you celebrated. Some bottles are worth keeping.</p></div>
-      <div class="occasion"><span class="oc-ic"><img src="assets/icons/gift.png" alt="" width="54" height="54" loading="lazy" /></span><h3>The Perfect Gift</h3><p>For the couple who has everything. Nothing else turns their own memory into art.</p></div>
-      <div class="occasion"><span class="oc-ic"><img src="assets/icons/justbecause.png" alt="" width="54" height="54" loading="lazy" /></span><h3>Just Because It Mattered</h3><p>If you saved the bottle, there was a reason. We'll help you keep it for good.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- COMPARISON -->
-<section class="block compare">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">Why Memorable Bottles</span>
-      <h2>Not a box in the closet</h2>
-      <p>Most people shove the bottle in a cabinet and forget it. Here's the difference.</p>
-    </div>
-    <div class="ctable">
-      <div class="crow">
-        <div class="lab"></div>
-        <div class="head mb">Memorable Bottles</div>
-        <div class="head">Keeping the bottle</div>
+  <!-- Gallery -->
+  <section class="section" id="gallery">
+    <div class="wrap">
+      <div class="gallery-head" data-reveal>
+        <div class="section-head">
+          <p class="label">The Gallery</p>
+          <h2>Every piece is one of one.</h2>
+        </div>
+        <a class="textlink" href="#begin">Request a Custom Piece</a>
       </div>
-      <div class="crow"><div class="lab">Made from your real bottle</div><div class="yes">Yes</div><div class="no">—</div></div>
-      <div class="crow"><div class="lab">Designed by an artist, by hand</div><div class="yes">Yes</div><div class="no">—</div></div>
-      <div class="crow"><div class="lab">One of a kind, never repeated</div><div class="yes">Yes</div><div class="no">—</div></div>
-      <div class="crow"><div class="lab">Ready to hang and show off</div><div class="yes">Yes</div><div class="no">In a box</div></div>
-      <div class="crow"><div class="lab">You approve it before it's done</div><div class="yes">Yes</div><div class="no">—</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
-<section class="block quotes">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">Loved By Brides</span>
-      <h2>People keep these forever</h2>
-    </div>
-    <div class="qgrid">
-      <div class="q"><div class="st">★★★★★</div><p>"I cried when I saw it. The bottle from our wedding is now the first thing you see in our home."</p><div class="who">— [Real review — NEEDS KIRKLYN]</div></div>
-      <div class="q"><div class="st">★★★★★</div><p>"I gave it to my sister and she was speechless. It's her favorite thing she owns now."</p><div class="who">— [Real review — NEEDS KIRKLYN]</div></div>
-      <div class="q"><div class="st">★★★★★</div><p>"Kirklyn is so talented and so kind. She turned a bottle I almost threw away into art."</p><div class="who">— [Real review — NEEDS KIRKLYN]</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section class="block" id="faq">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow">Good Questions</span>
-      <h2>Before you ask</h2>
-    </div>
-    <div class="faq-wrap">
-      <details open><summary>Do you use my actual bottle?</summary><p>Yes. That's the whole point. Your real bottle, from your real moment, becomes the art. Every label, every piece of glass is yours.</p></details>
-      <details><summary>What if I already opened or saved it?</summary><p>Perfect. Most pieces start with a bottle you've kept on a shelf since the big day. Once you reserve, we'll send you the studio address so you can ship it in.</p></details>
-      <details><summary>How do I get my bottle to you?</summary><p>You ship it to us however works best for you. Just pack it with plenty of cushion, bubble wrap, paper, whatever keeps it safe in transit. We'll send the address as soon as you reserve your spot.</p></details>
-      <details><summary>I'm not in Tampa. Can you still make mine?</summary><p>Absolutely. We're based in Tampa, FL and ship finished pieces anywhere in the US.</p></details>
-      <details><summary>How long does it take?</summary><p>About <b>two weeks</b> from the day your bottle arrives at the studio. Every piece is made by hand, so we take the time to get it right.</p></details>
-      <details><summary>How much does it cost?</summary><p>Pieces start at <b>$399</b>, and run to <b>$499</b> depending on the size and any add ons you choose. Reach out with your moment and we'll help you pick the right size and put together your quote.</p></details>
-      <details><summary>Do I get to see it before it's final?</summary><p>Yes. You approve the design before it's finished, so the piece on your wall is exactly what you wanted.</p></details>
-    </div>
-  </div>
-</section>
-
-<!-- CTA / ORDER -->
-<section class="block cta" id="order">
-  <div class="wrap">
-    <span class="eyebrow">Spots Are Limited</span>
-    <h2>Let's preserve your moment</h2>
-    <p>Tell us about your day and the bottle that marked it. We'll take it from there and turn it into something you'll keep for the rest of your life.</p>
-    <p class="reassure">Pieces start at <b>$399</b> · Handled with care · <b>You approve it before it's done</b> · Made one at a time, so spots fill fast</p>
-    <div class="cta-actions">
-      <a class="btn btn-solid" href="intake.html">Start Your Piece</a>
-      <a class="btn btn-ghost" href="https://www.instagram.com/memorablebottles/" target="_blank" rel="noopener">Or Message on Instagram</a>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="wrap">
-    <div class="foot-grid">
-      <a class="logo" href="#top">
-        <img src="assets/logo.svg" alt="" width="34" height="34" />
-        <span class="wm"><span class="m">Memorable</span><span class="b" style="color:var(--dust)">Bottles</span></span>
-      </a>
-      <div class="foot-links">
-        <a href="#how">How It Works</a>
-        <a href="#gallery">The Work</a>
-        <a href="#faq">FAQ</a>
-        <a href="https://www.instagram.com/memorablebottles/" target="_blank" rel="noopener">@memorablebottles</a>
-        <a href="tel:+14044512226">Text (404) 451-2226</a>
+      <div class="gallery-grid">
+        <figure class="piece" data-reveal>
+          <div class="frame"><div class="mat"><img src="assets/v3/piece-veuve-black.jpg" alt="Veuve Clicquot champagne preserved in a black frame" loading="lazy"></div></div>
+          <figcaption class="piece-caption"><span class="label">No. 01</span><p>Wedding champagne, preserved for the couple.</p></figcaption>
+        </figure>
+        <figure class="piece" data-reveal>
+          <div class="frame"><div class="mat"><img src="assets/v3/piece-cobalt.jpg" alt="Cobalt blue bottle preserved mid-shatter in a black frame" loading="lazy"></div></div>
+          <figcaption class="piece-caption"><span class="label">No. 02</span><p>Proposal wine, kept from the night of the yes.</p></figcaption>
+        </figure>
+        <figure class="piece" data-reveal>
+          <div class="frame"><div class="mat"><img src="assets/v3/piece-rose-white.jpg" alt="Veuve Clicquot rosé preserved with green glass and rose leaf in a white frame" loading="lazy"></div></div>
+          <figcaption class="piece-caption"><span class="label">No. 03</span><p>Anniversary rosé, turned into a forever piece.</p></figcaption>
+        </figure>
+        <figure class="piece" data-reveal>
+          <div class="frame"><div class="mat"><img src="assets/v3/piece-vintage-red.jpg" alt="Vintage red wine bottle preserved in an oak frame" loading="lazy"></div></div>
+          <figcaption class="piece-caption"><span class="label">No. 04</span><p>Closing gift, framed for a first home.</p></figcaption>
+        </figure>
+        <figure class="piece" data-reveal>
+          <div class="frame"><div class="mat"><img src="assets/v3/piece-ceramic-blue.jpg" alt="Blue and white ceramic bottle preserved in a black frame" loading="lazy"></div></div>
+          <figcaption class="piece-caption"><span class="label">No. 05</span><p>Client gift, personal, not promotional.</p></figcaption>
+        </figure>
+        <figure class="piece" data-reveal>
+          <div class="frame"><div class="mat"><img src="assets/v3/piece-borrasca.jpg" alt="Borrasca prosecco preserved with gold leaf in a white frame" loading="lazy"></div></div>
+          <figcaption class="piece-caption"><span class="label">No. 06</span><p>Celebration prosecco, with the cork that flew.</p></figcaption>
+        </figure>
       </div>
     </div>
-    <div class="foot-bottom">
-      Preserving your special moments, one bottle at a time. Handmade by Kirklyn Paige in Tampa, FL · Ships nationwide. &copy; 2026 Memorable Bottles.
+  </section>
+
+  <!-- Manifesto -->
+  <section class="manifesto" data-manifesto>
+    <span class="bubble b1"></span><span class="bubble b2"></span><span class="bubble b3"></span><span class="bubble b4"></span>
+    <div class="wrap" data-reveal>
+      <p class="manifesto-line">Every bottle has a story. <em>We frame it.</em></p>
     </div>
+  </section>
+
+  <!-- Process -->
+  <section class="section process" id="process">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="label">How It Works</p>
+        <h2>Simple to start. Made to last.</h2>
+      </div>
+      <div class="steps">
+        <div class="step" data-reveal>
+          <p class="step-num">01</p>
+          <h3>Save the bottle</h3>
+          <p>Keep the bottle from the moment you want to remember.</p>
+        </div>
+        <div class="step" data-reveal>
+          <p class="step-num">02</p>
+          <h3>Share the story</h3>
+          <p>The date, the occasion, the names, the details you want included.</p>
+        </div>
+        <div class="step" data-reveal>
+          <p class="step-num">03</p>
+          <h3>Approve the direction</h3>
+          <p>We confirm the style, frame, layout, and timeline together.</p>
+        </div>
+        <div class="step" data-reveal>
+          <p class="step-num">04</p>
+          <h3>Keep it forever</h3>
+          <p>Your bottle becomes a custom framed piece, ready to hang or gift.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <span class="thread" data-thread></span><span class="thread-dot"></span>
+
+  <!-- Gift lanes -->
+  <section class="section" id="gifts">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="label">Who It's For</p>
+        <h2>A bottle with a story deserves better than a shelf.</h2>
+      </div>
+      <div class="lanes" data-reveal>
+        <a class="lane" href="#begin">
+          <h3>Weddings</h3>
+          <p>The champagne from the toast, kept long after the last dance.</p>
+          <span class="lane-arrow">→</span>
+        </a>
+        <a class="lane" href="#begin">
+          <h3>Anniversaries</h3>
+          <p>The bottle you opened to mark another year together.</p>
+          <span class="lane-arrow">→</span>
+        </a>
+        <a class="lane" href="#begin">
+          <h3>Closing gifts</h3>
+          <p>A first home deserves a first heirloom.</p>
+          <span class="lane-arrow">→</span>
+        </a>
+        <a class="lane" href="#begin">
+          <h3>Client gifts</h3>
+          <p>A gift that feels personal, not promotional.</p>
+          <span class="lane-arrow">→</span>
+        </a>
+        <a class="lane" href="#begin">
+          <h3>Celebrations</h3>
+          <p>Any bottle with a story can become a forever piece.</p>
+          <span class="lane-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quotes -->
+  <section class="section quotes">
+    <div class="wrap quotes-inner" data-reveal>
+      <p class="label">Kind Words</p>
+      <div class="quote-stage">
+        <blockquote class="quote active">
+          <p>"We almost threw the bottle away. Now it's the first thing people ask about in our living room."</p>
+          <cite class="label">Wedding couple · Tampa</cite>
+        </blockquote>
+        <blockquote class="quote">
+          <p>"I've sent a lot of closing gifts. This is the only one clients still text me photos of."</p>
+          <cite class="label">Realtor · St. Petersburg</cite>
+        </blockquote>
+        <blockquote class="quote">
+          <p>"It came out more beautiful than the night itself, and that night was hard to beat."</p>
+          <cite class="label">Anniversary piece · Clearwater</cite>
+        </blockquote>
+      </div>
+      <div class="quote-dots">
+        <button class="quote-dot active" type="button" aria-label="Quote 1"></button>
+        <button class="quote-dot" type="button" aria-label="Quote 2"></button>
+        <button class="quote-dot" type="button" aria-label="Quote 3"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Local trust -->
+  <section class="section">
+    <div class="wrap local" data-reveal>
+      <p class="label">The Studio</p>
+      <h2>Handmade in Tampa Bay.</h2>
+      <hr class="hairline local-rule">
+      <p>Every piece is cut, composed, and framed by hand in our studio. One bottle, one story, one of one. Ships nationwide.</p>
+    </div>
+  </section>
+
+  <span class="thread" data-thread></span><span class="thread-dot"></span>
+
+  <!-- Final CTA + intake -->
+  <section class="final" id="begin">
+    <div class="wrap final-grid">
+      <div class="final-copy" data-reveal>
+        <p class="label">Begin</p>
+        <h2>Ready to preserve your bottle?</h2>
+        <p class="micro">Made from your bottle. Designed around your story. One of one.</p>
+        <div class="final-reassure">
+          <p>No payment to begin. We reply within two business days.</p>
+          <p>Handmade in Tampa Bay. Ships nationwide.</p>
+        </div>
+      </div>
+      <div class="intake" data-reveal>
+        <div class="intake-progress">
+          <span class="done"></span>
+          <span></span>
+          <span></span>
+        </div>
+        <p class="intake-step-label">Step <span id="step-now">1</span> of 3</p>
+        <form id="intake-form" action="https://formsubmit.co/kirklyn.malone@yahoo.com" method="POST">
+          <input type="hidden" name="_subject" value="New Memorable Bottles inquiry 🍾">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_next" value="https://qbstabletampa-creator.github.io/memorable-bottles/thanks.html">
+          <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off">
+          <input type="hidden" name="occasion" id="in-occasion">
+          <input type="hidden" name="bottle" id="in-bottle">
+
+          <div class="intake-step active">
+            <h3>What did the bottle celebrate?</h3>
+            <div class="chip-row" data-key="occasion" data-advance="true">
+              <button class="chip" type="button">Wedding</button>
+              <button class="chip" type="button">Proposal</button>
+              <button class="chip" type="button">Anniversary</button>
+              <button class="chip" type="button">Closing gift</button>
+              <button class="chip" type="button">Client gift</button>
+              <button class="chip" type="button">Something else</button>
+            </div>
+          </div>
+
+          <div class="intake-step">
+            <h3>Tell us about the bottle.</h3>
+            <div class="chip-row" data-key="bottle" data-advance="false">
+              <button class="chip" type="button">Champagne</button>
+              <button class="chip" type="button">Wine</button>
+              <button class="chip" type="button">Spirits</button>
+              <button class="chip" type="button">Other</button>
+            </div>
+            <div class="field">
+              <label for="in-story">The story, optional</label>
+              <textarea id="in-story" name="story" rows="3" placeholder="Names, the date, what the night was."></textarea>
+            </div>
+            <div class="intake-actions">
+              <button class="intake-back" type="button">← Back</button>
+              <button class="btn-card" type="button" data-next>Continue</button>
+            </div>
+          </div>
+
+          <div class="intake-step">
+            <h3>Where should we reach you?</h3>
+            <div class="field-grid">
+              <div class="field">
+                <label for="in-name">Name</label>
+                <input id="in-name" name="name" type="text" autocomplete="name" placeholder="Your name" required>
+              </div>
+              <div class="field">
+                <label for="in-email">Email</label>
+                <input id="in-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+              </div>
+            </div>
+            <div class="field">
+              <label for="in-phone">Phone, optional</label>
+              <input id="in-phone" name="phone" type="tel" autocomplete="tel" placeholder="(813) 000-0000">
+            </div>
+            <div class="intake-actions">
+              <button class="intake-back" type="button">← Back</button>
+              <button class="btn-card" type="submit">Request My Piece</button>
+            </div>
+            <p class="intake-note">We'll reply within two business days to talk through your piece.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <a class="wordmark" href="#top">Memorable Bottles</a>
+    <nav class="footer-links">
+      <a href="#gallery">Gallery</a>
+      <a href="#process">Process</a>
+      <a href="#gifts">Gifts</a>
+    </nav>
+    <p class="footer-note">© Memorable Bottles · Handmade in Tampa Bay</p>
   </div>
 </footer>
 
 <script>
-(function(){
-  var hdr = document.querySelector('header');
-  if (hdr) addEventListener('scroll', function(){ hdr.classList.toggle('scrolled', window.scrollY > 12); }, { passive:true });
+(function () {
+  'use strict';
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  /* ---------- nav ---------- */
+  var nav = document.getElementById('nav');
+  function navState() { nav.classList.toggle('is-scrolled', window.scrollY > 8); }
+  window.addEventListener('scroll', navState, { passive: true });
+  navState();
 
-  var sels = ['.section-head','.promise-photo','.promise','.occasion','.gcard','.step','.q','.ctable',
-              '.cta .eyebrow','.cta h2','.cta p','.cta-actions'];
-  function revealAll(){ document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); }); }
-  try {
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
-    }, { threshold:0.12, rootMargin:'0px 0px -6% 0px' });
-
-    sels.forEach(function(sel){
-      document.querySelectorAll(sel).forEach(function(el){ el.classList.add('reveal'); io.observe(el); });
+  /* ---------- reveal + threads + manifesto ---------- */
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
     });
-    ['.occasion','.gcard','.step','.q'].forEach(function(sel){
-      document.querySelectorAll(sel).forEach(function(el,i){ el.style.transitionDelay = ((i%3)*0.09)+'s'; });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('[data-reveal], [data-thread], [data-manifesto]').forEach(function (el) { io.observe(el); });
+
+  /* ---------- stat count-up ---------- */
+  function animateCount(el) {
+    var target = parseFloat(el.dataset.count);
+    var decimals = parseInt(el.dataset.decimals || '0', 10);
+    if (reduced.matches) { el.textContent = target.toFixed(decimals); return; }
+    var start = null, dur = 1800;
+    function tick(ts) {
+      if (!start) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = (target * eased).toFixed(decimals);
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  var statIo = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('[data-count]').forEach(animateCount);
+        statIo.unobserve(e.target);
+      }
     });
-    // failsafe: nothing should ever stay hidden if something goes wrong
-    addEventListener('load', function(){ setTimeout(function(){
-      document.querySelectorAll('.reveal:not(.in)').forEach(function(el){
-        var r = el.getBoundingClientRect();
-        if (r.top < innerHeight && r.bottom > 0) el.classList.add('in');
+  }, { threshold: 0.4 });
+  document.querySelectorAll('.stats-grid').forEach(function (el) { statIo.observe(el); });
+
+  /* ---------- transformation video scroll ---------- */
+  var section = document.querySelector('.transform-section');
+  var video = section.querySelector('.transform-video');
+  var caps = section.querySelectorAll('.transform-caps .cap');
+  var ticking = false;
+
+  function applyMotionMode() {
+    if (reduced.matches) {
+      section.classList.add('is-static');
+      video.pause();
+    } else {
+      section.classList.remove('is-static');
+    }
+  }
+  reduced.addEventListener('change', applyMotionMode);
+  applyMotionMode();
+
+  var vidIo = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (reduced.matches) return;
+      if (e.isIntersecting) { video.play().catch(function () {}); }
+      else { video.pause(); }
+    });
+  }, { threshold: 0.1 });
+  vidIo.observe(section);
+
+  function renderCaps() {
+    ticking = false;
+    if (section.classList.contains('is-static')) return;
+    var r = section.getBoundingClientRect();
+    var total = r.height - window.innerHeight;
+    var p = Math.max(0, Math.min(1, -r.top / total));
+    var active = p < 0.33 ? 0 : (p < 0.66 ? 1 : 2);
+    caps.forEach(function (cap, i) { cap.style.opacity = i === active ? '1' : '0'; });
+  }
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(renderCaps); }
+  }, { passive: true });
+  renderCaps();
+
+  /* ---------- quotes ---------- */
+  var quotes = document.querySelectorAll('.quote');
+  var dots = document.querySelectorAll('.quote-dot');
+  var qi = 0, qTimer = null;
+  function showQuote(i) {
+    qi = i;
+    quotes.forEach(function (q, j) { q.classList.toggle('active', j === i); });
+    dots.forEach(function (d, j) { d.classList.toggle('active', j === i); });
+  }
+  function startQuotes() {
+    if (reduced.matches) return;
+    qTimer = setInterval(function () { showQuote((qi + 1) % quotes.length); }, 6000);
+  }
+  dots.forEach(function (d, i) {
+    d.addEventListener('click', function () {
+      clearInterval(qTimer);
+      showQuote(i);
+      startQuotes();
+    });
+  });
+  startQuotes();
+
+  /* ---------- intake form ---------- */
+  var form = document.getElementById('intake-form');
+  var steps = form.querySelectorAll('.intake-step');
+  var bars = document.querySelectorAll('.intake-progress span');
+  var stepNow = document.getElementById('step-now');
+  var current = 0;
+
+  function showStep(i) {
+    current = i;
+    steps.forEach(function (s, j) { s.classList.toggle('active', j === i); });
+    bars.forEach(function (b, j) { b.classList.toggle('done', j <= i); });
+    stepNow.textContent = i + 1;
+  }
+
+  form.querySelectorAll('.chip-row').forEach(function (row) {
+    var key = row.dataset.key;
+    var advance = row.dataset.advance === 'true';
+    var hidden = document.getElementById('in-' + key);
+    row.querySelectorAll('.chip').forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        row.querySelectorAll('.chip').forEach(function (c) { c.classList.remove('selected'); });
+        chip.classList.add('selected');
+        hidden.value = chip.textContent;
+        if (advance) setTimeout(function () { showStep(current + 1); }, 240);
       });
-    }, 1200); });
-  } catch (err) { revealAll(); }
+    });
+  });
+
+  form.querySelectorAll('[data-next]').forEach(function (btn) {
+    btn.addEventListener('click', function () { showStep(current + 1); });
+  });
+  form.querySelectorAll('.intake-back').forEach(function (btn) {
+    btn.addEventListener('click', function () { showStep(Math.max(0, current - 1)); });
+  });
 })();
 </script>
 
