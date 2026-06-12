@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Memorable Bottles — Cinematic</title>
+<meta name="description" content="Your wedding champagne, proposal wine, or closing bottle, preserved by hand into one of one framed wall art. Handmade in Tampa Bay, ships nationwide.">
+<meta property="og:title" content="Memorable Bottles — Capture the bottle. Keep the moment.">
+<meta property="og:description" content="Custom framed keepsakes made from celebration bottles with a story. Handmade in Tampa Bay.">
+<meta property="og:image" content="assets/v3/hero-editorial.jpg">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   Memorable Bottles v3 — Champagne Gallery
+   Ivory base, ink structure, champagne accent. Gallery, not store.
+   ============================================================ */
+:root {
+  --font-head: 'Playfair Display', serif;
+  --font-accent: 'Cormorant Garamond', serif;
+  --font-body: 'Inter', 'Helvetica Neue', sans-serif;
+
+  --bg: #F7F2EA;
+  --surface: #FFFFFF;
+  --ink: #111111;
+  --ink-soft: #6E6257;
+  --accent: #B89B5E;
+  --glass: #DDE7E5;
+  --line: rgba(184, 155, 94, 0.35);
+  --band: #111111;
+  --band-ink: #F7F2EA;
+  --band-soft: rgba(247, 242, 234, 0.62);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+img, video { display: block; max-width: 100%; }
+a { color: inherit; }
+
+.wrap { width: min(1240px, 92vw); margin-inline: auto; }
+
+.label {
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+h1, h2, h3 { font-family: var(--font-head); font-weight: 600; line-height: 1.08; }
+h2 { font-size: clamp(2rem, 4.2vw, 3.4rem); letter-spacing: -0.01em; }
+h3 { font-size: 1.35rem; }
+
+.hairline { border: 0; height: 1px; background: var(--line); }
+
+.btn {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 1.1rem 2.4rem;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--bg);
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.btn:hover { background: transparent; color: var(--ink); }
+.btn-ghost { background: transparent; color: var(--bg); border-color: rgba(247,242,234,0.55); }
+.btn-ghost:hover { background: var(--bg); color: var(--ink); }
+
+.textlink {
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ink);
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 0.35rem;
+  transition: color 0.25s ease;
+}
+.textlink:hover { color: var(--accent); }
+
+/* ---------- reveal ---------- */
+[data-reveal] { opacity: 0; transform: translateY(26px); transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
+[data-reveal].in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1; transform: none; transition: none; }
+}
+
+/* ---------- gold thread ---------- */
+.thread {
+  display: block;
+  width: 1px;
+  height: 110px;
+  margin: 0 auto;
+  background: linear-gradient(to bottom, transparent, var(--accent) 30%, var(--accent) 70%, transparent);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.thread.in { transform: scaleY(1); }
+.thread-dot {
+  display: block;
+  width: 5px; height: 5px;
+  margin: -3px auto 0;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity 0.6s ease 0.9s;
+}
+.thread.in + .thread-dot { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .thread { transform: none; transition: none; }
+  .thread-dot { opacity: 1; transition: none; }
+}
+
+/* ---------- nav ---------- */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 90;
+  background: transparent;
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+}
+.nav.is-scrolled { background: rgba(247, 242, 234, 0.92); backdrop-filter: blur(10px); box-shadow: 0 1px 0 var(--line); }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 0; }
+.wordmark {
+  font-family: var(--font-head); font-weight: 600; font-size: 1.05rem;
+  letter-spacing: 0.04em; text-decoration: none; color: var(--ink);
+}
+.nav-links { display: flex; gap: 2.2rem; }
+.nav-links a {
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+  text-decoration: none; color: var(--ink-soft); transition: color 0.25s ease;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav .btn { padding: 0.7rem 1.5rem; }
+@media (max-width: 760px) {
+  .nav-links { display: none; }
+  .wordmark { white-space: nowrap; font-size: 0.92rem; }
+  .nav .btn { padding: 0.6rem 1rem; font-size: 0.64rem; white-space: nowrap; }
+}
+
+/* ---------- masthead ---------- */
+.masthead { padding: 7.2rem 0 0; }
+.masthead-title {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: clamp(2rem, 7.3vw, 7.2rem);
+  line-height: 0.98;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
+  animation: mastheadIn 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes mastheadIn {
+  from { opacity: 0; transform: translateY(34px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { .masthead-title { animation: none; } }
+.masthead-sub {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 1.1rem 0 1.4rem;
+  border-bottom: 1px solid var(--ink);
+  margin-bottom: 0;
+}
+.masthead-sub p {
+  font-family: var(--font-accent); font-style: italic; font-size: clamp(0.95rem, 1.6vw, 1.25rem);
+  color: var(--ink-soft);
+}
+@media (max-width: 600px) {
+  .masthead { padding-top: 4.9rem; }
+  .masthead-title { font-size: 8vw; }
+  .masthead-sub { flex-direction: column; gap: 0.05rem; padding: 0.7rem 0 0.9rem; }
+  .masthead-sub p { font-size: 0.92rem; }
+}
+
+/* ---------- hero ---------- */
+.hero { position: relative; min-height: 92vh; min-height: 92svh; display: flex; align-items: flex-end; overflow: hidden; }
+@media (max-width: 600px) {
+  .hero { min-height: 78svh; }
+  .hero-copy { padding-bottom: 3.2rem; }
+  .hero-copy h1 { font-size: clamp(2.1rem, 9vw, 2.7rem); }
+  .hero-sub { font-size: 0.95rem; margin-bottom: 1.8rem; }
+  .hero-ctas { gap: 1.1rem; }
+  .hero-ctas .btn { padding: 0.95rem 1.6rem; }
+}
+.hero-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover; object-position: 50% 38%;
+  transform: scale(1);
+  animation: heroDrift 16s ease-in-out infinite alternate;
+}
+@keyframes heroDrift { from { transform: scale(1) translateY(0); } to { transform: scale(1.07) translateY(-1.2%); } }
+@media (prefers-reduced-motion: reduce) { .hero-img { animation: none; transform: none; } }
+.hero::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    linear-gradient(to right, rgba(17,17,17,0.6) 0%, rgba(17,17,17,0.25) 45%, rgba(17,17,17,0) 70%),
+    linear-gradient(to top, rgba(17,17,17,0.94) 0%, rgba(17,17,17,0.6) 38%, rgba(17,17,17,0.2) 70%, rgba(17,17,17,0.1) 100%);
+}
+.hero-copy h1, .hero-copy .hero-sub, .hero-copy .label { text-shadow: 0 2px 24px rgba(17,17,17,0.6); }
+.hero-copy { position: relative; z-index: 2; color: var(--bg); padding: 0 0 5.5rem; }
+.hero-copy .label { color: var(--accent); }
+.hero-copy h1 {
+  font-size: clamp(2.4rem, 5vw, 4.6rem);
+  font-weight: 500;
+  max-width: 14em;
+  margin: 1.2rem 0 1.4rem;
+}
+.hero-sub { max-width: 34rem; font-size: 1.05rem; color: rgba(247, 242, 234, 0.92); margin-bottom: 2.4rem; }
+.hero-ctas { display: flex; gap: 1.6rem; align-items: center; flex-wrap: wrap; }
+.hero-ctas .btn { background: var(--bg); color: var(--ink); border-color: var(--bg); }
+.hero-ctas .btn:hover { background: transparent; color: var(--bg); }
+.hero-ctas .textlink { color: var(--bg); }
+.hero-ctas .textlink:hover { color: var(--accent); }
+
+/* ---------- sections ---------- */
+.section { padding: 7rem 0; }
+.section-head { max-width: 42rem; }
+.section-head h2 { margin-top: 1rem; }
+
+/* ---------- the moment ---------- */
+.memory-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2.5rem, 6vw, 6.5rem); align-items: center; }
+.memory-copy h2 { margin: 1rem 0 1.6rem; }
+.memory-copy .lede { font-size: 1.12rem; color: var(--ink-soft); max-width: 30rem; }
+.memory-rule { width: 72px; margin: 0 0 1.6rem; }
+.art {
+  overflow: hidden;
+  border: 1px solid var(--edge, rgba(184, 155, 94, 0.4));
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.35) inset, 0 0 48px 4px var(--glow, rgba(184, 155, 94, 0.2)), 0 44px 88px -44px rgba(17,17,17,0.6);
+}
+.art img {
+  width: 100%; height: 100%; object-fit: cover;
+  transform: scale(var(--zoom, 1));
+  transform-origin: var(--focus, 50% 50%);
+  transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.piece:hover .art img { transform: scale(calc(var(--zoom, 1) * 1.045)); }
+@media (prefers-reduced-motion: reduce) { .piece:hover .art img { transform: scale(var(--zoom, 1)); } }
+@media (max-width: 860px) {
+  .memory-grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- transformation (shatter scroll) ---------- */
+.shatter-section { position: relative; height: 340vh; background: var(--surface); }
+.shatter-sticky {
+  position: sticky; top: 0;
+  height: 100vh; height: 100dvh;
+  overflow: hidden;
+  display: grid; place-items: center;
+}
+.bottle-box {
+  position: absolute;
+  width: min(280px, 52vw);
+  aspect-ratio: 300 / 680;
+  max-height: 66vh;
+}
+.bottle-box .shard {
+  position: absolute; inset: 0;
+  background: linear-gradient(158deg, rgba(221, 231, 229, 0.85), rgba(184, 155, 94, 0.18));
+  will-change: transform, opacity;
+}
+.shatter-keepsake {
+  position: absolute;
+  width: min(340px, 64vw);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.shatter-captions {
+  position: absolute;
+  bottom: clamp(36px, 7vh, 72px);
+  left: 0; right: 0;
+  text-align: center;
+  pointer-events: none;
+}
+.shatter-captions .cap {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  display: flex; flex-direction: column; gap: 10px; align-items: center;
+  opacity: 0; transition: opacity 0.4s ease;
+}
+.shatter-captions .cap h3 { font-size: clamp(1.5rem, 2.6vw, 2.2rem); letter-spacing: -0.01em; }
+.static-caption { display: none; }
+.shatter-section.is-static { height: auto; }
+.shatter-section.is-static .shatter-sticky {
+  position: static; height: auto; overflow: visible;
+  padding: clamp(72px, 11vh, 140px) 0;
+}
+.shatter-section.is-static .shatter-stage {
+  display: grid; grid-template-columns: auto auto;
+  gap: clamp(48px, 8vw, 120px); place-items: center;
+  width: min(1180px, 100% - 48px); margin-inline: auto;
+}
+.shatter-stage { position: relative; display: grid; place-items: center; width: 100%; height: 100%; }
+.shatter-section.is-static .bottle-box { position: relative; max-height: none; width: min(220px, 38vw); }
+.shatter-section.is-static .shatter-keepsake { position: relative; opacity: 1; width: min(320px, 40vw); }
+.shatter-section.is-static .shatter-captions { display: none; }
+.shatter-section.is-static .shard { transform: none !important; opacity: 1 !important; }
+.shatter-section.is-static .static-caption {
+  display: flex; flex-direction: column; gap: 12px; align-items: center;
+  text-align: center; grid-column: 1 / -1; padding-top: 12px;
+}
+.static-caption h3 { font-size: clamp(1.5rem, 2.6vw, 2.2rem); }
+@media (max-width: 700px) {
+  .shatter-section.is-static .shatter-stage { grid-template-columns: 1fr; }
+}
+
+/* ---------- stat band ---------- */
+.stats { background: var(--bg); }
+.stats-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--line);
+}
+.stat { padding: 3.6rem 2rem 3.2rem; text-align: center; position: relative; }
+.stat + .stat::before {
+  content: ""; position: absolute; left: 0; top: 22%; bottom: 22%;
+  width: 1px; background: var(--line);
+}
+.stat-num {
+  font-family: var(--font-head); font-weight: 600;
+  font-size: clamp(3rem, 6.5vw, 5.4rem); line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.stat-num sup { font-size: 0.45em; color: var(--accent); margin-left: 0.04em; }
+.stat-label {
+  margin-top: 0.9rem;
+  font-family: var(--font-accent); font-style: italic;
+  font-size: 1.12rem; color: var(--ink-soft);
+}
+@media (max-width: 760px) {
+  .stat { padding: 2.1rem 0.4rem 1.9rem; }
+  .stat-num { font-size: clamp(1.6rem, 7.4vw, 3rem); }
+  .stat-label { font-size: 0.8rem; }
+}
+
+/* ---------- gallery ---------- */
+.gallery-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; margin-bottom: 4rem; flex-wrap: wrap; }
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2.4rem, 5vw, 5rem) clamp(2rem, 4.5vw, 4.5rem);
+}
+.piece { margin: 0; }
+.piece:nth-child(even) { transform: translateY(clamp(1.5rem, 4vw, 4rem)); }
+.piece .art { transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.6s ease; }
+.piece:hover .art { transform: translateY(-8px); box-shadow: 0 56px 96px -44px rgba(17,17,17,0.6); }
+@media (prefers-reduced-motion: reduce) { .piece:hover .art { transform: none; } }
+.piece-caption { margin-top: 1.3rem; }
+.piece-caption .label { display: block; margin-bottom: 0.3rem; }
+.piece-caption p { font-family: var(--font-accent); font-style: italic; font-size: 1.15rem; color: var(--ink-soft); }
+@media (max-width: 700px) {
+  .gallery-grid { grid-template-columns: 1fr; }
+  .piece:nth-child(even) { transform: none; }
+}
+
+/* ---------- manifesto ---------- */
+.manifesto { background: var(--band); color: var(--band-ink); padding: 10rem 0; position: relative; overflow: hidden; }
+.manifesto-line {
+  font-family: var(--font-accent); font-style: italic; font-weight: 500;
+  font-size: clamp(2rem, 5.4vw, 4.4rem); line-height: 1.18;
+  text-align: center; max-width: 18em; margin: 0 auto;
+}
+.manifesto-line em { font-style: normal; font-family: var(--font-head); color: var(--accent); }
+.bubble {
+  position: absolute; bottom: -12px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(184,155,94,0.85), rgba(184,155,94,0.15));
+  opacity: 0;
+}
+@keyframes rise {
+  0% { transform: translateY(0); opacity: 0; }
+  12% { opacity: 0.85; }
+  100% { transform: translateY(-118vh) translateX(2.2vw); opacity: 0; }
+}
+.manifesto.in .bubble { animation: rise linear infinite; }
+.bubble.b1 { left: 16%; width: 7px; height: 7px; animation-duration: 13s; animation-delay: 0s; }
+.bubble.b2 { left: 38%; width: 4px; height: 4px; animation-duration: 17s; animation-delay: 4s; }
+.bubble.b3 { left: 64%; width: 6px; height: 6px; animation-duration: 15s; animation-delay: 8s; }
+.bubble.b4 { left: 84%; width: 4px; height: 4px; animation-duration: 19s; animation-delay: 2s; }
+@media (prefers-reduced-motion: reduce) { .manifesto.in .bubble { animation: none; } }
+
+/* ---------- proof strip ---------- */
+.proof-strip { border-bottom: 1px solid var(--line); background: var(--bg); }
+.proof-inner { display: flex; align-items: center; justify-content: center; gap: 1.2rem; padding: 1.3rem 0; }
+.proof-badge { width: 64px; height: 64px; border-radius: 50%; box-shadow: 0 10px 26px -12px rgba(17,17,17,0.5); }
+.proof-text { font-family: var(--font-accent); font-style: italic; font-size: 1.15rem; color: var(--ink-soft); }
+.proof-text strong { font-family: var(--font-head); font-style: normal; font-weight: 600; color: var(--ink); }
+@media (max-width: 600px) {
+  .proof-inner { gap: 0.8rem; padding: 1rem 0; }
+  .proof-badge { width: 46px; height: 46px; }
+  .proof-text { font-size: 0.98rem; }
+}
+
+/* ---------- ribbon marquee ---------- */
+.ribbon { background: var(--band); overflow: hidden; padding: 0.95rem 0; }
+.ribbon-track { display: flex; width: max-content; animation: ribbonScroll 30s linear infinite; }
+.ribbon-track span {
+  font-family: var(--font-body); font-size: 0.7rem; font-weight: 600;
+  letter-spacing: 0.32em; text-transform: uppercase;
+  color: var(--accent); white-space: nowrap; padding-right: 0.5rem;
+}
+@keyframes ribbonScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .ribbon-track { animation: none; } }
+
+/* ---------- compare ---------- */
+.compare-band { background: var(--surface); }
+.compare-scroll { overflow-x: auto; margin-top: clamp(40px, 6vh, 72px); }
+.compare-table {
+  display: grid;
+  grid-template-columns: minmax(150px, 1.1fr) minmax(150px, 1fr) minmax(150px, 1fr) minmax(170px, 1.2fr);
+  min-width: 660px;
+}
+.compare-table .cell {
+  padding: clamp(16px, 2.4vw, 26px) clamp(14px, 2vw, 24px);
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: center;
+}
+.compare-table .cell.head { align-items: flex-end; border-bottom-color: var(--ink); }
+.compare-table .cell.head .label { color: var(--ink-soft); }
+.compare-table .row-label { font-family: var(--font-head); font-size: 1.15rem; }
+.compare-table .cell p { color: var(--ink-soft); font-size: 0.95rem; }
+.compare-table .hl { background: var(--bg); }
+.compare-table .hl p { color: var(--ink); }
+.compare-table .cell.head.hl { border-top: 2px solid var(--accent); }
+.compare-table .cell.head.hl .label { color: var(--accent); }
+@media (max-width: 700px) {
+  .compare-scroll { overflow: visible; }
+  .compare-table { display: block; min-width: 0; }
+  .compare-table .cell.head { display: none; }
+  .compare-table .row-label {
+    padding: 1.5rem 0 0.6rem; border-bottom: none;
+    font-size: 1.3rem;
+  }
+  .compare-table .cell { padding: 0.55rem 0; border-bottom: none; justify-content: space-between; gap: 1rem; }
+  .compare-table .cell[data-col]::before {
+    content: attr(data-col);
+    font-family: var(--font-body); font-size: 0.64rem; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-soft); flex-shrink: 0;
+  }
+  .compare-table .cell p { text-align: right; }
+  .compare-table .cell.hl {
+    background: var(--bg);
+    border-left: 2px solid var(--accent);
+    padding-left: 0.8rem; padding-right: 0.5rem;
+    margin-top: 0.25rem;
+  }
+  .compare-table .cell.hl::before { color: var(--accent); }
+}
+
+/* ---------- listicle ---------- */
+.worth-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(40px, 6vw, 100px);
+  align-items: start;
+}
+.worth-head { position: sticky; top: 110px; }
+.worth-head .body-soft { color: var(--ink-soft); margin-top: 1rem; }
+.worth-list { display: flex; flex-direction: column; }
+.worth-item {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 20px;
+  padding: clamp(22px, 3.4vh, 36px) 0;
+  border-top: 1px solid var(--line);
+}
+.worth-item:last-child { border-bottom: 1px solid var(--line); }
+.worth-num { font-family: var(--font-head); font-size: 1.6rem; color: var(--accent); line-height: 1.1; }
+.worth-body { display: flex; flex-direction: column; gap: 8px; }
+.worth-body h3 { font-size: 1.4rem; letter-spacing: -0.01em; }
+.worth-body p { color: var(--ink-soft); font-size: 0.98rem; }
+@media (max-width: 860px) {
+  .worth-grid { grid-template-columns: 1fr; }
+  .worth-head { position: static; }
+}
+
+/* ---------- reveal stagger ---------- */
+.steps .step:nth-child(2), .lanes .lane:nth-child(2), .gallery-grid .piece:nth-child(2) { transition-delay: 0.12s; }
+.steps .step:nth-child(3), .lanes .lane:nth-child(3), .gallery-grid .piece:nth-child(3) { transition-delay: 0.24s; }
+.steps .step:nth-child(4), .lanes .lane:nth-child(4), .gallery-grid .piece:nth-child(4) { transition-delay: 0.36s; }
+.lanes .lane:nth-child(5), .gallery-grid .piece:nth-child(5) { transition-delay: 0.48s; }
+
+/* ---------- studio + bride's list ---------- */
+.studio-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(2.5rem, 6vw, 6.5rem); align-items: center; }
+.studio-copy h2 { margin: 1rem 0 1.6rem; }
+.studio-copy > p:not(.label) { color: var(--ink-soft); max-width: 28rem; }
+.local-rule { width: 72px; margin: 0 0 1.6rem; }
+.featured-in { margin-top: 2.8rem; padding-top: 1.6rem; border-top: 1px solid var(--line); }
+.featured-name { font-family: var(--font-head); font-size: 1.7rem; font-weight: 600; margin-top: 0.5rem; }
+.studio-art { max-width: 420px; justify-self: end; }
+@media (max-width: 860px) {
+  .studio-grid { grid-template-columns: 1fr; }
+  .studio-art { justify-self: start; max-width: 360px; }
+}
+
+/* ---------- process ---------- */
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.6rem; margin-top: 4rem; }
+.step { border-top: 1px solid var(--ink); padding-top: 1.6rem; }
+.step-num { font-family: var(--font-head); font-size: 1rem; color: var(--accent); letter-spacing: 0.1em; }
+.step h3 { margin: 0.9rem 0 0.6rem; font-size: 1.2rem; }
+.step p { font-size: 0.93rem; color: var(--ink-soft); }
+@media (max-width: 900px) { .steps { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 540px) { .steps { grid-template-columns: 1fr; } }
+
+/* ---------- gift lanes ---------- */
+.lanes { display: grid; grid-template-columns: repeat(5, 1fr); margin-top: 4rem; border-left: 1px solid var(--line); }
+.lane {
+  border-right: 1px solid var(--line); border-top: 1px solid var(--ink);
+  padding: 1.8rem 1.4rem 2.6rem; text-decoration: none; color: var(--ink);
+  display: flex; flex-direction: column; gap: 0.8rem;
+  transition: background 0.35s ease;
+}
+.lane:hover { background: var(--ink); color: var(--bg); }
+.lane:hover p { color: var(--band-soft); }
+.lane h3 { font-size: 1.16rem; }
+.lane p { font-size: 0.88rem; color: var(--ink-soft); flex: 1; }
+.lane-arrow { color: var(--accent); font-size: 1rem; transition: transform 0.3s ease; }
+.lane:hover .lane-arrow { transform: translateX(6px); }
+@media (max-width: 980px) { .lanes { grid-template-columns: 1fr 1fr; } .lane:nth-child(5) { grid-column: 1 / -1; } }
+@media (max-width: 540px) { .lanes { grid-template-columns: 1fr; } .lane:nth-child(5) { grid-column: auto; } }
+
+/* ---------- quotes ---------- */
+.quotes-inner { text-align: center; max-width: 46rem; margin-inline: auto; }
+.quote-stage { position: relative; min-height: 11rem; margin-top: 2.6rem; }
+.quote { position: absolute; inset: 0; opacity: 0; transition: opacity 0.8s ease; }
+.quote.active { opacity: 1; }
+.quote p { font-family: var(--font-accent); font-style: italic; font-size: clamp(1.3rem, 2.6vw, 1.85rem); line-height: 1.4; }
+.quote cite { display: block; margin-top: 1.4rem; font-style: normal; }
+.quote-dots { display: flex; gap: 0.7rem; justify-content: center; margin-top: 2rem; }
+.quote-dot { width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--accent); background: transparent; cursor: pointer; padding: 0; }
+.quote-dot.active { background: var(--accent); }
+
+/* ---------- local ---------- */
+.local { text-align: center; max-width: 38rem; margin-inline: auto; }
+.local h2 { margin: 1rem 0 1.6rem; }
+.local-rule { width: 72px; margin: 0 auto 1.6rem; }
+.local p { color: var(--ink-soft); }
+
+/* ---------- final + intake ---------- */
+.final { background: var(--band); color: var(--band-ink); padding: 7.5rem 0; }
+.final-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(3rem, 7vw, 7rem); align-items: start; }
+.final-copy h2 { margin: 1.1rem 0 1.2rem; font-weight: 500; }
+.final-copy .micro { font-family: var(--font-accent); font-style: italic; font-size: 1.15rem; color: var(--band-soft); }
+.final-reassure { margin-top: 2.6rem; display: grid; gap: 0.5rem; }
+.final-reassure p { font-size: 0.85rem; color: var(--band-soft); }
+.final-reassure p::before { content: "—"; color: var(--accent); margin-right: 0.6rem; }
+@media (max-width: 860px) { .final-grid { grid-template-columns: 1fr; } }
+
+.intake {
+  background: var(--bg); color: var(--ink);
+  padding: clamp(2rem, 3.6vw, 3.2rem);
+  border-top: 2px solid var(--accent);
+  box-shadow: 0 36px 80px -36px rgba(0,0,0,0.55);
+}
+.intake-progress { display: flex; gap: 6px; margin-bottom: 1rem; }
+.intake-progress span { flex: 1; height: 3px; background: rgba(184, 155, 94, 0.22); }
+.intake-progress span.done { background: var(--accent); }
+.intake-step-label { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.8rem; }
+.intake-step { display: none; }
+.intake-step.active { display: block; }
+.intake-step h3 { font-weight: 600; font-size: 1.5rem; margin-bottom: 1.8rem; }
+.chip-row { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+.chip {
+  -webkit-appearance: none; appearance: none; border-radius: 0;
+  font-family: var(--font-body); font-size: 0.88rem; font-weight: 500;
+  color: var(--ink);
+  padding: 0.85rem 1.5rem; background: var(--surface); border: 1px solid rgba(17,17,17,0.18);
+  cursor: pointer; transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
+}
+.chip:hover { border-color: var(--accent); }
+.chip.selected { background: var(--ink); color: var(--bg); border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--accent); }
+.field { margin-top: 1.8rem; }
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.field-grid .field { margin-top: 1.8rem; }
+.field label { display: block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 0.6rem; }
+.field input, .field textarea {
+  -webkit-appearance: none; appearance: none; border-radius: 0;
+  width: 100%; font-family: var(--font-body); font-size: 1rem;
+  padding: 0.95rem 1.1rem; background: var(--surface);
+  border: 1px solid rgba(17,17,17,0.18); color: var(--ink); resize: vertical;
+}
+.field input::placeholder, .field textarea::placeholder { color: rgba(110, 98, 87, 0.55); }
+.field input:focus, .field textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.intake-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 2.4rem; }
+.intake-back {
+  -webkit-appearance: none; appearance: none; border-radius: 0;
+  background: none; border: none; font-family: var(--font-body); font-size: 0.76rem; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); cursor: pointer;
+}
+.intake-back:hover { color: var(--ink); }
+.btn-card {
+  -webkit-appearance: none; appearance: none; border-radius: 0;
+  border: 1px solid var(--ink); background: var(--ink); color: var(--bg);
+  font-family: var(--font-body); font-size: 0.74rem; font-weight: 600; letter-spacing: 0.22em;
+  text-transform: uppercase; padding: 1rem 2.2rem; cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.btn-card:hover { background: transparent; color: var(--ink); }
+.intake-note { margin-top: 1.4rem; font-size: 0.8rem; color: var(--ink-soft); }
+.hp { position: absolute; left: -5000px; opacity: 0; }
+@media (max-width: 540px) { .field-grid { grid-template-columns: 1fr; } }
+
+/* ---------- footer ---------- */
+.footer { padding: 3rem 0 3.4rem; border-top: 1px solid var(--line); }
+.footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 1.6rem; flex-wrap: wrap; }
+.footer-links { display: flex; gap: 1.8rem; }
+.footer-links a { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; text-decoration: none; color: var(--ink-soft); }
+.footer-links a:hover { color: var(--ink); }
+.footer-note { font-size: 0.78rem; color: var(--ink-soft); }
+
+/* ============ cinematic intro overrides ============ */
+.intro.shatter-section { background: #0E0D0C; height: 380vh; }
+.intro .shatter-sticky { background: radial-gradient(ellipse 90% 70% at 50% 42%, #201d19 0%, #0E0D0C 70%); }
+
+.intro-masthead {
+  position: absolute; top: clamp(4.6rem, 9vh, 7rem); left: 0; right: 0;
+  font-family: var(--font-head); font-weight: 700;
+  font-size: clamp(1.8rem, 5.4vw, 4.6rem);
+  letter-spacing: 0.04em; text-transform: uppercase; text-align: center;
+  color: var(--bg); z-index: 3; pointer-events: none;
+}
+.intro .bottle-box { filter: drop-shadow(0 30px 50px rgba(0,0,0,0.6)); animation: introBottleIn 1.6s cubic-bezier(0.22, 1, 0.36, 1) both 0.2s; }
+@keyframes introBottleIn { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .intro .bottle-box { animation: none; } }
+.intro .bottle-box .shard {
+  background: linear-gradient(152deg, rgba(231,239,237,0.95) 0%, rgba(176,199,191,0.8) 30%, rgba(110,140,124,0.85) 58%, rgba(38,58,46,0.95) 100%);
+}
+.intro .bottle-box .shard:nth-child(3n) {
+  background: linear-gradient(160deg, rgba(247,242,234,0.9) 0%, rgba(196,210,201,0.8) 40%, rgba(72,98,82,0.92) 100%);
+}
+.intro .bottle-box .shard:nth-child(4n) {
+  background: linear-gradient(148deg, rgba(221,231,229,0.95) 0%, rgba(184,155,94,0.45) 45%, rgba(52,74,60,0.95) 100%);
+}
+.intro-bottle-label {
+  position: absolute; z-index: 2;
+  left: 20%; right: 20%; top: 57%; height: 10.5%;
+  background: linear-gradient(165deg, #E8D9B8 0%, #CDB078 55%, #B89B5E 100%);
+  border: 1px solid rgba(247,242,234,0.5);
+  opacity: 0;
+}
+.intro .shatter-captions { z-index: 3; }
+.intro .shatter-captions .cap .label { color: var(--accent); }
+.intro .shatter-captions .cap h3 { color: var(--band-ink); }
+
+.fleck {
+  position: absolute; bottom: -10px; z-index: 1; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(232,217,184,0.9), rgba(184,155,94,0.15));
+  opacity: 0;
+}
+@keyframes fleckRise {
+  0% { transform: translateY(0); opacity: 0; }
+  12% { opacity: 0.7; }
+  100% { transform: translateY(-105vh) translateX(3vw); opacity: 0; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .fleck { animation: fleckRise linear infinite; }
+}
+.fleck.k1 { left: 22%; width: 5px; height: 5px; animation-duration: 14s; animation-delay: 1s; }
+.fleck.k2 { left: 41%; width: 3px; height: 3px; animation-duration: 18s; animation-delay: 6s; }
+.fleck.k3 { left: 62%; width: 5px; height: 5px; animation-duration: 16s; animation-delay: 3s; }
+.fleck.k4 { left: 79%; width: 3px; height: 3px; animation-duration: 20s; animation-delay: 9s; }
+
+.intro .shatter-keepsake.intro-hero {
+  position: absolute; inset: 0; width: auto;
+  display: flex; align-items: flex-end;
+  z-index: 4;
+}
+.intro-hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 38%; }
+.intro-hero-scrim {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to right, rgba(17,17,17,0.6) 0%, rgba(17,17,17,0.25) 45%, rgba(17,17,17,0) 70%),
+    linear-gradient(to top, rgba(17,17,17,0.94) 0%, rgba(17,17,17,0.6) 38%, rgba(17,17,17,0.2) 70%, rgba(17,17,17,0.1) 100%);
+}
+.intro-hero .hero-copy { position: relative; z-index: 2; color: var(--bg); padding-bottom: 5.5rem; }
+.intro-hero .intro-h1 {
+  font-size: clamp(2.4rem, 5vw, 4.6rem); font-weight: 500;
+  max-width: 14em; margin: 1.2rem 0 1.4rem; letter-spacing: 0;
+}
+.intro-hero .hero-copy h2, .intro-hero .hero-copy .hero-sub, .intro-hero .hero-copy .label { text-shadow: 0 2px 24px rgba(17,17,17,0.6); }
+@media (max-width: 600px) {
+  .intro.shatter-section { height: 330vh; }
+  .intro-hero .hero-copy { padding-bottom: 3.2rem; }
+  .intro-hero .intro-h1 { font-size: clamp(2.1rem, 9vw, 2.7rem); }
+  .intro-hero .hero-sub { font-size: 0.95rem; margin-bottom: 1.8rem; }
+}
+
+/* nav over dark intro at very top */
+.nav:not(.is-scrolled) .wordmark, .nav:not(.is-scrolled) .nav-links a { color: var(--bg); }
+.nav:not(.is-scrolled) .btn { background: var(--bg); color: var(--ink); border-color: var(--bg); }
+
+/* reduced-motion / static: straight to the hero */
+.intro.shatter-section.is-static { height: auto; background: #0E0D0C; }
+.intro.is-static .shatter-sticky { position: static; height: auto; padding: 0; background: none; }
+.intro.is-static .shatter-stage { display: block; width: 100%; margin: 0; }
+.intro.is-static .bottle-box, .intro.is-static .intro-masthead + .fleck, .intro.is-static .fleck { display: none; }
+.intro.is-static .intro-masthead { position: static; padding: 6.2rem 0 1.4rem; opacity: 1 !important; }
+.intro.is-static .shatter-keepsake.intro-hero { position: relative; opacity: 1 !important; transform: none !important; width: auto; min-height: 80svh; }
+.intro.is-static .static-caption { display: none; }
+.intro.is-static .shatter-captions { display: none; }
+
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a class="wordmark" href="#top">Memorable Bottles</a>
+    <nav class="nav-links">
+      <a href="#gallery">Gallery</a>
+      <a href="#process">Process</a>
+      <a href="#worth">Occasions</a>
+    </nav>
+    <a class="btn" href="#begin">Start Your Piece</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- Cinematic intro: bottle shatters into the hero -->
+  <section class="shatter-section intro" id="intro">
+    <div class="shatter-sticky">
+      <div class="shatter-stage">
+        <h1 class="intro-masthead">Memorable Bottles</h1>
+        <span class="fleck k1"></span><span class="fleck k2"></span><span class="fleck k3"></span><span class="fleck k4"></span>
+        <div class="bottle-box" aria-hidden="true">
+          <div class="intro-bottle-label"></div>
+        </div>
+        <div class="shatter-captions" aria-hidden="true">
+          <div class="cap"><p class="label">Memorable Bottles</p><h3>It starts whole.</h3></div>
+          <div class="cap"><p class="label">The Transformation</p><h3>Every fragment, placed with intention.</h3></div>
+          <div class="cap"><p class="label">The Transformation</p><h3>And kept, forever, behind glass.</h3></div>
+        </div>
+        <div class="shatter-keepsake intro-hero">
+          <img class="intro-hero-img" src="assets/v3/hero-editorial.jpg" alt="Shattered Veuve Clicquot champagne preserved with rose gold leaf">
+          <div class="intro-hero-scrim" aria-hidden="true"></div>
+          <div class="wrap hero-copy">
+            <p class="label">One of one wall art, made from your bottle</p>
+            <h2 class="intro-h1">Capture the bottle. Keep the moment.</h2>
+            <p class="hero-sub">Wedding champagne, proposal wine, closing gifts, and celebration bottles with a story, preserved by hand into framed keepsakes.</p>
+            <div class="hero-ctas">
+              <a class="btn" href="#begin">Start Your Custom Piece</a>
+              <a class="textlink" href="#gallery">See The Gallery</a>
+            </div>
+          </div>
+        </div>
+        <div class="static-caption">
+          <p class="label">The Transformation</p>
+          <h3>From the bottle you saved to the piece you keep.</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Proof strip -->
+  <div class="proof-strip">
+    <div class="wrap proof-inner" data-reveal>
+      <img class="proof-badge" src="assets/v3/brideslist-badge.png" alt="The Bride's List badge">
+      <p class="proof-text">As featured on <strong>The Bride's List</strong></p>
+    </div>
+  </div>
+
+  <!-- The Moment -->
+  <section class="section">
+    <div class="wrap memory-grid">
+      <div class="memory-copy" data-reveal>
+        <p class="label">The Moment</p>
+        <h2>The bottle is more than glass.</h2>
+        <hr class="hairline memory-rule">
+        <p class="lede">It is the toast, the table, the people, the date, and the night you still talk about. You saved it for a reason. Let it become something you can see every day.</p>
+      </div>
+      <div class="memory-art" data-reveal>
+        <div class="frame-wrap" data-parallax="0.06">
+          <div class="art" style="aspect-ratio: 4 / 5; --edge: #C9A96A; --glow: rgba(201,169,106,0.5);">
+            <img src="assets/v3/art-goldleaf.jpg" alt="De Margerie champagne fragments with gold leaf, preserved in resin">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <span class="thread" data-thread></span><span class="thread-dot"></span>
+
+  <!-- Stats -->
+  <section class="section stats">
+    <div class="wrap" data-reveal>
+      <div class="stats-grid">
+        <div class="stat">
+          <p class="stat-num"><span data-count="54">0</span><sup>+</sup></p>
+          <p class="stat-label">"I do's" preserved</p>
+        </div>
+        <div class="stat">
+          <p class="stat-num">$<span data-count="1.7" data-decimals="1">0</span>M<sup>+</sup></p>
+          <p class="stat-label">in closings, celebrated</p>
+        </div>
+        <div class="stat">
+          <p class="stat-num"><span data-count="1">0</span></p>
+          <p class="stat-label">unforgettable moment, captured</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ribbon -->
+  <div class="ribbon" aria-hidden="true">
+    <div class="ribbon-track"><span>Wedding champagne · Proposal wine · Anniversary bottles · Closing gifts · Client gifts · Celebration bottles · One of one, made by hand · </span><span>Wedding champagne · Proposal wine · Anniversary bottles · Closing gifts · Client gifts · Celebration bottles · One of one, made by hand · </span></div>
+  </div>
+
+  <!-- Gallery -->
+  <section class="section" id="gallery">
+    <div class="wrap">
+      <div class="gallery-head" data-reveal>
+        <div class="section-head">
+          <p class="label">The Gallery</p>
+          <h2>Every piece is one of one.</h2>
+        </div>
+        <a class="textlink" href="#begin">Request a Custom Piece</a>
+      </div>
+      <div class="gallery-grid">
+        <figure class="piece" data-reveal>
+          <div class="frame-wrap" data-parallax="-0.04"><div class="art" style="aspect-ratio: 4 / 5; --edge: #D7A6A0; --glow: rgba(215,166,160,0.55);"><img src="assets/v3/art-rose.jpg" alt="Veuve Clicquot rose champagne preserved with green glass and rose leaf" loading="lazy"></div></div>
+          <figcaption class="piece-caption"><span class="label">No. 01</span><p>Wedding champagne, preserved for the couple.</p></figcaption>
+        </figure>
+        <figure class="piece" data-reveal>
+          <div class="frame-wrap" data-parallax="0.06"><div class="art" style="aspect-ratio: 1 / 1; --edge: #9FB4A6; --glow: rgba(159,180,166,0.5);"><img src="assets/v3/art-chateau.jpg" alt="Chateau Bordeaux preserved mid-shatter" loading="lazy"></div></div>
+          <figcaption class="piece-caption"><span class="label">No. 02</span><p>Proposal wine, kept from the night of the yes.</p></figcaption>
+        </figure>
+        <figure class="piece" data-reveal>
+          <div class="frame-wrap" data-parallax="0.05"><div class="art" style="aspect-ratio: 1 / 1; --edge: #A4453F; --glow: rgba(164,69,63,0.42);"><img src="assets/v3/art-vintage-red.jpg" alt="Vintage dry red wine preserved with green glass" loading="lazy"></div></div>
+          <figcaption class="piece-caption"><span class="label">No. 03</span><p>Anniversary wine, turned into a forever piece.</p></figcaption>
+        </figure>
+        <figure class="piece" data-reveal>
+          <div class="frame-wrap" data-parallax="-0.04"><div class="art" style="aspect-ratio: 4 / 5; --edge: #3D6BE0; --glow: rgba(61,107,224,0.5);"><img src="assets/v3/art-cobalt.jpg" alt="Cobalt blue bottle preserved mid-shatter" loading="lazy"></div></div>
+          <figcaption class="piece-caption"><span class="label">No. 04</span><p>Closing gift, framed for a first home.</p></figcaption>
+        </figure>
+        <figure class="piece" data-reveal>
+          <div class="frame-wrap" data-parallax="0.05"><div class="art" style="aspect-ratio: 1 / 1; --edge: #4E66B8; --glow: rgba(78,102,184,0.48);"><img src="assets/v3/art-ceramic.jpg" alt="Blue and white ceramic bottle preserved in resin" loading="lazy"></div></div>
+          <figcaption class="piece-caption"><span class="label">No. 05</span><p>Client gift, personal, not promotional.</p></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Manifesto -->
+  <section class="manifesto" data-manifesto>
+    <span class="bubble b1"></span><span class="bubble b2"></span><span class="bubble b3"></span><span class="bubble b4"></span>
+    <div class="wrap" data-reveal>
+      <p class="manifesto-line">Every bottle has a story. <em>We frame it.</em></p>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="section process" id="process">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="label">How It Works</p>
+        <h2>Simple to start. Made to last.</h2>
+      </div>
+      <div class="steps">
+        <div class="step" data-reveal>
+          <p class="step-num">01</p>
+          <h3>Save the bottle</h3>
+          <p>Keep the bottle from the moment you want to remember.</p>
+        </div>
+        <div class="step" data-reveal>
+          <p class="step-num">02</p>
+          <h3>Share the story</h3>
+          <p>The date, the occasion, the names, the details you want included.</p>
+        </div>
+        <div class="step" data-reveal>
+          <p class="step-num">03</p>
+          <h3>Approve the direction</h3>
+          <p>We confirm the style, frame, layout, and timeline together.</p>
+        </div>
+        <div class="step" data-reveal>
+          <p class="step-num">04</p>
+          <h3>Keep it forever</h3>
+          <p>Your bottle becomes a custom framed piece, ready to hang or gift.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Compare -->
+  <section class="section compare-band" id="compare">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="label">The Difference</p>
+        <h2>Where does the bottle end up?</h2>
+      </div>
+      <div class="compare-scroll" data-reveal>
+        <div class="compare-table">
+          <div class="cell head"></div>
+          <div class="cell head"><p class="label">On the shelf</p></div>
+          <div class="cell head"><p class="label">In a shadow box</p></div>
+          <div class="cell head hl"><p class="label">Memorable Bottles</p></div>
+
+          <div class="cell row-label">The bottle</div>
+          <div class="cell" data-col="On the shelf"><p>Gathers dust</p></div>
+          <div class="cell" data-col="In a shadow box"><p>Sits whole and bulky</p></div>
+          <div class="cell hl" data-col="Memorable Bottles"><p>Becomes the artwork</p></div>
+
+          <div class="cell row-label">The label</div>
+          <div class="cell" data-col="On the shelf"><p>Fades with time</p></div>
+          <div class="cell" data-col="In a shadow box"><p>Hard to see</p></div>
+          <div class="cell hl" data-col="Memorable Bottles"><p>Centered and preserved</p></div>
+
+          <div class="cell row-label">The story</div>
+          <div class="cell" data-col="On the shelf"><p>Goes untold</p></div>
+          <div class="cell" data-col="In a shadow box"><p>Left out</p></div>
+          <div class="cell hl" data-col="Memorable Bottles"><p>Composed into the piece</p></div>
+
+          <div class="cell row-label">Years from now</div>
+          <div class="cell" data-col="On the shelf"><p>Lost in a move</p></div>
+          <div class="cell" data-col="In a shadow box"><p>Put away</p></div>
+          <div class="cell hl" data-col="Memorable Bottles"><p>Still on the wall</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Worth keeping -->
+  <section class="section worth" id="worth">
+    <div class="wrap worth-grid">
+      <div class="worth-head section-head" data-reveal>
+        <p class="label">Worth Keeping</p>
+        <h2>Five bottles worth preserving.</h2>
+        <p class="body-soft">If one of these is sitting in a closet right now, it's the one.</p>
+      </div>
+      <div class="worth-list" data-reveal>
+        <div class="worth-item">
+          <p class="worth-num">01</p>
+          <div class="worth-body">
+            <h3>The wedding champagne</h3>
+            <p>Poured at the toast, saved from the sweetheart table.</p>
+          </div>
+        </div>
+        <div class="worth-item">
+          <p class="worth-num">02</p>
+          <div class="worth-body">
+            <h3>The proposal wine</h3>
+            <p>Opened with shaking hands, right after the yes.</p>
+          </div>
+        </div>
+        <div class="worth-item">
+          <p class="worth-num">03</p>
+          <div class="worth-body">
+            <h3>The anniversary vintage</h3>
+            <p>The same label, another year of choosing each other.</p>
+          </div>
+        </div>
+        <div class="worth-item">
+          <p class="worth-num">04</p>
+          <div class="worth-body">
+            <h3>The closing bottle</h3>
+            <p>Popped on the porch of a first home.</p>
+          </div>
+        </div>
+        <div class="worth-item">
+          <p class="worth-num">05</p>
+          <div class="worth-body">
+            <h3>The one you can't explain</h3>
+            <p>If you saved it, it already matters.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <span class="thread" data-thread></span><span class="thread-dot"></span>
+
+  <!-- Quotes -->
+  <section class="section quotes">
+    <div class="wrap quotes-inner" data-reveal>
+      <p class="label">Kind Words</p>
+      <div class="quote-stage">
+        <blockquote class="quote active">
+          <p>"We almost threw the bottle away. Now it's the first thing people ask about in our living room."</p>
+          <cite class="label">Wedding couple · Tampa</cite>
+        </blockquote>
+        <blockquote class="quote">
+          <p>"I've sent a lot of closing gifts. This is the only one clients still text me photos of."</p>
+          <cite class="label">Realtor · St. Petersburg</cite>
+        </blockquote>
+        <blockquote class="quote">
+          <p>"It came out more beautiful than the night itself, and that night was hard to beat."</p>
+          <cite class="label">Anniversary piece · Clearwater</cite>
+        </blockquote>
+      </div>
+      <div class="quote-dots">
+        <button class="quote-dot active" type="button" aria-label="Quote 1"></button>
+        <button class="quote-dot" type="button" aria-label="Quote 2"></button>
+        <button class="quote-dot" type="button" aria-label="Quote 3"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Local trust + Bride's List -->
+  <section class="section">
+    <div class="wrap studio-grid">
+      <div class="studio-copy" data-reveal>
+        <p class="label">The Studio</p>
+        <h2>Handmade in Tampa Bay.</h2>
+        <hr class="hairline local-rule">
+        <p>Every piece is cut, composed, and framed by hand in our studio. One bottle, one story, one of one. Ships nationwide.</p>
+        <div class="featured-in">
+          <p class="label">As Featured On</p>
+          <p class="featured-name">The Bride's List</p>
+        </div>
+      </div>
+      <div class="studio-art" data-reveal>
+        <div class="frame-wrap" data-parallax="0.05">
+          <div class="art" style="aspect-ratio: 4 / 5; --edge: #93B3C9; --glow: rgba(147,179,201,0.5);">
+            <img src="assets/v3/brideslist.jpg" alt="Kirklyn holding a finished piece, featured on The Bride's List" loading="lazy" style="--focus: 50% 30%;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <span class="thread" data-thread></span><span class="thread-dot"></span>
+
+  <!-- Final CTA + intake -->
+  <section class="final" id="begin">
+    <div class="wrap final-grid">
+      <div class="final-copy" data-reveal>
+        <p class="label">Begin</p>
+        <h2>Ready to preserve your bottle?</h2>
+        <p class="micro">Made from your bottle. Designed around your story. One of one.</p>
+        <div class="final-reassure">
+          <p>No payment to begin. We reply within two business days.</p>
+          <p>Handmade in Tampa Bay. Ships nationwide.</p>
+        </div>
+      </div>
+      <div class="intake" data-reveal>
+        <div class="intake-progress">
+          <span class="done"></span>
+          <span></span>
+          <span></span>
+        </div>
+        <p class="intake-step-label">Step <span id="step-now">1</span> of 3</p>
+        <form id="intake-form" action="https://formsubmit.co/kirklyn.malone@yahoo.com" method="POST">
+          <input type="hidden" name="_subject" value="New Memorable Bottles inquiry 🍾">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_next" value="https://qbstabletampa-creator.github.io/memorable-bottles/thanks.html">
+          <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off">
+          <input type="hidden" name="occasion" id="in-occasion">
+          <input type="hidden" name="bottle" id="in-bottle">
+
+          <div class="intake-step active">
+            <h3>What did the bottle celebrate?</h3>
+            <div class="chip-row" data-key="occasion" data-advance="true">
+              <button class="chip" type="button">Wedding</button>
+              <button class="chip" type="button">Proposal</button>
+              <button class="chip" type="button">Anniversary</button>
+              <button class="chip" type="button">Closing gift</button>
+              <button class="chip" type="button">Client gift</button>
+              <button class="chip" type="button">Something else</button>
+            </div>
+          </div>
+
+          <div class="intake-step">
+            <h3>Tell us about the bottle.</h3>
+            <div class="chip-row" data-key="bottle" data-advance="false">
+              <button class="chip" type="button">Champagne</button>
+              <button class="chip" type="button">Wine</button>
+              <button class="chip" type="button">Spirits</button>
+              <button class="chip" type="button">Other</button>
+            </div>
+            <div class="field">
+              <label for="in-story">The story, optional</label>
+              <textarea id="in-story" name="story" rows="3" placeholder="Names, the date, what the night was."></textarea>
+            </div>
+            <div class="intake-actions">
+              <button class="intake-back" type="button">← Back</button>
+              <button class="btn-card" type="button" data-next>Continue</button>
+            </div>
+          </div>
+
+          <div class="intake-step">
+            <h3>Where should we reach you?</h3>
+            <div class="field-grid">
+              <div class="field">
+                <label for="in-name">Name</label>
+                <input id="in-name" name="name" type="text" autocomplete="name" placeholder="Your name" required>
+              </div>
+              <div class="field">
+                <label for="in-email">Email</label>
+                <input id="in-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+              </div>
+            </div>
+            <div class="field">
+              <label for="in-phone">Phone, optional</label>
+              <input id="in-phone" name="phone" type="tel" autocomplete="tel" placeholder="(813) 000-0000">
+            </div>
+            <div class="intake-actions">
+              <button class="intake-back" type="button">← Back</button>
+              <button class="btn-card" type="submit">Request My Piece</button>
+            </div>
+            <p class="intake-note">We'll reply within two business days to talk through your piece.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <a class="wordmark" href="#top">Memorable Bottles</a>
+    <nav class="footer-links">
+      <a href="#gallery">Gallery</a>
+      <a href="#process">Process</a>
+      <a href="#worth">Occasions</a>
+    </nav>
+    <p class="footer-note">© Memorable Bottles · Handmade in Tampa Bay</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  /* ---------- nav ---------- */
+  var nav = document.getElementById('nav');
+  function navState() { nav.classList.toggle('is-scrolled', window.scrollY > 8); }
+  window.addEventListener('scroll', navState, { passive: true });
+  navState();
+
+  /* ---------- reveal + threads + manifesto ---------- */
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('[data-reveal], [data-thread], [data-manifesto]').forEach(function (el) { io.observe(el); });
+
+  /* ---------- stat count-up ---------- */
+  function animateCount(el) {
+    var target = parseFloat(el.dataset.count);
+    var decimals = parseInt(el.dataset.decimals || '0', 10);
+    if (reduced.matches) { el.textContent = target.toFixed(decimals); return; }
+    var start = null, dur = 1800;
+    function tick(ts) {
+      if (!start) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = (target * eased).toFixed(decimals);
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  var statIo = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('[data-count]').forEach(animateCount);
+        statIo.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  document.querySelectorAll('.stats-grid').forEach(function (el) { statIo.observe(el); });
+
+  /* ---------- shatter scroll (procedural bottle silhouette) ---------- */
+  var clamp = function (v, a, b) { return Math.max(a, Math.min(b, v)); };
+  function smooth(t) { return t * t * (3 - 2 * t); }
+
+  // Bottle geometry box: 300 x 680. Half-width as a function of y.
+  var W = 300, H = 680, CX = 150, BOTTOM = 660;
+  function hw(y) {
+    if (y <= 14) return 34;
+    if (y <= 34) return 34 - 11 * smooth((y - 14) / 20);
+    if (y <= 160) return 23;
+    if (y <= 310) return 23 + 74 * smooth((y - 160) / 150);
+    return 97;
+  }
+  function rand(seed) {
+    var x = Math.sin(seed * 127.1 + 311.7) * 43758.5453;
+    return x - Math.floor(x);
+  }
+  function fractureRow(yBase, seed) {
+    var pts = [], n = 4;
+    for (var i = 0; i <= n; i++) {
+      var t = i / n;
+      var y = yBase + (rand(seed + i) - 0.5) * 34;
+      if (i === 0 || i === n) y = yBase + (rand(seed + i) - 0.5) * 12;
+      pts.push({ t: t, y: y });
+    }
+    return pts;
+  }
+  function xAt(t, y) { var half = hw(y); return CX - half + t * 2 * half; }
+  function rowPoints(row) { return row.map(function (p) { return { x: xAt(p.t, p.y), y: p.y }; }); }
+  function edge(side, y1, y2) {
+    var pts = [], steps = 6;
+    for (var i = 1; i < steps; i++) {
+      var y = y1 + (y2 - y1) * (i / steps);
+      pts.push({ x: CX + side * hw(y), y: y });
+    }
+    return pts;
+  }
+  function buildShardPolys() {
+    var rows = [fractureRow(78, 1), fractureRow(150, 7), fractureRow(245, 13), fractureRow(350, 21), fractureRow(460, 29), fractureRow(562, 37)];
+    var bands = [], prev = [{ t: 0, y: 0 }, { t: 1, y: 0 }];
+    for (var i = 0; i < rows.length; i++) { bands.push([prev, rows[i]]); prev = rows[i]; }
+    bands.push([prev, [{ t: 0, y: BOTTOM }, { t: 0.5, y: BOTTOM }, { t: 1, y: BOTTOM }]]);
+    var polys = [];
+    bands.forEach(function (band, bi) {
+      var top = rowPoints(band[0]), bot = rowPoints(band[1]);
+      var yTopL = top[0].y, yTopR = top[top.length - 1].y;
+      var yBotL = bot[0].y, yBotR = bot[bot.length - 1].y;
+      if (bi < 4) {
+        polys.push([].concat(top).concat(edge(1, yTopR, yBotR)).concat(bot.slice().reverse()).concat(edge(-1, yBotL, yTopL).reverse()));
+      } else {
+        var crackTopX = CX + (rand(bi * 51) - 0.5) * 60;
+        var crackBotX = CX + (rand(bi * 73) - 0.5) * 60;
+        var midY = (yTopL + yBotL) / 2;
+        var crackMid = { x: (crackTopX + crackBotX) / 2 + (rand(bi * 91) - 0.5) * 40, y: midY };
+        var topMidIdx = Math.floor(top.length / 2), botMidIdx = Math.floor(bot.length / 2);
+        var topSplit = { x: crackTopX, y: top[topMidIdx].y };
+        var botSplit = { x: crackBotX, y: bot[botMidIdx].y };
+        polys.push([].concat(top.slice(0, topMidIdx)).concat([topSplit]).concat([crackMid, botSplit]).concat(bot.slice(0, botMidIdx).reverse()).concat(edge(-1, yBotL, yTopL).reverse()));
+        polys.push([topSplit].concat(top.slice(topMidIdx + 1)).concat(edge(1, yTopR, yBotR)).concat(bot.slice(botMidIdx + 1).reverse()).concat([botSplit, crackMid]));
+      }
+    });
+    return polys;
+  }
+  function polyToClip(poly) {
+    return 'polygon(' + poly.map(function (p) {
+      return (p.x / W * 100).toFixed(2) + '% ' + (p.y / H * 100).toFixed(2) + '%';
+    }).join(', ') + ')';
+  }
+  function centroid(poly) {
+    var x = 0, y = 0;
+    poly.forEach(function (p) { x += p.x; y += p.y; });
+    return { x: x / poly.length, y: y / poly.length };
+  }
+
+  var section = document.querySelector('.shatter-section');
+  var bottleBox = section.querySelector('.bottle-box');
+  var keepsake = section.querySelector('.shatter-keepsake');
+  var caps = section.querySelectorAll('.shatter-captions .cap');
+  var shards = [];
+
+  buildShardPolys().forEach(function (poly, i) {
+    var el = document.createElement('div');
+    el.className = 'shard';
+    el.style.clipPath = polyToClip(poly);
+    var c = centroid(poly);
+    var dirX = (c.x - CX) / 97;
+    var dirY = (c.y - H * 0.45) / (H * 0.5);
+    var mag = 70 + rand(i * 17 + 3) * 90;
+    el.style.opacity = String(0.78 + rand(i * 5 + 1) * 0.22);
+    shards.push({
+      el: el,
+      dx: dirX * mag + (rand(i * 11) - 0.5) * 70,
+      dy: dirY * mag * 0.6 - 24 + (rand(i * 23) - 0.5) * 50,
+      rot: (rand(i * 31) - 0.5) * 18,
+      dz: 0.96 + rand(i * 41) * 0.1
+    });
+    bottleBox.appendChild(el);
+  });
+
+  var ticking = false;
+  function phase(p, a, b) { return smooth(clamp((p - a) / (b - a), 0, 1)); }
+
+  function renderShatter() {
+    ticking = false;
+    if (section.classList.contains('is-static')) return;
+    var r = section.getBoundingClientRect();
+    var total = r.height - window.innerHeight;
+    var p = clamp(-r.top / total, 0, 1);
+
+    var isIntro = section.classList.contains('intro');
+    var enter = isIntro ? 1 : phase(p, 0, 0.12);
+    bottleBox.style.opacity = String(enter);
+    var mast = section.querySelector('.intro-masthead');
+    if (mast) mast.style.opacity = String(1 - phase(p, 0.08, 0.22));
+    var lbl = section.querySelector('.intro-bottle-label');
+    if (lbl) lbl.style.opacity = String(enter * (1 - phase(p, 0.16, 0.3)));
+    var capWrap = section.querySelector('.shatter-captions');
+    if (capWrap) capWrap.style.opacity = String(1 - phase(p, 0.55, 0.67));
+    var drift = phase(p, 0.16, 0.6);
+    var fadeOut = phase(p, 0.55, 0.78);
+
+    shards.forEach(function (s) {
+      var tx = s.dx * drift;
+      var ty = (40 * (1 - enter)) + s.dy * drift;
+      var rot = s.rot * drift;
+      var sc = 1 + (s.dz - 1) * drift;
+      s.el.style.transform = 'translate(' + tx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px) rotate(' + rot.toFixed(2) + 'deg) scale(' + sc.toFixed(3) + ')';
+      s.el.style.opacity = String((1 - fadeOut));
+    });
+
+    var reveal = phase(p, 0.5, 0.82);
+    keepsake.style.opacity = String(reveal);
+    keepsake.style.transform = 'translateY(' + ((1 - reveal) * 28).toFixed(1) + 'px) scale(' + (0.94 + reveal * 0.06).toFixed(3) + ')';
+
+    var active = p < 0.3 ? 0 : (p < 0.62 ? 1 : 2);
+    caps.forEach(function (cap, i) { cap.style.opacity = i === active ? '1' : '0'; });
+  }
+
+  function applyMotionMode() {
+    if (reduced.matches) {
+      section.classList.add('is-static');
+      shards.forEach(function (s) { s.el.style.transform = ''; s.el.style.opacity = ''; });
+      bottleBox.style.opacity = '';
+      keepsake.style.opacity = '';
+      keepsake.style.transform = '';
+    } else {
+      section.classList.remove('is-static');
+      renderShatter();
+    }
+  }
+  reduced.addEventListener('change', applyMotionMode);
+  applyMotionMode();
+
+  /* ---------- parallax ---------- */
+  var pEls = Array.prototype.slice.call(document.querySelectorAll('[data-parallax]'));
+  function renderParallax() {
+    if (reduced.matches) { pEls.forEach(function (el) { el.style.transform = ''; }); return; }
+    var vh = window.innerHeight;
+    pEls.forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (r.bottom < -100 || r.top > vh + 100) return;
+      var speed = parseFloat(el.dataset.parallax) || 0;
+      var offset = clamp((r.top + r.height / 2 - vh / 2) * speed, -64, 64);
+      el.style.transform = 'translate3d(0,' + offset.toFixed(1) + 'px,0)';
+    });
+  }
+
+  function onScroll() {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(function () { renderShatter(); renderParallax(); });
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  renderShatter();
+  renderParallax();
+
+  /* ---------- quotes ---------- */
+  var quotes = document.querySelectorAll('.quote');
+  var dots = document.querySelectorAll('.quote-dot');
+  var qi = 0, qTimer = null;
+  function showQuote(i) {
+    qi = i;
+    quotes.forEach(function (q, j) { q.classList.toggle('active', j === i); });
+    dots.forEach(function (d, j) { d.classList.toggle('active', j === i); });
+  }
+  function startQuotes() {
+    if (reduced.matches) return;
+    qTimer = setInterval(function () { showQuote((qi + 1) % quotes.length); }, 6000);
+  }
+  dots.forEach(function (d, i) {
+    d.addEventListener('click', function () {
+      clearInterval(qTimer);
+      showQuote(i);
+      startQuotes();
+    });
+  });
+  startQuotes();
+
+  /* ---------- intake form ---------- */
+  var form = document.getElementById('intake-form');
+  var steps = form.querySelectorAll('.intake-step');
+  var bars = document.querySelectorAll('.intake-progress span');
+  var stepNow = document.getElementById('step-now');
+  var current = 0;
+
+  function showStep(i) {
+    current = i;
+    steps.forEach(function (s, j) { s.classList.toggle('active', j === i); });
+    bars.forEach(function (b, j) { b.classList.toggle('done', j <= i); });
+    stepNow.textContent = i + 1;
+  }
+
+  form.querySelectorAll('.chip-row').forEach(function (row) {
+    var key = row.dataset.key;
+    var advance = row.dataset.advance === 'true';
+    var hidden = document.getElementById('in-' + key);
+    row.querySelectorAll('.chip').forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        row.querySelectorAll('.chip').forEach(function (c) { c.classList.remove('selected'); });
+        chip.classList.add('selected');
+        hidden.value = chip.textContent;
+        if (advance) setTimeout(function () { showStep(current + 1); }, 240);
+      });
+    });
+  });
+
+  form.querySelectorAll('[data-next]').forEach(function (btn) {
+    btn.addEventListener('click', function () { showStep(current + 1); });
+  });
+  form.querySelectorAll('.intake-back').forEach(function (btn) {
+    btn.addEventListener('click', function () { showStep(Math.max(0, current - 1)); });
+  });
+})();
+</script>
+
+</body>
+</html>
