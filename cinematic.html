@@ -945,7 +945,29 @@ h3 { font-size: 1.35rem; }
     </div>
   </div>
 
-  <!-- The Moment -->
+  <!-- Stats -->
+  <section class="section stats">
+    <span class="fizz f1"></span><span class="fizz f3"></span><span class="fizz f5"></span>
+    <div class="wrap" data-reveal>
+      <div class="stats-grid">
+        <div class="stat">
+          <p class="stat-num"><span data-count="54">0</span><sup>+</sup></p>
+          <p class="stat-label">"I do's" preserved</p>
+        </div>
+        <div class="stat">
+          <p class="stat-num">$<span data-count="1.7" data-decimals="1">0</span>M<sup>+</sup></p>
+          <p class="stat-label">in closings, celebrated</p>
+        </div>
+        <div class="stat">
+          <p class="stat-num"><span data-count="1">0</span></p>
+          <p class="stat-label">unforgettable moment, captured</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+<!-- The Moment -->  <!-- The Moment -->
   <section class="section">
     <div class="wrap memory-grid">
       <div class="memory-copy" data-reveal>
@@ -970,27 +992,6 @@ h3 { font-size: 1.35rem; }
     <span class="pl-glass"><span class="pl-fill" data-fill></span></span>
     <span class="pl-stem"></span><span class="pl-foot"></span>
   </div>
-
-  <!-- Stats -->
-  <section class="section stats">
-    <span class="fizz f1"></span><span class="fizz f3"></span><span class="fizz f5"></span>
-    <div class="wrap" data-reveal>
-      <div class="stats-grid">
-        <div class="stat">
-          <p class="stat-num"><span data-count="54">0</span><sup>+</sup></p>
-          <p class="stat-label">"I do's" preserved</p>
-        </div>
-        <div class="stat">
-          <p class="stat-num">$<span data-count="1.7" data-decimals="1">0</span>M<sup>+</sup></p>
-          <p class="stat-label">in closings, celebrated</p>
-        </div>
-        <div class="stat">
-          <p class="stat-num"><span data-count="1">0</span></p>
-          <p class="stat-label">unforgettable moment, captured</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- Ribbon -->
   <div class="ribbon" aria-hidden="true">
@@ -1338,11 +1339,11 @@ h3 { font-size: 1.35rem; }
   document.querySelectorAll('[data-reveal], [data-thread], [data-manifesto]').forEach(function (el) { io.observe(el); });
 
   /* ---------- stat count-up ---------- */
-  function animateCount(el) {
+  function animateCount(el, delay) {
     var target = parseFloat(el.dataset.count);
     var decimals = parseInt(el.dataset.decimals || '0', 10);
     if (reduced.matches) { el.textContent = target.toFixed(decimals); return; }
-    var start = null, dur = 1800;
+    var start = null, dur = 2700;
     function tick(ts) {
       if (!start) start = ts;
       var p = Math.min((ts - start) / dur, 1);
@@ -1350,16 +1351,18 @@ h3 { font-size: 1.35rem; }
       el.textContent = (target * eased).toFixed(decimals);
       if (p < 1) requestAnimationFrame(tick);
     }
-    requestAnimationFrame(tick);
+    setTimeout(function () { requestAnimationFrame(tick); }, delay || 0);
   }
   var statIo = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
       if (e.isIntersecting) {
-        e.target.querySelectorAll('[data-count]').forEach(animateCount);
+        e.target.querySelectorAll('[data-count]').forEach(function (el, idx) {
+          animateCount(el, idx * 350);
+        });
         statIo.unobserve(e.target);
       }
     });
-  }, { threshold: 0.4 });
+  }, { threshold: 0.15 });
   document.querySelectorAll('.stats-grid').forEach(function (el) { statIo.observe(el); });
 
   /* ---------- shatter scroll (procedural bottle silhouette) ---------- */
