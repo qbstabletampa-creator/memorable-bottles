@@ -110,23 +110,22 @@ h3 { font-size: 1.35rem; }
 /* ---------- gold thread ---------- */
 .thread {
   display: block;
-  width: 1px;
-  height: 110px;
+  width: 2px;
+  height: 160px;
   margin: 0 auto;
-  background: linear-gradient(to bottom, transparent, var(--accent) 30%, var(--accent) 70%, transparent);
+  background: linear-gradient(to bottom, rgba(184,155,94,0.06), #CDA757 22%, #B89B5E 58%, #97772F 100%);
+  border-radius: 2px;
   transform: scaleY(0);
   transform-origin: top;
-  transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.thread.in { transform: scaleY(1); }
 .thread-dot {
   display: block;
-  width: 5px; height: 5px;
-  margin: -3px auto 0;
-  border-radius: 50%;
-  background: var(--accent);
+  width: 7px; height: 9px;
+  margin: -2px auto 0;
+  border-radius: 50% 50% 60% 60% / 40% 40% 64% 64%;
+  background: radial-gradient(circle at 38% 30%, #DDBE7E, #9A7A38);
   opacity: 0;
-  transition: opacity 0.6s ease 0.9s;
+  transition: opacity 0.3s ease;
 }
 .thread.in + .thread-dot { opacity: 1; }
 @media (prefers-reduced-motion: reduce) {
@@ -411,12 +410,12 @@ h3 { font-size: 1.35rem; }
 }
 
 /* ---------- ribbon marquee ---------- */
-.ribbon { background: var(--band); overflow: hidden; padding: 0.95rem 0; }
-.ribbon-track { display: flex; width: max-content; animation: ribbonScroll 30s linear infinite; }
+.ribbon { background: var(--band); overflow: hidden; padding: 0.75rem 0; }
+.ribbon-track { display: flex; width: max-content; animation: ribbonScroll 40s linear infinite; }
 .ribbon-track span {
-  font-family: var(--font-body); font-size: 0.7rem; font-weight: 600;
-  letter-spacing: 0.32em; text-transform: uppercase;
-  color: var(--accent); white-space: nowrap; padding-right: 0.5rem;
+  font-family: var(--font-accent); font-style: italic; font-size: 0.95rem; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: none;
+  color: rgba(196, 169, 105, 0.82); white-space: nowrap; padding-right: 0.5rem;
 }
 @keyframes ribbonScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: reduce) { .ribbon-track { animation: none; } }
@@ -434,7 +433,8 @@ h3 { font-size: 1.35rem; }
   border-bottom: 1px solid var(--line);
   display: flex; align-items: center;
 }
-.compare-table .cell.head { align-items: flex-end; border-bottom-color: var(--ink); }
+.compare-table .cell.head { align-items: flex-end; justify-content: center; text-align: center; border-bottom-color: var(--ink); }
+.compare-table .cell[data-col] { justify-content: center; text-align: center; }
 .compare-table .cell.head .label { color: var(--ink-soft); }
 .compare-table .row-label { font-family: var(--font-head); font-size: 1.15rem; }
 .compare-table .cell p { color: var(--ink-soft); font-size: 0.95rem; }
@@ -1028,27 +1028,27 @@ h3 { font-size: 1.35rem; }
       <div class="compare-scroll" data-reveal>
         <div class="compare-table">
           <div class="cell head"></div>
-          <div class="cell head"><p class="label">On the shelf</p></div>
+          <div class="cell head"><p class="label">In storage</p></div>
           <div class="cell head"><p class="label">In a shadow box</p></div>
           <div class="cell head hl"><p class="label">Memorable Bottles</p></div>
 
           <div class="cell row-label">The bottle</div>
-          <div class="cell" data-col="On the shelf"><p>Gathers dust</p></div>
+          <div class="cell" data-col="In storage"><p>Gathers dust</p></div>
           <div class="cell" data-col="In a shadow box"><p>Sits whole and bulky</p></div>
           <div class="cell hl" data-col="Memorable Bottles"><p>Becomes the artwork</p></div>
 
           <div class="cell row-label">The label</div>
-          <div class="cell" data-col="On the shelf"><p>Fades with time</p></div>
+          <div class="cell" data-col="In storage"><p>Fades with time</p></div>
           <div class="cell" data-col="In a shadow box"><p>Hard to see</p></div>
           <div class="cell hl" data-col="Memorable Bottles"><p>Centered and preserved</p></div>
 
           <div class="cell row-label">The story</div>
-          <div class="cell" data-col="On the shelf"><p>Goes untold</p></div>
+          <div class="cell" data-col="In storage"><p>Goes untold</p></div>
           <div class="cell" data-col="In a shadow box"><p>Left out</p></div>
           <div class="cell hl" data-col="Memorable Bottles"><p>Composed into the piece</p></div>
 
           <div class="cell row-label">Years from now</div>
-          <div class="cell" data-col="On the shelf"><p>Lost in a move</p></div>
+          <div class="cell" data-col="In storage"><p>Lost in a move</p></div>
           <div class="cell" data-col="In a shadow box"><p>Put away</p></div>
           <div class="cell hl" data-col="Memorable Bottles"><p>Still on the wall</p></div>
         </div>
@@ -1478,13 +1478,29 @@ h3 { font-size: 1.35rem; }
   function onScroll() {
     if (!ticking) {
       ticking = true;
-      requestAnimationFrame(function () { renderShatter(); renderParallax(); });
+      requestAnimationFrame(function () { renderShatter(); renderParallax(); renderThreads(); });
     }
   }
+  /* ---------- wine-pour threads ---------- */
+  var threads = Array.prototype.slice.call(document.querySelectorAll('[data-thread]'));
+  function renderThreads() {
+    if (reduced.matches) { threads.forEach(function (t) { t.style.transform = 'scaleY(1)'; }); return; }
+    var vh = window.innerHeight;
+    threads.forEach(function (t) {
+      var r = t.getBoundingClientRect();
+      var p = clamp((vh * 0.86 - r.top) / (vh * 0.5), 0, 1);
+      p = p * p * (3 - 2 * p);
+      t.style.transform = 'scaleY(' + p.toFixed(3) + ')';
+      var dot = t.nextElementSibling;
+      if (dot && dot.classList.contains('thread-dot')) dot.style.opacity = p > 0.96 ? '1' : '0';
+    });
+  }
+
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
   renderShatter();
   renderParallax();
+  renderThreads();
 
   /* ---------- quotes ---------- */
   var quotes = document.querySelectorAll('.quote');
