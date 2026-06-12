@@ -618,111 +618,6 @@ h3 { font-size: 1.35rem; }
 .footer-links a:hover { color: var(--ink); }
 .footer-note { font-size: 0.78rem; color: var(--ink-soft); }
 
-/* ============ cinematic intro overrides ============ */
-.intro.shatter-section { background: #0E0D0C; height: 380vh; }
-.intro .shatter-sticky { background: radial-gradient(ellipse 90% 70% at 50% 42%, #201d19 0%, #0E0D0C 70%); }
-
-.intro-masthead {
-  position: absolute; top: clamp(4.6rem, 9vh, 7rem); left: 0; right: 0;
-  font-family: var(--font-head); font-weight: 700;
-  font-size: clamp(1.8rem, 5.4vw, 4.6rem);
-  letter-spacing: 0.04em; text-transform: uppercase; text-align: center;
-  color: var(--bg); z-index: 3; pointer-events: none;
-}
-.intro .bottle-box { filter: drop-shadow(0 30px 50px rgba(0,0,0,0.6)); animation: introBottleIn 1.6s cubic-bezier(0.22, 1, 0.36, 1) both 0.2s; }
-@keyframes introBottleIn { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .intro .bottle-box { animation: none; } }
-.intro .bottle-box .shard {
-  background: linear-gradient(152deg, rgba(186,205,196,0.85) 0%, rgba(62,88,70,0.95) 38%, rgba(24,38,29,0.98) 75%, rgba(10,16,12,1) 100%);
-}
-.intro .bottle-box .shard:nth-child(3n) {
-  background: linear-gradient(160deg, rgba(214,226,221,0.85) 0%, rgba(216,148,118,0.4) 35%, rgba(40,60,47,0.96) 70%, rgba(13,21,16,1) 100%);
-}
-.intro .bottle-box .shard:nth-child(4n) {
-  background: linear-gradient(148deg, rgba(231,239,237,0.8) 0%, rgba(52,76,61,0.95) 45%, rgba(16,26,20,0.98) 100%);
-}
-/* copper foil over the neck and collar */
-.intro .bottle-box .shard:nth-child(-n+4) {
-  background: linear-gradient(155deg, #F0C9A8 0%, #DD9C72 35%, #C97F56 60%, #8C5239 100%);
-}
-.intro-bottle-label {
-  position: absolute; z-index: 2;
-  left: 20%; right: 20%; top: 57%; height: 12%;
-  background: linear-gradient(170deg, #F7DDD3 0%, #F0C5B8 55%, #E3AC9D 100%);
-  border: 1px solid rgba(184,155,94,0.75);
-  opacity: 0;
-}
-.intro-bottle-label::after {
-  content: "";
-  position: absolute; left: 50%; top: 50%;
-  width: 26px; height: 26px;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: radial-gradient(circle at 38% 32%, #F2D389, #C99A3F 70%);
-  opacity: 0.92;
-}
-.intro .shatter-captions { z-index: 3; }
-.intro .shatter-captions .cap .label { color: var(--accent); }
-.intro .shatter-captions .cap h3 { color: var(--band-ink); }
-
-.fleck {
-  position: absolute; bottom: -10px; z-index: 1; border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, rgba(232,217,184,0.9), rgba(184,155,94,0.15));
-  opacity: 0;
-}
-@keyframes fleckRise {
-  0% { transform: translateY(0); opacity: 0; }
-  12% { opacity: 0.7; }
-  100% { transform: translateY(-105vh) translateX(3vw); opacity: 0; }
-}
-@media (prefers-reduced-motion: no-preference) {
-  .fleck { animation: fleckRise linear infinite; }
-}
-.fleck.k1 { left: 22%; width: 5px; height: 5px; animation-duration: 14s; animation-delay: 1s; }
-.fleck.k2 { left: 41%; width: 3px; height: 3px; animation-duration: 18s; animation-delay: 6s; }
-.fleck.k3 { left: 62%; width: 5px; height: 5px; animation-duration: 16s; animation-delay: 3s; }
-.fleck.k4 { left: 79%; width: 3px; height: 3px; animation-duration: 20s; animation-delay: 9s; }
-
-.intro .shatter-keepsake.intro-hero {
-  position: absolute; inset: 0; width: auto;
-  display: flex; align-items: flex-end;
-  z-index: 4;
-}
-.intro-hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 38%; }
-.intro-hero-scrim {
-  position: absolute; inset: 0;
-  background:
-    linear-gradient(to right, rgba(17,17,17,0.6) 0%, rgba(17,17,17,0.25) 45%, rgba(17,17,17,0) 70%),
-    linear-gradient(to top, rgba(17,17,17,0.94) 0%, rgba(17,17,17,0.6) 38%, rgba(17,17,17,0.2) 70%, rgba(17,17,17,0.1) 100%);
-}
-.intro-hero .hero-copy { position: relative; z-index: 2; color: var(--bg); padding-bottom: 5.5rem; }
-.intro-hero .intro-h1 {
-  font-size: clamp(2.4rem, 5vw, 4.6rem); font-weight: 500;
-  max-width: 14em; margin: 1.2rem 0 1.4rem; letter-spacing: 0;
-}
-.intro-hero .hero-copy h2, .intro-hero .hero-copy .hero-sub, .intro-hero .hero-copy .label { text-shadow: 0 2px 24px rgba(17,17,17,0.6); }
-@media (max-width: 600px) {
-  .intro.shatter-section { height: 330vh; }
-  .intro-hero .hero-copy { padding-bottom: 3.2rem; }
-  .intro-hero .intro-h1 { font-size: clamp(2.1rem, 9vw, 2.7rem); }
-  .intro-hero .hero-sub { font-size: 0.95rem; margin-bottom: 1.8rem; }
-}
-
-/* nav over dark intro at very top */
-.nav:not(.is-scrolled) .wordmark, .nav:not(.is-scrolled) .nav-links a { color: var(--bg); }
-.nav:not(.is-scrolled) .btn { background: var(--bg); color: var(--ink); border-color: var(--bg); }
-
-/* reduced-motion / static: straight to the hero */
-.intro.shatter-section.is-static { height: auto; background: #0E0D0C; }
-.intro.is-static .shatter-sticky { position: static; height: auto; padding: 0; background: none; }
-.intro.is-static .shatter-stage { display: block; width: 100%; margin: 0; }
-.intro.is-static .bottle-box, .intro.is-static .intro-masthead + .fleck, .intro.is-static .fleck { display: none; }
-.intro.is-static .intro-masthead { position: static; padding: 6.2rem 0 1.4rem; opacity: 1 !important; }
-.intro.is-static .shatter-keepsake.intro-hero { position: relative; opacity: 1 !important; transform: none !important; width: auto; min-height: 80svh; }
-.intro.is-static .static-caption { display: none; }
-.intro.is-static .shatter-captions { display: none; }
-
-
 /* ---------- compare polish: checks and crosses ---------- */
 .compare-table .row-label { font-family: var(--font-accent); font-style: italic; font-weight: 500; font-size: 1.3rem; }
 .compare-table .cell[data-col] p::before {
@@ -903,37 +798,27 @@ h3 { font-size: 1.35rem; }
 
 <main id="top">
 
-  <!-- Cinematic intro: bottle shatters into the hero -->
-  <section class="shatter-section intro" id="intro">
-    <div class="shatter-sticky">
-      <div class="shatter-stage">
-        <h1 class="intro-masthead">Memorable Bottles</h1>
-        <span class="fleck k1"></span><span class="fleck k2"></span><span class="fleck k3"></span><span class="fleck k4"></span>
-        <div class="bottle-box" aria-hidden="true">
-          <div class="intro-bottle-label"></div>
-        </div>
-        <div class="shatter-captions" aria-hidden="true">
-          <div class="cap"><p class="label">Memorable Bottles</p><h3>It starts whole.</h3></div>
-          <div class="cap"><p class="label">The Transformation</p><h3>Every fragment, placed with intention.</h3></div>
-          <div class="cap"><p class="label">The Transformation</p><h3>And kept, forever, behind glass.</h3></div>
-        </div>
-        <div class="shatter-keepsake intro-hero">
-          <img class="intro-hero-img" src="assets/v3/hero-editorial.jpg" alt="Shattered Veuve Clicquot champagne preserved with rose gold leaf">
-          <div class="intro-hero-scrim" aria-hidden="true"></div>
-          <div class="wrap hero-copy">
-            <p class="label">One of one wall art, made from your bottle</p>
-            <h2 class="intro-h1">Capture the bottle. Keep the moment.</h2>
-            <p class="hero-sub">Wedding champagne, proposal wine, closing gifts, and celebration bottles with a story, preserved by hand into framed keepsakes.</p>
-            <div class="hero-ctas">
-              <a class="btn" href="#begin">Start Your Custom Piece</a>
-              <a class="textlink" href="#gallery">See The Gallery</a>
-            </div>
-          </div>
-        </div>
-        <div class="static-caption">
-          <p class="label">The Transformation</p>
-          <h3>From the bottle you saved to the piece you keep.</h3>
-        </div>
+  <!-- Masthead -->
+  <section class="masthead">
+    <div class="wrap">
+      <h1 class="masthead-title">Memorable Bottles</h1>
+      <div class="masthead-sub">
+        <p>Custom framed bottle keepsakes</p>
+        <p>Handmade in Tampa Bay</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hero -->
+  <section class="hero">
+    <img class="hero-img" src="assets/v3/hero-editorial.jpg" alt="Shattered Veuve Clicquot champagne bottle preserved with rose gold leaf in a black resin keepsake">
+    <div class="wrap hero-copy">
+      <p class="label">One of one wall art, made from your bottle</p>
+      <h1>Capture the bottle. Keep the moment.</h1>
+      <p class="hero-sub">Wedding champagne, proposal wine, closing gifts, and celebration bottles with a story, preserved by hand into framed keepsakes.</p>
+      <div class="hero-ctas">
+        <a class="btn" href="#begin">Start Your Custom Piece</a>
+        <a class="textlink" href="#gallery">See The Gallery</a>
       </div>
     </div>
   </section>
@@ -993,6 +878,29 @@ h3 { font-size: 1.35rem; }
     <span class="pl-glass"><span class="pl-fill" data-fill></span></span>
     <span class="pl-stem"></span><span class="pl-foot"></span>
   </div>
+
+  <!-- The Transformation -->
+  <section class="shatter-section" id="transformation">
+    <div class="shatter-sticky">
+      <div class="shatter-stage">
+        <div class="bottle-box" aria-hidden="true"></div>
+        <div class="shatter-keepsake">
+          <div class="art" style="aspect-ratio: 4 / 5; --edge: #E2B33C; --glow: rgba(226,179,60,0.5);">
+            <img src="assets/v3/piece-veuve-black.jpg" alt="The finished keepsake, a Veuve Clicquot preserved in resin" loading="lazy" style="--zoom: 2.1; --focus: 50% 42%;">
+          </div>
+        </div>
+        <div class="shatter-captions" aria-hidden="true">
+          <div class="cap"><p class="label">The Transformation</p><h3>It starts whole.</h3></div>
+          <div class="cap"><p class="label">The Transformation</p><h3>Every fragment, placed with intention.</h3></div>
+          <div class="cap"><p class="label">The Transformation</p><h3>And kept, forever, behind glass.</h3></div>
+        </div>
+        <div class="static-caption">
+          <p class="label">The Transformation</p>
+          <h3>From the bottle you saved to the piece you keep.</h3>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Gallery -->
   <section class="section" id="gallery">
@@ -1476,15 +1384,8 @@ h3 { font-size: 1.35rem; }
     var total = r.height - window.innerHeight;
     var p = clamp(-r.top / total, 0, 1);
 
-    var isIntro = section.classList.contains('intro');
-    var enter = isIntro ? 1 : phase(p, 0, 0.12);
+    var enter = phase(p, 0, 0.12);
     bottleBox.style.opacity = String(enter);
-    var mast = section.querySelector('.intro-masthead');
-    if (mast) mast.style.opacity = String(1 - phase(p, 0.08, 0.22));
-    var lbl = section.querySelector('.intro-bottle-label');
-    if (lbl) lbl.style.opacity = String(enter * (1 - phase(p, 0.16, 0.3)));
-    var capWrap = section.querySelector('.shatter-captions');
-    if (capWrap) capWrap.style.opacity = String(1 - phase(p, 0.55, 0.67));
     var drift = phase(p, 0.16, 0.6);
     var fadeOut = phase(p, 0.55, 0.78);
 
