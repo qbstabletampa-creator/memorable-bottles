@@ -188,12 +188,22 @@ h3 { font-size: 1.35rem; }
   color: var(--ink-soft);
 }
 @media (max-width: 600px) {
-  .masthead { padding-top: 5.6rem; }
-  .masthead-sub { flex-direction: column; gap: 0.1rem; }
+  .masthead { padding-top: 4.9rem; }
+  .masthead-title { font-size: 8vw; }
+  .masthead-sub { flex-direction: column; gap: 0.05rem; padding: 0.7rem 0 0.9rem; }
+  .masthead-sub p { font-size: 0.92rem; }
 }
 
 /* ---------- hero ---------- */
-.hero { position: relative; min-height: 92vh; display: flex; align-items: flex-end; overflow: hidden; }
+.hero { position: relative; min-height: 92vh; min-height: 92svh; display: flex; align-items: flex-end; overflow: hidden; }
+@media (max-width: 600px) {
+  .hero { min-height: 78svh; }
+  .hero-copy { padding-bottom: 3.2rem; }
+  .hero-copy h1 { font-size: clamp(2.1rem, 9vw, 2.7rem); }
+  .hero-sub { font-size: 0.95rem; margin-bottom: 1.8rem; }
+  .hero-ctas { gap: 1.1rem; }
+  .hero-ctas .btn { padding: 0.95rem 1.6rem; }
+}
 .hero-img {
   position: absolute; inset: 0;
   width: 100%; height: 100%; object-fit: cover; object-position: 50% 38%;
@@ -394,6 +404,11 @@ h3 { font-size: 1.35rem; }
 .proof-badge { width: 64px; height: 64px; border-radius: 50%; box-shadow: 0 10px 26px -12px rgba(17,17,17,0.5); }
 .proof-text { font-family: var(--font-accent); font-style: italic; font-size: 1.15rem; color: var(--ink-soft); }
 .proof-text strong { font-family: var(--font-head); font-style: normal; font-weight: 600; color: var(--ink); }
+@media (max-width: 600px) {
+  .proof-inner { gap: 0.8rem; padding: 1rem 0; }
+  .proof-badge { width: 46px; height: 46px; }
+  .proof-text { font-size: 0.98rem; }
+}
 
 /* ---------- ribbon marquee ---------- */
 .ribbon { background: var(--band); overflow: hidden; padding: 0.95rem 0; }
@@ -427,6 +442,30 @@ h3 { font-size: 1.35rem; }
 .compare-table .hl p { color: var(--ink); }
 .compare-table .cell.head.hl { border-top: 2px solid var(--accent); }
 .compare-table .cell.head.hl .label { color: var(--accent); }
+@media (max-width: 700px) {
+  .compare-scroll { overflow: visible; }
+  .compare-table { display: block; min-width: 0; }
+  .compare-table .cell.head { display: none; }
+  .compare-table .row-label {
+    padding: 1.5rem 0 0.6rem; border-bottom: none;
+    font-size: 1.3rem;
+  }
+  .compare-table .cell { padding: 0.55rem 0; border-bottom: none; justify-content: space-between; gap: 1rem; }
+  .compare-table .cell[data-col]::before {
+    content: attr(data-col);
+    font-family: var(--font-body); font-size: 0.64rem; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-soft); flex-shrink: 0;
+  }
+  .compare-table .cell p { text-align: right; }
+  .compare-table .cell.hl {
+    background: var(--bg);
+    border-left: 2px solid var(--accent);
+    padding-left: 0.8rem; padding-right: 0.5rem;
+    margin-top: 0.25rem;
+  }
+  .compare-table .cell.hl::before { color: var(--accent); }
+}
 
 /* ---------- listicle ---------- */
 .worth-grid {
@@ -598,7 +637,7 @@ h3 { font-size: 1.35rem; }
     <nav class="nav-links">
       <a href="#gallery">Gallery</a>
       <a href="#process">Process</a>
-      <a href="#gifts">Gifts</a>
+      <a href="#worth">Occasions</a>
     </nav>
     <a class="btn" href="#begin">Start Your Piece</a>
   </div>
@@ -798,24 +837,24 @@ h3 { font-size: 1.35rem; }
           <div class="cell head hl"><p class="label">Memorable Bottles</p></div>
 
           <div class="cell row-label">The bottle</div>
-          <div class="cell"><p>Gathers dust</p></div>
-          <div class="cell"><p>Sits whole and bulky</p></div>
-          <div class="cell hl"><p>Becomes the artwork</p></div>
+          <div class="cell" data-col="On the shelf"><p>Gathers dust</p></div>
+          <div class="cell" data-col="In a shadow box"><p>Sits whole and bulky</p></div>
+          <div class="cell hl" data-col="Memorable Bottles"><p>Becomes the artwork</p></div>
 
           <div class="cell row-label">The label</div>
-          <div class="cell"><p>Fades with time</p></div>
-          <div class="cell"><p>Hard to see</p></div>
-          <div class="cell hl"><p>Centered and preserved</p></div>
+          <div class="cell" data-col="On the shelf"><p>Fades with time</p></div>
+          <div class="cell" data-col="In a shadow box"><p>Hard to see</p></div>
+          <div class="cell hl" data-col="Memorable Bottles"><p>Centered and preserved</p></div>
 
           <div class="cell row-label">The story</div>
-          <div class="cell"><p>Goes untold</p></div>
-          <div class="cell"><p>Left out</p></div>
-          <div class="cell hl"><p>Composed into the piece</p></div>
+          <div class="cell" data-col="On the shelf"><p>Goes untold</p></div>
+          <div class="cell" data-col="In a shadow box"><p>Left out</p></div>
+          <div class="cell hl" data-col="Memorable Bottles"><p>Composed into the piece</p></div>
 
           <div class="cell row-label">Years from now</div>
-          <div class="cell"><p>Lost in a move</p></div>
-          <div class="cell"><p>Put away</p></div>
-          <div class="cell hl"><p>Still on the wall</p></div>
+          <div class="cell" data-col="On the shelf"><p>Lost in a move</p></div>
+          <div class="cell" data-col="In a shadow box"><p>Put away</p></div>
+          <div class="cell hl" data-col="Memorable Bottles"><p>Still on the wall</p></div>
         </div>
       </div>
     </div>
@@ -870,43 +909,6 @@ h3 { font-size: 1.35rem; }
   </section>
 
   <span class="thread" data-thread></span><span class="thread-dot"></span>
-
-  <!-- Gift lanes -->
-  <section class="section" id="gifts">
-    <div class="wrap">
-      <div class="section-head" data-reveal>
-        <p class="label">Who It's For</p>
-        <h2>A bottle with a story deserves better than a shelf.</h2>
-      </div>
-      <div class="lanes" data-reveal>
-        <a class="lane" href="#begin">
-          <h3>Weddings</h3>
-          <p>The champagne from the toast, kept long after the last dance.</p>
-          <span class="lane-arrow">→</span>
-        </a>
-        <a class="lane" href="#begin">
-          <h3>Anniversaries</h3>
-          <p>The bottle you opened to mark another year together.</p>
-          <span class="lane-arrow">→</span>
-        </a>
-        <a class="lane" href="#begin">
-          <h3>Closing gifts</h3>
-          <p>A first home deserves a first heirloom.</p>
-          <span class="lane-arrow">→</span>
-        </a>
-        <a class="lane" href="#begin">
-          <h3>Client gifts</h3>
-          <p>A gift that feels personal, not promotional.</p>
-          <span class="lane-arrow">→</span>
-        </a>
-        <a class="lane" href="#begin">
-          <h3>Celebrations</h3>
-          <p>Any bottle with a story can become a forever piece.</p>
-          <span class="lane-arrow">→</span>
-        </a>
-      </div>
-    </div>
-  </section>
 
   <!-- Quotes -->
   <section class="section quotes">
@@ -1052,7 +1054,7 @@ h3 { font-size: 1.35rem; }
     <nav class="footer-links">
       <a href="#gallery">Gallery</a>
       <a href="#process">Process</a>
-      <a href="#gifts">Gifts</a>
+      <a href="#worth">Occasions</a>
     </nav>
     <p class="footer-note">© Memorable Bottles · Handmade in Tampa Bay</p>
   </div>
