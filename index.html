@@ -327,7 +327,6 @@ h3 { font-size: 1.35rem; }
 .stats { background: var(--bg); }
 .stats-grid {
   display: grid; grid-template-columns: 1fr 1fr 1fr;
-  border-top: 1px solid var(--ink);
   border-bottom: 1px solid var(--line);
 }
 .stat { padding: 3.6rem 2rem 3.2rem; text-align: center; position: relative; }
@@ -398,7 +397,7 @@ h3 { font-size: 1.35rem; }
 @media (prefers-reduced-motion: reduce) { .manifesto.in .bubble { animation: none; } }
 
 /* ---------- proof strip ---------- */
-.proof-strip { border-bottom: 1px solid var(--line); background: var(--bg); }
+.proof-strip { background: var(--bg); }
 .proof-inner { display: flex; align-items: center; justify-content: center; gap: 1.2rem; padding: 1.3rem 0; }
 .proof-badge { width: 64px; height: 64px; border-radius: 50%; box-shadow: 0 10px 26px -12px rgba(17,17,17,0.5); }
 .proof-text { font-family: var(--font-accent); font-style: italic; font-size: 1.15rem; color: var(--ink-soft); }
@@ -638,6 +637,8 @@ h3 { font-size: 1.35rem; }
 
 /* ---------- ambient fizz (champagne bubbles) ---------- */
 .stats, .quotes, .final { position: relative; overflow: hidden; }
+.section.stats { padding: 0.4rem 0 2.6rem; }
+.stat { padding-top: 2.4rem; padding-bottom: 2.6rem; }
 .stats .wrap, .quotes-inner, .final .final-grid { position: relative; z-index: 1; }
 .fizz {
   position: absolute; bottom: -12px; z-index: 0; border-radius: 50%;
@@ -901,11 +902,6 @@ h3 { font-size: 1.35rem; }
     </div>
   </section>
 
-  <!-- Ribbon -->
-  <div class="ribbon" aria-hidden="true">
-    <div class="ribbon-track"><span>Wedding champagne · Proposal wine · Anniversary bottles · Closing gifts · Client gifts · Celebration bottles · One of one, made by hand · </span><span>Wedding champagne · Proposal wine · Anniversary bottles · Closing gifts · Client gifts · Celebration bottles · One of one, made by hand · </span></div>
-  </div>
-
   <!-- Gallery -->
   <section class="section" id="gallery">
     <div class="wrap">
@@ -980,6 +976,11 @@ h3 { font-size: 1.35rem; }
       </div>
     </div>
   </section>
+
+  <!-- Ribbon -->
+  <div class="ribbon" aria-hidden="true">
+    <div class="ribbon-track"><span>Wedding champagne · Proposal wine · Anniversary bottles · Closing gifts · Client gifts · Celebration bottles · One of one, made by hand · </span><span>Wedding champagne · Proposal wine · Anniversary bottles · Closing gifts · Client gifts · Celebration bottles · One of one, made by hand · </span></div>
+  </div>
 
   <!-- Compare -->
   <section class="section compare-band" id="compare">
