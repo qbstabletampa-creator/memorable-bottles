@@ -197,10 +197,10 @@ h3 { font-size: 1.35rem; }
 .hero-img {
   position: absolute; inset: 0;
   width: 100%; height: 100%; object-fit: cover; object-position: 50% 38%;
-  transform: scale(1.06);
-  animation: heroSettle 2.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform: scale(1);
+  animation: heroDrift 16s ease-in-out infinite alternate;
 }
-@keyframes heroSettle { to { transform: scale(1); } }
+@keyframes heroDrift { from { transform: scale(1) translateY(0); } to { transform: scale(1.07) translateY(-1.2%); } }
 @media (prefers-reduced-motion: reduce) { .hero-img { animation: none; transform: none; } }
 .hero::after {
   content: ""; position: absolute; inset: 0;
@@ -234,7 +234,11 @@ h3 { font-size: 1.35rem; }
 .memory-copy h2 { margin: 1rem 0 1.6rem; }
 .memory-copy .lede { font-size: 1.12rem; color: var(--ink-soft); max-width: 30rem; }
 .memory-rule { width: 72px; margin: 0 0 1.6rem; }
-.art { overflow: hidden; box-shadow: 0 44px 88px -44px rgba(17,17,17,0.6); }
+.art {
+  overflow: hidden;
+  border: 1px solid var(--edge, rgba(184, 155, 94, 0.4));
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.35) inset, 0 0 48px 4px var(--glow, rgba(184, 155, 94, 0.2)), 0 44px 88px -44px rgba(17,17,17,0.6);
+}
 .art img {
   width: 100%; height: 100%; object-fit: cover;
   transform: scale(var(--zoom, 1));
@@ -384,6 +388,79 @@ h3 { font-size: 1.35rem; }
 .bubble.b4 { left: 84%; width: 4px; height: 4px; animation-duration: 19s; animation-delay: 2s; }
 @media (prefers-reduced-motion: reduce) { .manifesto.in .bubble { animation: none; } }
 
+/* ---------- proof strip ---------- */
+.proof-strip { border-bottom: 1px solid var(--line); background: var(--bg); }
+.proof-inner { display: flex; align-items: center; justify-content: center; gap: 1.2rem; padding: 1.3rem 0; }
+.proof-badge { width: 64px; height: 64px; border-radius: 50%; box-shadow: 0 10px 26px -12px rgba(17,17,17,0.5); }
+.proof-text { font-family: var(--font-accent); font-style: italic; font-size: 1.15rem; color: var(--ink-soft); }
+.proof-text strong { font-family: var(--font-head); font-style: normal; font-weight: 600; color: var(--ink); }
+
+/* ---------- ribbon marquee ---------- */
+.ribbon { background: var(--band); overflow: hidden; padding: 0.95rem 0; }
+.ribbon-track { display: flex; width: max-content; animation: ribbonScroll 30s linear infinite; }
+.ribbon-track span {
+  font-family: var(--font-body); font-size: 0.7rem; font-weight: 600;
+  letter-spacing: 0.32em; text-transform: uppercase;
+  color: var(--accent); white-space: nowrap; padding-right: 0.5rem;
+}
+@keyframes ribbonScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .ribbon-track { animation: none; } }
+
+/* ---------- compare ---------- */
+.compare-band { background: var(--surface); }
+.compare-scroll { overflow-x: auto; margin-top: clamp(40px, 6vh, 72px); }
+.compare-table {
+  display: grid;
+  grid-template-columns: minmax(150px, 1.1fr) minmax(150px, 1fr) minmax(150px, 1fr) minmax(170px, 1.2fr);
+  min-width: 660px;
+}
+.compare-table .cell {
+  padding: clamp(16px, 2.4vw, 26px) clamp(14px, 2vw, 24px);
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: center;
+}
+.compare-table .cell.head { align-items: flex-end; border-bottom-color: var(--ink); }
+.compare-table .cell.head .label { color: var(--ink-soft); }
+.compare-table .row-label { font-family: var(--font-head); font-size: 1.15rem; }
+.compare-table .cell p { color: var(--ink-soft); font-size: 0.95rem; }
+.compare-table .hl { background: var(--bg); }
+.compare-table .hl p { color: var(--ink); }
+.compare-table .cell.head.hl { border-top: 2px solid var(--accent); }
+.compare-table .cell.head.hl .label { color: var(--accent); }
+
+/* ---------- listicle ---------- */
+.worth-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(40px, 6vw, 100px);
+  align-items: start;
+}
+.worth-head { position: sticky; top: 110px; }
+.worth-head .body-soft { color: var(--ink-soft); margin-top: 1rem; }
+.worth-list { display: flex; flex-direction: column; }
+.worth-item {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 20px;
+  padding: clamp(22px, 3.4vh, 36px) 0;
+  border-top: 1px solid var(--line);
+}
+.worth-item:last-child { border-bottom: 1px solid var(--line); }
+.worth-num { font-family: var(--font-head); font-size: 1.6rem; color: var(--accent); line-height: 1.1; }
+.worth-body { display: flex; flex-direction: column; gap: 8px; }
+.worth-body h3 { font-size: 1.4rem; letter-spacing: -0.01em; }
+.worth-body p { color: var(--ink-soft); font-size: 0.98rem; }
+@media (max-width: 860px) {
+  .worth-grid { grid-template-columns: 1fr; }
+  .worth-head { position: static; }
+}
+
+/* ---------- reveal stagger ---------- */
+.steps .step:nth-child(2), .lanes .lane:nth-child(2), .gallery-grid .piece:nth-child(2) { transition-delay: 0.12s; }
+.steps .step:nth-child(3), .lanes .lane:nth-child(3), .gallery-grid .piece:nth-child(3) { transition-delay: 0.24s; }
+.steps .step:nth-child(4), .lanes .lane:nth-child(4), .gallery-grid .piece:nth-child(4) { transition-delay: 0.36s; }
+.lanes .lane:nth-child(5), .gallery-grid .piece:nth-child(5) { transition-delay: 0.48s; }
+
 /* ---------- studio + bride's list ---------- */
 .studio-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(2.5rem, 6vw, 6.5rem); align-items: center; }
 .studio-copy h2 { margin: 1rem 0 1.6rem; }
@@ -414,7 +491,8 @@ h3 { font-size: 1.35rem; }
   display: flex; flex-direction: column; gap: 0.8rem;
   transition: background 0.35s ease;
 }
-.lane:hover { background: var(--surface); }
+.lane:hover { background: var(--ink); color: var(--bg); }
+.lane:hover p { color: var(--band-soft); }
 .lane h3 { font-size: 1.16rem; }
 .lane p { font-size: 0.88rem; color: var(--ink-soft); flex: 1; }
 .lane-arrow { color: var(--accent); font-size: 1rem; transition: transform 0.3s ease; }
@@ -553,6 +631,14 @@ h3 { font-size: 1.35rem; }
     </div>
   </section>
 
+  <!-- Proof strip -->
+  <div class="proof-strip">
+    <div class="wrap proof-inner" data-reveal>
+      <img class="proof-badge" src="assets/v3/brideslist-badge.png" alt="The Bride's List badge">
+      <p class="proof-text">As seen on <strong>The Bride's List</strong>, Tampa Bay's wedding guide</p>
+    </div>
+  </div>
+
   <!-- The Moment -->
   <section class="section">
     <div class="wrap memory-grid">
@@ -564,7 +650,7 @@ h3 { font-size: 1.35rem; }
       </div>
       <div class="memory-art" data-reveal>
         <div class="frame-wrap" data-parallax="0.06">
-          <div class="art" style="aspect-ratio: 4 / 5;">
+          <div class="art" style="aspect-ratio: 4 / 5; --edge: #C9A96A; --glow: rgba(201,169,106,0.5);">
             <img src="assets/v3/art-goldleaf.jpg" alt="De Margerie champagne fragments with gold leaf, preserved in resin">
           </div>
         </div>
@@ -580,7 +666,7 @@ h3 { font-size: 1.35rem; }
       <div class="shatter-stage">
         <div class="bottle-box" aria-hidden="true"></div>
         <div class="shatter-keepsake">
-          <div class="art" style="aspect-ratio: 4 / 5;">
+          <div class="art" style="aspect-ratio: 4 / 5; --edge: #E2B33C; --glow: rgba(226,179,60,0.5);">
             <img src="assets/v3/piece-veuve-black.jpg" alt="The finished keepsake, a Veuve Clicquot preserved in resin" loading="lazy" style="--zoom: 2.1; --focus: 50% 42%;">
           </div>
         </div>
@@ -617,6 +703,11 @@ h3 { font-size: 1.35rem; }
     </div>
   </section>
 
+  <!-- Ribbon -->
+  <div class="ribbon" aria-hidden="true">
+    <div class="ribbon-track"><span>Wedding champagne · Proposal wine · Anniversary bottles · Closing gifts · Client gifts · Celebration bottles · One of one, made by hand · </span><span>Wedding champagne · Proposal wine · Anniversary bottles · Closing gifts · Client gifts · Celebration bottles · One of one, made by hand · </span></div>
+  </div>
+
   <!-- Gallery -->
   <section class="section" id="gallery">
     <div class="wrap">
@@ -629,23 +720,23 @@ h3 { font-size: 1.35rem; }
       </div>
       <div class="gallery-grid">
         <figure class="piece" data-reveal>
-          <div class="frame-wrap" data-parallax="-0.04"><div class="art" style="aspect-ratio: 4 / 5;"><img src="assets/v3/art-rose.jpg" alt="Veuve Clicquot rose champagne preserved with green glass and rose leaf" loading="lazy"></div></div>
+          <div class="frame-wrap" data-parallax="-0.04"><div class="art" style="aspect-ratio: 4 / 5; --edge: #D7A6A0; --glow: rgba(215,166,160,0.55);"><img src="assets/v3/art-rose.jpg" alt="Veuve Clicquot rose champagne preserved with green glass and rose leaf" loading="lazy"></div></div>
           <figcaption class="piece-caption"><span class="label">No. 01</span><p>Wedding champagne, preserved for the couple.</p></figcaption>
         </figure>
         <figure class="piece" data-reveal>
-          <div class="frame-wrap" data-parallax="0.06"><div class="art" style="aspect-ratio: 1 / 1;"><img src="assets/v3/art-chateau.jpg" alt="Chateau Bordeaux preserved mid-shatter" loading="lazy"></div></div>
+          <div class="frame-wrap" data-parallax="0.06"><div class="art" style="aspect-ratio: 1 / 1; --edge: #9FB4A6; --glow: rgba(159,180,166,0.5);"><img src="assets/v3/art-chateau.jpg" alt="Chateau Bordeaux preserved mid-shatter" loading="lazy"></div></div>
           <figcaption class="piece-caption"><span class="label">No. 02</span><p>Proposal wine, kept from the night of the yes.</p></figcaption>
         </figure>
         <figure class="piece" data-reveal>
-          <div class="frame-wrap" data-parallax="0.05"><div class="art" style="aspect-ratio: 1 / 1;"><img src="assets/v3/art-vintage-red.jpg" alt="Vintage dry red wine preserved with green glass" loading="lazy"></div></div>
+          <div class="frame-wrap" data-parallax="0.05"><div class="art" style="aspect-ratio: 1 / 1; --edge: #A4453F; --glow: rgba(164,69,63,0.42);"><img src="assets/v3/art-vintage-red.jpg" alt="Vintage dry red wine preserved with green glass" loading="lazy"></div></div>
           <figcaption class="piece-caption"><span class="label">No. 03</span><p>Anniversary wine, turned into a forever piece.</p></figcaption>
         </figure>
         <figure class="piece" data-reveal>
-          <div class="frame-wrap" data-parallax="-0.04"><div class="art" style="aspect-ratio: 4 / 5;"><img src="assets/v3/art-cobalt.jpg" alt="Cobalt blue bottle preserved mid-shatter" loading="lazy"></div></div>
+          <div class="frame-wrap" data-parallax="-0.04"><div class="art" style="aspect-ratio: 4 / 5; --edge: #3D6BE0; --glow: rgba(61,107,224,0.5);"><img src="assets/v3/art-cobalt.jpg" alt="Cobalt blue bottle preserved mid-shatter" loading="lazy"></div></div>
           <figcaption class="piece-caption"><span class="label">No. 04</span><p>Closing gift, framed for a first home.</p></figcaption>
         </figure>
         <figure class="piece" data-reveal>
-          <div class="frame-wrap" data-parallax="0.05"><div class="art" style="aspect-ratio: 1 / 1;"><img src="assets/v3/art-ceramic.jpg" alt="Blue and white ceramic bottle preserved in resin" loading="lazy"></div></div>
+          <div class="frame-wrap" data-parallax="0.05"><div class="art" style="aspect-ratio: 1 / 1; --edge: #4E66B8; --glow: rgba(78,102,184,0.48);"><img src="assets/v3/art-ceramic.jpg" alt="Blue and white ceramic bottle preserved in resin" loading="lazy"></div></div>
           <figcaption class="piece-caption"><span class="label">No. 05</span><p>Client gift, personal, not promotional.</p></figcaption>
         </figure>
       </div>
@@ -687,6 +778,92 @@ h3 { font-size: 1.35rem; }
           <p class="step-num">04</p>
           <h3>Keep it forever</h3>
           <p>Your bottle becomes a custom framed piece, ready to hang or gift.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Compare -->
+  <section class="section compare-band" id="compare">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="label">The Difference</p>
+        <h2>Where does the bottle end up?</h2>
+      </div>
+      <div class="compare-scroll" data-reveal>
+        <div class="compare-table">
+          <div class="cell head"></div>
+          <div class="cell head"><p class="label">On the shelf</p></div>
+          <div class="cell head"><p class="label">In a shadow box</p></div>
+          <div class="cell head hl"><p class="label">Memorable Bottles</p></div>
+
+          <div class="cell row-label">The bottle</div>
+          <div class="cell"><p>Gathers dust</p></div>
+          <div class="cell"><p>Sits whole and bulky</p></div>
+          <div class="cell hl"><p>Becomes the artwork</p></div>
+
+          <div class="cell row-label">The label</div>
+          <div class="cell"><p>Fades with time</p></div>
+          <div class="cell"><p>Hard to see</p></div>
+          <div class="cell hl"><p>Centered and preserved</p></div>
+
+          <div class="cell row-label">The story</div>
+          <div class="cell"><p>Goes untold</p></div>
+          <div class="cell"><p>Left out</p></div>
+          <div class="cell hl"><p>Composed into the piece</p></div>
+
+          <div class="cell row-label">Years from now</div>
+          <div class="cell"><p>Lost in a move</p></div>
+          <div class="cell"><p>Put away</p></div>
+          <div class="cell hl"><p>Still on the wall</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Worth keeping -->
+  <section class="section worth" id="worth">
+    <div class="wrap worth-grid">
+      <div class="worth-head section-head" data-reveal>
+        <p class="label">Worth Keeping</p>
+        <h2>Five bottles worth preserving.</h2>
+        <p class="body-soft">If one of these is sitting in a closet right now, it's the one.</p>
+      </div>
+      <div class="worth-list" data-reveal>
+        <div class="worth-item">
+          <p class="worth-num">01</p>
+          <div class="worth-body">
+            <h3>The wedding champagne</h3>
+            <p>Poured at the toast, saved from the sweetheart table.</p>
+          </div>
+        </div>
+        <div class="worth-item">
+          <p class="worth-num">02</p>
+          <div class="worth-body">
+            <h3>The proposal wine</h3>
+            <p>Opened with shaking hands, right after the yes.</p>
+          </div>
+        </div>
+        <div class="worth-item">
+          <p class="worth-num">03</p>
+          <div class="worth-body">
+            <h3>The anniversary vintage</h3>
+            <p>The same label, another year of choosing each other.</p>
+          </div>
+        </div>
+        <div class="worth-item">
+          <p class="worth-num">04</p>
+          <div class="worth-body">
+            <h3>The closing bottle</h3>
+            <p>Popped on the porch of a first home.</p>
+          </div>
+        </div>
+        <div class="worth-item">
+          <p class="worth-num">05</p>
+          <div class="worth-body">
+            <h3>The one you can't explain</h3>
+            <p>If you saved it, it already matters.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -772,7 +949,7 @@ h3 { font-size: 1.35rem; }
       </div>
       <div class="studio-art" data-reveal>
         <div class="frame-wrap" data-parallax="0.05">
-          <div class="art" style="aspect-ratio: 4 / 5;">
+          <div class="art" style="aspect-ratio: 4 / 5; --edge: #93B3C9; --glow: rgba(147,179,201,0.5);">
             <img src="assets/v3/brideslist.jpg" alt="Kirklyn holding a finished piece, featured on The Bride's List" loading="lazy" style="--focus: 50% 30%;">
           </div>
         </div>
