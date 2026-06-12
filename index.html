@@ -164,28 +164,19 @@ h3 { font-size: 1.35rem; }
 .masthead-title {
   font-family: var(--font-head);
   font-weight: 700;
-  font-size: clamp(2.8rem, 11.4vw, 11rem);
-  line-height: 0.92;
+  font-size: clamp(2rem, 7.3vw, 7.2rem);
+  line-height: 0.98;
   letter-spacing: 0.01em;
   text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
+  animation: mastheadIn 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
-.masthead-title .line1 { display: block; }
-.masthead-title .line2 {
-  display: flex;
-  align-items: baseline;
-  justify-content: flex-end;
-  gap: clamp(0.8rem, 3vw, 2.5rem);
+@keyframes mastheadIn {
+  from { opacity: 0; transform: translateY(34px); }
+  to { opacity: 1; transform: none; }
 }
-.masthead-title .of {
-  font-family: var(--font-accent);
-  font-style: italic;
-  font-weight: 500;
-  text-transform: none;
-  font-size: 0.34em;
-  letter-spacing: 0;
-  color: var(--accent);
-  transform: translateY(-0.25em);
-}
+@media (prefers-reduced-motion: reduce) { .masthead-title { animation: none; } }
 .masthead-sub {
   display: flex; justify-content: space-between; align-items: baseline;
   padding: 1.1rem 0 1.4rem;
@@ -213,8 +204,11 @@ h3 { font-size: 1.35rem; }
 @media (prefers-reduced-motion: reduce) { .hero-img { animation: none; transform: none; } }
 .hero::after {
   content: ""; position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(17,17,17,0.78) 0%, rgba(17,17,17,0.25) 45%, rgba(17,17,17,0.12) 100%);
+  background:
+    linear-gradient(to right, rgba(17,17,17,0.6) 0%, rgba(17,17,17,0.25) 45%, rgba(17,17,17,0) 70%),
+    linear-gradient(to top, rgba(17,17,17,0.94) 0%, rgba(17,17,17,0.6) 38%, rgba(17,17,17,0.2) 70%, rgba(17,17,17,0.1) 100%);
 }
+.hero-copy h1, .hero-copy .hero-sub, .hero-copy .label { text-shadow: 0 2px 24px rgba(17,17,17,0.6); }
 .hero-copy { position: relative; z-index: 2; color: var(--bg); padding: 0 0 5.5rem; }
 .hero-copy .label { color: var(--accent); }
 .hero-copy h1 {
@@ -223,7 +217,7 @@ h3 { font-size: 1.35rem; }
   max-width: 14em;
   margin: 1.2rem 0 1.4rem;
 }
-.hero-sub { max-width: 34rem; font-size: 1.02rem; color: var(--band-soft); margin-bottom: 2.4rem; }
+.hero-sub { max-width: 34rem; font-size: 1.05rem; color: rgba(247, 242, 234, 0.92); margin-bottom: 2.4rem; }
 .hero-ctas { display: flex; gap: 1.6rem; align-items: center; flex-wrap: wrap; }
 .hero-ctas .btn { background: var(--bg); color: var(--ink); border-color: var(--bg); }
 .hero-ctas .btn:hover { background: transparent; color: var(--bg); }
@@ -242,27 +236,81 @@ h3 { font-size: 1.35rem; }
 .memory-rule { width: 72px; margin: 0 0 1.6rem; }
 .frame { background: var(--ink); padding: clamp(10px, 1.4vw, 18px); box-shadow: 0 40px 80px -42px rgba(17,17,17,0.55); }
 .frame .mat { background: var(--surface); padding: clamp(8px, 1.1vw, 14px); }
-.frame img { width: 100%; height: 100%; object-fit: cover; }
+.frame .crop { overflow: hidden; }
+.frame img {
+  width: 100%; height: 100%; object-fit: cover;
+  transform: scale(var(--zoom, 1));
+  transform-origin: var(--focus, 50% 45%);
+  transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.piece:hover .frame img { transform: scale(calc(var(--zoom, 1) * 1.04)); }
+@media (prefers-reduced-motion: reduce) { .piece:hover .frame img { transform: scale(var(--zoom, 1)); } }
 @media (max-width: 860px) {
   .memory-grid { grid-template-columns: 1fr; }
 }
 
-/* ---------- transformation (full-bleed video) ---------- */
-.transform-section { position: relative; height: 320vh; background: var(--band); }
-.transform-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; }
-.transform-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.transform-sticky::after {
-  content: ""; position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(17,17,17,0.66), rgba(17,17,17,0.08) 55%, rgba(17,17,17,0.3));
+/* ---------- transformation (shatter scroll) ---------- */
+.shatter-section { position: relative; height: 340vh; background: var(--surface); }
+.shatter-sticky {
+  position: sticky; top: 0;
+  height: 100vh; height: 100dvh;
+  overflow: hidden;
+  display: grid; place-items: center;
 }
-.transform-caps { position: absolute; left: 0; right: 0; bottom: 9vh; z-index: 3; text-align: center; color: var(--band-ink); }
-.transform-caps .cap { position: absolute; left: 0; right: 0; bottom: 0; opacity: 0; transition: opacity 0.7s ease; padding: 0 6vw; }
-.transform-caps .cap h3 { font-size: clamp(1.6rem, 3.4vw, 2.8rem); font-weight: 500; margin-top: 0.9rem; }
-.transform-static { display: none; position: relative; z-index: 3; text-align: center; color: var(--band-ink); padding: 38vh 6vw 0; }
-.transform-static h3 { font-size: clamp(1.6rem, 3.4vw, 2.8rem); font-weight: 500; margin-top: 0.9rem; }
-.transform-section.is-static { height: 100vh; }
-.transform-section.is-static .transform-caps { display: none; }
-.transform-section.is-static .transform-static { display: block; }
+.bottle-box {
+  position: absolute;
+  width: min(280px, 52vw);
+  aspect-ratio: 300 / 680;
+  max-height: 66vh;
+}
+.bottle-box .shard {
+  position: absolute; inset: 0;
+  background: linear-gradient(158deg, rgba(221, 231, 229, 0.85), rgba(184, 155, 94, 0.18));
+  will-change: transform, opacity;
+}
+.shatter-keepsake {
+  position: absolute;
+  width: min(340px, 64vw);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.shatter-captions {
+  position: absolute;
+  bottom: clamp(36px, 7vh, 72px);
+  left: 0; right: 0;
+  text-align: center;
+  pointer-events: none;
+}
+.shatter-captions .cap {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  display: flex; flex-direction: column; gap: 10px; align-items: center;
+  opacity: 0; transition: opacity 0.4s ease;
+}
+.shatter-captions .cap h3 { font-size: clamp(1.5rem, 2.6vw, 2.2rem); letter-spacing: -0.01em; }
+.static-caption { display: none; }
+.shatter-section.is-static { height: auto; }
+.shatter-section.is-static .shatter-sticky {
+  position: static; height: auto; overflow: visible;
+  padding: clamp(72px, 11vh, 140px) 0;
+}
+.shatter-section.is-static .shatter-stage {
+  display: grid; grid-template-columns: auto auto;
+  gap: clamp(48px, 8vw, 120px); place-items: center;
+  width: min(1180px, 100% - 48px); margin-inline: auto;
+}
+.shatter-stage { position: relative; display: grid; place-items: center; width: 100%; height: 100%; }
+.shatter-section.is-static .bottle-box { position: relative; max-height: none; width: min(220px, 38vw); }
+.shatter-section.is-static .shatter-keepsake { position: relative; opacity: 1; width: min(320px, 40vw); }
+.shatter-section.is-static .shatter-captions { display: none; }
+.shatter-section.is-static .shard { transform: none !important; opacity: 1 !important; }
+.shatter-section.is-static .static-caption {
+  display: flex; flex-direction: column; gap: 12px; align-items: center;
+  text-align: center; grid-column: 1 / -1; padding-top: 12px;
+}
+.static-caption h3 { font-size: clamp(1.5rem, 2.6vw, 2.2rem); }
+@media (max-width: 700px) {
+  .shatter-section.is-static .shatter-stage { grid-template-columns: 1fr; }
+}
 
 /* ---------- stat band ---------- */
 .stats { background: var(--bg); }
@@ -288,8 +336,9 @@ h3 { font-size: 1.35rem; }
   font-size: 1.12rem; color: var(--ink-soft);
 }
 @media (max-width: 760px) {
-  .stats-grid { grid-template-columns: 1fr; }
-  .stat + .stat::before { left: 24%; right: 24%; top: 0; bottom: auto; width: auto; height: 1px; }
+  .stat { padding: 2.1rem 0.4rem 1.9rem; }
+  .stat-num { font-size: clamp(1.6rem, 7.4vw, 3rem); }
+  .stat-label { font-size: 0.8rem; }
 }
 
 /* ---------- gallery ---------- */
@@ -389,35 +438,55 @@ h3 { font-size: 1.35rem; }
 .final-reassure p::before { content: "—"; color: var(--accent); margin-right: 0.6rem; }
 @media (max-width: 860px) { .final-grid { grid-template-columns: 1fr; } }
 
-.intake { background: var(--bg); color: var(--ink); padding: clamp(1.8rem, 3.4vw, 3rem); }
-.intake-progress { display: flex; gap: 6px; margin-bottom: 0.9rem; }
-.intake-progress span { flex: 1; height: 2px; background: var(--line); }
+.intake {
+  background: var(--bg); color: var(--ink);
+  padding: clamp(2rem, 3.6vw, 3.2rem);
+  border-top: 2px solid var(--accent);
+  box-shadow: 0 36px 80px -36px rgba(0,0,0,0.55);
+}
+.intake-progress { display: flex; gap: 6px; margin-bottom: 1rem; }
+.intake-progress span { flex: 1; height: 3px; background: rgba(184, 155, 94, 0.22); }
 .intake-progress span.done { background: var(--accent); }
-.intake-step-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.6rem; }
+.intake-step-label { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.8rem; }
 .intake-step { display: none; }
 .intake-step.active { display: block; }
-.intake-step h3 { font-weight: 600; font-size: 1.45rem; margin-bottom: 1.6rem; }
+.intake-step h3 { font-weight: 600; font-size: 1.5rem; margin-bottom: 1.8rem; }
 .chip-row { display: flex; flex-wrap: wrap; gap: 0.7rem; }
 .chip {
-  font-family: var(--font-body); font-size: 0.86rem; font-weight: 500;
-  padding: 0.85rem 1.4rem; background: var(--surface); border: 1px solid var(--line);
-  cursor: pointer; transition: border-color 0.25s ease, background 0.25s ease;
+  -webkit-appearance: none; appearance: none; border-radius: 0;
+  font-family: var(--font-body); font-size: 0.88rem; font-weight: 500;
+  color: var(--ink);
+  padding: 0.85rem 1.5rem; background: var(--surface); border: 1px solid rgba(17,17,17,0.18);
+  cursor: pointer; transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
 }
 .chip:hover { border-color: var(--accent); }
-.chip.selected { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-.field { margin-top: 1.6rem; }
+.chip.selected { background: var(--ink); color: var(--bg); border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--accent); }
+.field { margin-top: 1.8rem; }
 .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
-.field label { display: block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 0.55rem; }
+.field-grid .field { margin-top: 1.8rem; }
+.field label { display: block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 0.6rem; }
 .field input, .field textarea {
+  -webkit-appearance: none; appearance: none; border-radius: 0;
   width: 100%; font-family: var(--font-body); font-size: 1rem;
   padding: 0.95rem 1.1rem; background: var(--surface);
-  border: 1px solid var(--line); color: var(--ink); resize: vertical;
+  border: 1px solid rgba(17,17,17,0.18); color: var(--ink); resize: vertical;
 }
-.field input:focus, .field textarea:focus { outline: none; border-color: var(--accent); }
-.intake-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 2.2rem; }
-.intake-back { background: none; border: none; font-family: var(--font-body); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); cursor: pointer; }
+.field input::placeholder, .field textarea::placeholder { color: rgba(110, 98, 87, 0.55); }
+.field input:focus, .field textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.intake-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 2.4rem; }
+.intake-back {
+  -webkit-appearance: none; appearance: none; border-radius: 0;
+  background: none; border: none; font-family: var(--font-body); font-size: 0.76rem; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); cursor: pointer;
+}
 .intake-back:hover { color: var(--ink); }
-.btn-card { border: 1px solid var(--ink); background: var(--ink); color: var(--bg); font-family: var(--font-body); font-size: 0.74rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; padding: 1rem 2.1rem; cursor: pointer; transition: background 0.3s ease, color 0.3s ease; }
+.btn-card {
+  -webkit-appearance: none; appearance: none; border-radius: 0;
+  border: 1px solid var(--ink); background: var(--ink); color: var(--bg);
+  font-family: var(--font-body); font-size: 0.74rem; font-weight: 600; letter-spacing: 0.22em;
+  text-transform: uppercase; padding: 1rem 2.2rem; cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
 .btn-card:hover { background: transparent; color: var(--ink); }
 .intake-note { margin-top: 1.4rem; font-size: 0.8rem; color: var(--ink-soft); }
 .hp { position: absolute; left: -5000px; opacity: 0; }
@@ -451,7 +520,7 @@ h3 { font-size: 1.35rem; }
   <!-- Masthead -->
   <section class="masthead">
     <div class="wrap">
-      <h1 class="masthead-title"><span class="line1">Memorable</span><span class="line2"><span class="of">of the moment</span>Bottles</span></h1>
+      <h1 class="masthead-title">Memorable Bottles</h1>
       <div class="masthead-sub">
         <p>Custom framed bottle keepsakes</p>
         <p>Handmade in Tampa Bay</p>
@@ -483,10 +552,14 @@ h3 { font-size: 1.35rem; }
         <p class="lede">It is the toast, the table, the people, the date, and the night you still talk about. You saved it for a reason. Let it become something you can see every day.</p>
       </div>
       <div class="memory-art" data-reveal>
+        <div class="frame-wrap" data-parallax="0.06">
         <div class="frame">
           <div class="mat">
-            <img src="assets/v3/detail-goldleaf.jpg" alt="Champagne bottle fragments with gold leaf, preserved in a black frame" style="aspect-ratio: 4 / 5;">
+            <div class="crop" style="aspect-ratio: 4 / 5;">
+              <img src="assets/v3/detail-goldleaf.jpg" alt="Champagne bottle fragments with gold leaf, preserved in a black frame" style="--zoom: 2.0; --focus: 42% 78%;">
+            </div>
           </div>
+        </div>
         </div>
       </div>
     </div>
@@ -495,17 +568,28 @@ h3 { font-size: 1.35rem; }
   <span class="thread" data-thread></span><span class="thread-dot"></span>
 
   <!-- The Transformation -->
-  <section class="transform-section" id="transformation">
-    <div class="transform-sticky">
-      <video class="transform-video" src="assets/v3/transformation.mp4" poster="assets/v3/transformation-poster.jpg" muted loop playsinline preload="metadata"></video>
-      <div class="transform-caps" aria-hidden="true">
-        <div class="cap"><p class="label">The Transformation</p><h3>It starts whole.</h3></div>
-        <div class="cap"><p class="label">The Transformation</p><h3>Every fragment, placed with intention.</h3></div>
-        <div class="cap"><p class="label">The Transformation</p><h3>And kept, forever, behind glass.</h3></div>
-      </div>
-      <div class="transform-static">
-        <p class="label">The Transformation</p>
-        <h3>From the bottle you saved to the piece you keep.</h3>
+  <section class="shatter-section" id="transformation">
+    <div class="shatter-sticky">
+      <div class="shatter-stage">
+        <div class="bottle-box" aria-hidden="true"></div>
+        <div class="shatter-keepsake">
+          <div class="frame">
+            <div class="mat">
+              <div class="crop" style="aspect-ratio: 4 / 5;">
+                <img src="assets/v3/piece-veuve-black.jpg" alt="The finished keepsake, a Veuve Clicquot preserved in a black frame" loading="lazy" style="--zoom: 2.1; --focus: 50% 42%;">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="shatter-captions" aria-hidden="true">
+          <div class="cap"><p class="label">The Transformation</p><h3>It starts whole.</h3></div>
+          <div class="cap"><p class="label">The Transformation</p><h3>Every fragment, placed with intention.</h3></div>
+          <div class="cap"><p class="label">The Transformation</p><h3>And kept, forever, behind glass.</h3></div>
+        </div>
+        <div class="static-caption">
+          <p class="label">The Transformation</p>
+          <h3>From the bottle you saved to the piece you keep.</h3>
+        </div>
       </div>
     </div>
   </section>
@@ -542,27 +626,27 @@ h3 { font-size: 1.35rem; }
       </div>
       <div class="gallery-grid">
         <figure class="piece" data-reveal>
-          <div class="frame"><div class="mat"><img src="assets/v3/piece-veuve-black.jpg" alt="Veuve Clicquot champagne preserved in a black frame" loading="lazy"></div></div>
+          <div class="frame-wrap" data-parallax="-0.04"><div class="frame"><div class="mat"><div class="crop" style="aspect-ratio: 4 / 3;"><img src="assets/v3/piece-veuve-black.jpg" alt="Veuve Clicquot champagne preserved in a black frame" loading="lazy" style="--zoom: 2.1; --focus: 50% 42%;"></div></div></div></div>
           <figcaption class="piece-caption"><span class="label">No. 01</span><p>Wedding champagne, preserved for the couple.</p></figcaption>
         </figure>
         <figure class="piece" data-reveal>
-          <div class="frame"><div class="mat"><img src="assets/v3/piece-cobalt.jpg" alt="Cobalt blue bottle preserved mid-shatter in a black frame" loading="lazy"></div></div>
+          <div class="frame-wrap" data-parallax="0.06"><div class="frame"><div class="mat"><div class="crop" style="aspect-ratio: 3 / 4;"><img src="assets/v3/piece-cobalt.jpg" alt="Cobalt blue bottle preserved mid-shatter in a black frame" loading="lazy" style="--zoom: 1.9; --focus: 50% 45%;"></div></div></div></div>
           <figcaption class="piece-caption"><span class="label">No. 02</span><p>Proposal wine, kept from the night of the yes.</p></figcaption>
         </figure>
         <figure class="piece" data-reveal>
-          <div class="frame"><div class="mat"><img src="assets/v3/piece-rose-white.jpg" alt="Veuve Clicquot rosé preserved with green glass and rose leaf in a white frame" loading="lazy"></div></div>
+          <div class="frame-wrap" data-parallax="0.05"><div class="frame"><div class="mat"><div class="crop" style="aspect-ratio: 3 / 4;"><img src="assets/v3/piece-rose-white.jpg" alt="Veuve Clicquot rosé preserved with green glass and rose leaf in a white frame" loading="lazy" style="--zoom: 1.8; --focus: 50% 50%;"></div></div></div></div>
           <figcaption class="piece-caption"><span class="label">No. 03</span><p>Anniversary rosé, turned into a forever piece.</p></figcaption>
         </figure>
         <figure class="piece" data-reveal>
-          <div class="frame"><div class="mat"><img src="assets/v3/piece-vintage-red.jpg" alt="Vintage red wine bottle preserved in an oak frame" loading="lazy"></div></div>
+          <div class="frame-wrap" data-parallax="-0.04"><div class="frame"><div class="mat"><div class="crop" style="aspect-ratio: 16 / 10;"><img src="assets/v3/piece-vintage-red.jpg" alt="Vintage red wine bottle preserved in an oak frame" loading="lazy" style="--zoom: 2.0; --focus: 45% 50%;"></div></div></div></div>
           <figcaption class="piece-caption"><span class="label">No. 04</span><p>Closing gift, framed for a first home.</p></figcaption>
         </figure>
         <figure class="piece" data-reveal>
-          <div class="frame"><div class="mat"><img src="assets/v3/piece-ceramic-blue.jpg" alt="Blue and white ceramic bottle preserved in a black frame" loading="lazy"></div></div>
+          <div class="frame-wrap" data-parallax="0.05"><div class="frame"><div class="mat"><div class="crop" style="aspect-ratio: 4 / 3;"><img src="assets/v3/piece-ceramic-blue.jpg" alt="Blue and white ceramic bottle preserved in a black frame" loading="lazy" style="--zoom: 1.9; --focus: 50% 48%;"></div></div></div></div>
           <figcaption class="piece-caption"><span class="label">No. 05</span><p>Client gift, personal, not promotional.</p></figcaption>
         </figure>
         <figure class="piece" data-reveal>
-          <div class="frame"><div class="mat"><img src="assets/v3/piece-borrasca.jpg" alt="Borrasca prosecco preserved with gold leaf in a white frame" loading="lazy"></div></div>
+          <div class="frame-wrap" data-parallax="-0.03"><div class="frame"><div class="mat"><div class="crop" style="aspect-ratio: 4 / 3;"><img src="assets/v3/piece-borrasca.jpg" alt="Borrasca prosecco preserved with gold leaf in a white frame" loading="lazy" style="--zoom: 2.0; --focus: 50% 52%;"></div></div></div></div>
           <figcaption class="piece-caption"><span class="label">No. 06</span><p>Celebration prosecco, with the cork that flew.</p></figcaption>
         </figure>
       </div>
@@ -829,45 +913,176 @@ h3 { font-size: 1.35rem; }
   }, { threshold: 0.4 });
   document.querySelectorAll('.stats-grid').forEach(function (el) { statIo.observe(el); });
 
-  /* ---------- transformation video scroll ---------- */
-  var section = document.querySelector('.transform-section');
-  var video = section.querySelector('.transform-video');
-  var caps = section.querySelectorAll('.transform-caps .cap');
+  /* ---------- shatter scroll (procedural bottle silhouette) ---------- */
+  var clamp = function (v, a, b) { return Math.max(a, Math.min(b, v)); };
+  function smooth(t) { return t * t * (3 - 2 * t); }
+
+  // Bottle geometry box: 300 x 680. Half-width as a function of y.
+  var W = 300, H = 680, CX = 150, BOTTOM = 660;
+  function hw(y) {
+    if (y <= 14) return 34;
+    if (y <= 34) return 34 - 11 * smooth((y - 14) / 20);
+    if (y <= 160) return 23;
+    if (y <= 310) return 23 + 74 * smooth((y - 160) / 150);
+    return 97;
+  }
+  function rand(seed) {
+    var x = Math.sin(seed * 127.1 + 311.7) * 43758.5453;
+    return x - Math.floor(x);
+  }
+  function fractureRow(yBase, seed) {
+    var pts = [], n = 4;
+    for (var i = 0; i <= n; i++) {
+      var t = i / n;
+      var y = yBase + (rand(seed + i) - 0.5) * 34;
+      if (i === 0 || i === n) y = yBase + (rand(seed + i) - 0.5) * 12;
+      pts.push({ t: t, y: y });
+    }
+    return pts;
+  }
+  function xAt(t, y) { var half = hw(y); return CX - half + t * 2 * half; }
+  function rowPoints(row) { return row.map(function (p) { return { x: xAt(p.t, p.y), y: p.y }; }); }
+  function edge(side, y1, y2) {
+    var pts = [], steps = 6;
+    for (var i = 1; i < steps; i++) {
+      var y = y1 + (y2 - y1) * (i / steps);
+      pts.push({ x: CX + side * hw(y), y: y });
+    }
+    return pts;
+  }
+  function buildShardPolys() {
+    var rows = [fractureRow(78, 1), fractureRow(150, 7), fractureRow(245, 13), fractureRow(350, 21), fractureRow(460, 29), fractureRow(562, 37)];
+    var bands = [], prev = [{ t: 0, y: 0 }, { t: 1, y: 0 }];
+    for (var i = 0; i < rows.length; i++) { bands.push([prev, rows[i]]); prev = rows[i]; }
+    bands.push([prev, [{ t: 0, y: BOTTOM }, { t: 0.5, y: BOTTOM }, { t: 1, y: BOTTOM }]]);
+    var polys = [];
+    bands.forEach(function (band, bi) {
+      var top = rowPoints(band[0]), bot = rowPoints(band[1]);
+      var yTopL = top[0].y, yTopR = top[top.length - 1].y;
+      var yBotL = bot[0].y, yBotR = bot[bot.length - 1].y;
+      if (bi < 4) {
+        polys.push([].concat(top).concat(edge(1, yTopR, yBotR)).concat(bot.slice().reverse()).concat(edge(-1, yBotL, yTopL).reverse()));
+      } else {
+        var crackTopX = CX + (rand(bi * 51) - 0.5) * 60;
+        var crackBotX = CX + (rand(bi * 73) - 0.5) * 60;
+        var midY = (yTopL + yBotL) / 2;
+        var crackMid = { x: (crackTopX + crackBotX) / 2 + (rand(bi * 91) - 0.5) * 40, y: midY };
+        var topMidIdx = Math.floor(top.length / 2), botMidIdx = Math.floor(bot.length / 2);
+        var topSplit = { x: crackTopX, y: top[topMidIdx].y };
+        var botSplit = { x: crackBotX, y: bot[botMidIdx].y };
+        polys.push([].concat(top.slice(0, topMidIdx)).concat([topSplit]).concat([crackMid, botSplit]).concat(bot.slice(0, botMidIdx).reverse()).concat(edge(-1, yBotL, yTopL).reverse()));
+        polys.push([topSplit].concat(top.slice(topMidIdx + 1)).concat(edge(1, yTopR, yBotR)).concat(bot.slice(botMidIdx + 1).reverse()).concat([botSplit, crackMid]));
+      }
+    });
+    return polys;
+  }
+  function polyToClip(poly) {
+    return 'polygon(' + poly.map(function (p) {
+      return (p.x / W * 100).toFixed(2) + '% ' + (p.y / H * 100).toFixed(2) + '%';
+    }).join(', ') + ')';
+  }
+  function centroid(poly) {
+    var x = 0, y = 0;
+    poly.forEach(function (p) { x += p.x; y += p.y; });
+    return { x: x / poly.length, y: y / poly.length };
+  }
+
+  var section = document.querySelector('.shatter-section');
+  var bottleBox = section.querySelector('.bottle-box');
+  var keepsake = section.querySelector('.shatter-keepsake');
+  var caps = section.querySelectorAll('.shatter-captions .cap');
+  var shards = [];
+
+  buildShardPolys().forEach(function (poly, i) {
+    var el = document.createElement('div');
+    el.className = 'shard';
+    el.style.clipPath = polyToClip(poly);
+    var c = centroid(poly);
+    var dirX = (c.x - CX) / 97;
+    var dirY = (c.y - H * 0.45) / (H * 0.5);
+    var mag = 70 + rand(i * 17 + 3) * 90;
+    el.style.opacity = String(0.78 + rand(i * 5 + 1) * 0.22);
+    shards.push({
+      el: el,
+      dx: dirX * mag + (rand(i * 11) - 0.5) * 70,
+      dy: dirY * mag * 0.6 - 24 + (rand(i * 23) - 0.5) * 50,
+      rot: (rand(i * 31) - 0.5) * 18,
+      dz: 0.96 + rand(i * 41) * 0.1
+    });
+    bottleBox.appendChild(el);
+  });
+
   var ticking = false;
+  function phase(p, a, b) { return smooth(clamp((p - a) / (b - a), 0, 1)); }
+
+  function renderShatter() {
+    ticking = false;
+    if (section.classList.contains('is-static')) return;
+    var r = section.getBoundingClientRect();
+    var total = r.height - window.innerHeight;
+    var p = clamp(-r.top / total, 0, 1);
+
+    var enter = phase(p, 0, 0.12);
+    bottleBox.style.opacity = String(enter);
+    var drift = phase(p, 0.16, 0.6);
+    var fadeOut = phase(p, 0.55, 0.78);
+
+    shards.forEach(function (s) {
+      var tx = s.dx * drift;
+      var ty = (40 * (1 - enter)) + s.dy * drift;
+      var rot = s.rot * drift;
+      var sc = 1 + (s.dz - 1) * drift;
+      s.el.style.transform = 'translate(' + tx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px) rotate(' + rot.toFixed(2) + 'deg) scale(' + sc.toFixed(3) + ')';
+      s.el.style.opacity = String((1 - fadeOut));
+    });
+
+    var reveal = phase(p, 0.5, 0.82);
+    keepsake.style.opacity = String(reveal);
+    keepsake.style.transform = 'translateY(' + ((1 - reveal) * 28).toFixed(1) + 'px) scale(' + (0.94 + reveal * 0.06).toFixed(3) + ')';
+
+    var active = p < 0.3 ? 0 : (p < 0.62 ? 1 : 2);
+    caps.forEach(function (cap, i) { cap.style.opacity = i === active ? '1' : '0'; });
+  }
 
   function applyMotionMode() {
     if (reduced.matches) {
       section.classList.add('is-static');
-      video.pause();
+      shards.forEach(function (s) { s.el.style.transform = ''; s.el.style.opacity = ''; });
+      bottleBox.style.opacity = '';
+      keepsake.style.opacity = '';
+      keepsake.style.transform = '';
     } else {
       section.classList.remove('is-static');
+      renderShatter();
     }
   }
   reduced.addEventListener('change', applyMotionMode);
   applyMotionMode();
 
-  var vidIo = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (reduced.matches) return;
-      if (e.isIntersecting) { video.play().catch(function () {}); }
-      else { video.pause(); }
+  /* ---------- parallax ---------- */
+  var pEls = Array.prototype.slice.call(document.querySelectorAll('[data-parallax]'));
+  function renderParallax() {
+    if (reduced.matches) { pEls.forEach(function (el) { el.style.transform = ''; }); return; }
+    var vh = window.innerHeight;
+    pEls.forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (r.bottom < -100 || r.top > vh + 100) return;
+      var speed = parseFloat(el.dataset.parallax) || 0;
+      var offset = clamp((r.top + r.height / 2 - vh / 2) * speed, -64, 64);
+      el.style.transform = 'translate3d(0,' + offset.toFixed(1) + 'px,0)';
     });
-  }, { threshold: 0.1 });
-  vidIo.observe(section);
-
-  function renderCaps() {
-    ticking = false;
-    if (section.classList.contains('is-static')) return;
-    var r = section.getBoundingClientRect();
-    var total = r.height - window.innerHeight;
-    var p = Math.max(0, Math.min(1, -r.top / total));
-    var active = p < 0.33 ? 0 : (p < 0.66 ? 1 : 2);
-    caps.forEach(function (cap, i) { cap.style.opacity = i === active ? '1' : '0'; });
   }
-  window.addEventListener('scroll', function () {
-    if (!ticking) { ticking = true; requestAnimationFrame(renderCaps); }
-  }, { passive: true });
-  renderCaps();
+
+  function onScroll() {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(function () { renderShatter(); renderParallax(); });
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  renderShatter();
+  renderParallax();
 
   /* ---------- quotes ---------- */
   var quotes = document.querySelectorAll('.quote');
