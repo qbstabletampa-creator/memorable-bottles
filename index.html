@@ -234,17 +234,15 @@ h3 { font-size: 1.35rem; }
 .memory-copy h2 { margin: 1rem 0 1.6rem; }
 .memory-copy .lede { font-size: 1.12rem; color: var(--ink-soft); max-width: 30rem; }
 .memory-rule { width: 72px; margin: 0 0 1.6rem; }
-.frame { background: var(--ink); padding: clamp(10px, 1.4vw, 18px); box-shadow: 0 40px 80px -42px rgba(17,17,17,0.55); }
-.frame .mat { background: var(--surface); padding: clamp(8px, 1.1vw, 14px); }
-.frame .crop { overflow: hidden; }
-.frame img {
+.art { overflow: hidden; box-shadow: 0 44px 88px -44px rgba(17,17,17,0.6); }
+.art img {
   width: 100%; height: 100%; object-fit: cover;
   transform: scale(var(--zoom, 1));
-  transform-origin: var(--focus, 50% 45%);
+  transform-origin: var(--focus, 50% 50%);
   transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.piece:hover .frame img { transform: scale(calc(var(--zoom, 1) * 1.04)); }
-@media (prefers-reduced-motion: reduce) { .piece:hover .frame img { transform: scale(var(--zoom, 1)); } }
+.piece:hover .art img { transform: scale(calc(var(--zoom, 1) * 1.045)); }
+@media (prefers-reduced-motion: reduce) { .piece:hover .art img { transform: scale(var(--zoom, 1)); } }
 @media (max-width: 860px) {
   .memory-grid { grid-template-columns: 1fr; }
 }
@@ -350,9 +348,9 @@ h3 { font-size: 1.35rem; }
 }
 .piece { margin: 0; }
 .piece:nth-child(even) { transform: translateY(clamp(1.5rem, 4vw, 4rem)); }
-.piece .frame { transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.6s ease; }
-.piece:hover .frame { transform: translateY(-8px); box-shadow: 0 56px 96px -44px rgba(17,17,17,0.6); }
-@media (prefers-reduced-motion: reduce) { .piece:hover .frame { transform: none; } }
+.piece .art { transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.6s ease; }
+.piece:hover .art { transform: translateY(-8px); box-shadow: 0 56px 96px -44px rgba(17,17,17,0.6); }
+@media (prefers-reduced-motion: reduce) { .piece:hover .art { transform: none; } }
 .piece-caption { margin-top: 1.3rem; }
 .piece-caption .label { display: block; margin-bottom: 0.3rem; }
 .piece-caption p { font-family: var(--font-accent); font-style: italic; font-size: 1.15rem; color: var(--ink-soft); }
@@ -385,6 +383,19 @@ h3 { font-size: 1.35rem; }
 .bubble.b3 { left: 64%; width: 6px; height: 6px; animation-duration: 15s; animation-delay: 8s; }
 .bubble.b4 { left: 84%; width: 4px; height: 4px; animation-duration: 19s; animation-delay: 2s; }
 @media (prefers-reduced-motion: reduce) { .manifesto.in .bubble { animation: none; } }
+
+/* ---------- studio + bride's list ---------- */
+.studio-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(2.5rem, 6vw, 6.5rem); align-items: center; }
+.studio-copy h2 { margin: 1rem 0 1.6rem; }
+.studio-copy > p:not(.label) { color: var(--ink-soft); max-width: 28rem; }
+.local-rule { width: 72px; margin: 0 0 1.6rem; }
+.featured-in { margin-top: 2.8rem; padding-top: 1.6rem; border-top: 1px solid var(--line); }
+.featured-name { font-family: var(--font-head); font-size: 1.7rem; font-weight: 600; margin-top: 0.5rem; }
+.studio-art { max-width: 420px; justify-self: end; }
+@media (max-width: 860px) {
+  .studio-grid { grid-template-columns: 1fr; }
+  .studio-art { justify-self: start; max-width: 360px; }
+}
 
 /* ---------- process ---------- */
 .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.6rem; margin-top: 4rem; }
@@ -553,13 +564,9 @@ h3 { font-size: 1.35rem; }
       </div>
       <div class="memory-art" data-reveal>
         <div class="frame-wrap" data-parallax="0.06">
-        <div class="frame">
-          <div class="mat">
-            <div class="crop" style="aspect-ratio: 4 / 5;">
-              <img src="assets/v3/detail-goldleaf.jpg" alt="Champagne bottle fragments with gold leaf, preserved in a black frame" style="--zoom: 2.0; --focus: 42% 78%;">
-            </div>
+          <div class="art" style="aspect-ratio: 4 / 5;">
+            <img src="assets/v3/art-goldleaf.jpg" alt="De Margerie champagne fragments with gold leaf, preserved in resin">
           </div>
-        </div>
         </div>
       </div>
     </div>
@@ -573,12 +580,8 @@ h3 { font-size: 1.35rem; }
       <div class="shatter-stage">
         <div class="bottle-box" aria-hidden="true"></div>
         <div class="shatter-keepsake">
-          <div class="frame">
-            <div class="mat">
-              <div class="crop" style="aspect-ratio: 4 / 5;">
-                <img src="assets/v3/piece-veuve-black.jpg" alt="The finished keepsake, a Veuve Clicquot preserved in a black frame" loading="lazy" style="--zoom: 2.1; --focus: 50% 42%;">
-              </div>
-            </div>
+          <div class="art" style="aspect-ratio: 4 / 5;">
+            <img src="assets/v3/piece-veuve-black.jpg" alt="The finished keepsake, a Veuve Clicquot preserved in resin" loading="lazy" style="--zoom: 2.1; --focus: 50% 42%;">
           </div>
         </div>
         <div class="shatter-captions" aria-hidden="true">
@@ -626,28 +629,24 @@ h3 { font-size: 1.35rem; }
       </div>
       <div class="gallery-grid">
         <figure class="piece" data-reveal>
-          <div class="frame-wrap" data-parallax="-0.04"><div class="frame"><div class="mat"><div class="crop" style="aspect-ratio: 4 / 3;"><img src="assets/v3/piece-veuve-black.jpg" alt="Veuve Clicquot champagne preserved in a black frame" loading="lazy" style="--zoom: 2.1; --focus: 50% 42%;"></div></div></div></div>
+          <div class="frame-wrap" data-parallax="-0.04"><div class="art" style="aspect-ratio: 4 / 5;"><img src="assets/v3/art-rose.jpg" alt="Veuve Clicquot rose champagne preserved with green glass and rose leaf" loading="lazy"></div></div>
           <figcaption class="piece-caption"><span class="label">No. 01</span><p>Wedding champagne, preserved for the couple.</p></figcaption>
         </figure>
         <figure class="piece" data-reveal>
-          <div class="frame-wrap" data-parallax="0.06"><div class="frame"><div class="mat"><div class="crop" style="aspect-ratio: 3 / 4;"><img src="assets/v3/piece-cobalt.jpg" alt="Cobalt blue bottle preserved mid-shatter in a black frame" loading="lazy" style="--zoom: 1.9; --focus: 50% 45%;"></div></div></div></div>
+          <div class="frame-wrap" data-parallax="0.06"><div class="art" style="aspect-ratio: 1 / 1;"><img src="assets/v3/art-chateau.jpg" alt="Chateau Bordeaux preserved mid-shatter" loading="lazy"></div></div>
           <figcaption class="piece-caption"><span class="label">No. 02</span><p>Proposal wine, kept from the night of the yes.</p></figcaption>
         </figure>
         <figure class="piece" data-reveal>
-          <div class="frame-wrap" data-parallax="0.05"><div class="frame"><div class="mat"><div class="crop" style="aspect-ratio: 3 / 4;"><img src="assets/v3/piece-rose-white.jpg" alt="Veuve Clicquot rosé preserved with green glass and rose leaf in a white frame" loading="lazy" style="--zoom: 1.8; --focus: 50% 50%;"></div></div></div></div>
-          <figcaption class="piece-caption"><span class="label">No. 03</span><p>Anniversary rosé, turned into a forever piece.</p></figcaption>
+          <div class="frame-wrap" data-parallax="0.05"><div class="art" style="aspect-ratio: 1 / 1;"><img src="assets/v3/art-vintage-red.jpg" alt="Vintage dry red wine preserved with green glass" loading="lazy"></div></div>
+          <figcaption class="piece-caption"><span class="label">No. 03</span><p>Anniversary wine, turned into a forever piece.</p></figcaption>
         </figure>
         <figure class="piece" data-reveal>
-          <div class="frame-wrap" data-parallax="-0.04"><div class="frame"><div class="mat"><div class="crop" style="aspect-ratio: 16 / 10;"><img src="assets/v3/piece-vintage-red.jpg" alt="Vintage red wine bottle preserved in an oak frame" loading="lazy" style="--zoom: 2.0; --focus: 45% 50%;"></div></div></div></div>
+          <div class="frame-wrap" data-parallax="-0.04"><div class="art" style="aspect-ratio: 4 / 5;"><img src="assets/v3/art-cobalt.jpg" alt="Cobalt blue bottle preserved mid-shatter" loading="lazy"></div></div>
           <figcaption class="piece-caption"><span class="label">No. 04</span><p>Closing gift, framed for a first home.</p></figcaption>
         </figure>
         <figure class="piece" data-reveal>
-          <div class="frame-wrap" data-parallax="0.05"><div class="frame"><div class="mat"><div class="crop" style="aspect-ratio: 4 / 3;"><img src="assets/v3/piece-ceramic-blue.jpg" alt="Blue and white ceramic bottle preserved in a black frame" loading="lazy" style="--zoom: 1.9; --focus: 50% 48%;"></div></div></div></div>
+          <div class="frame-wrap" data-parallax="0.05"><div class="art" style="aspect-ratio: 1 / 1;"><img src="assets/v3/art-ceramic.jpg" alt="Blue and white ceramic bottle preserved in resin" loading="lazy"></div></div>
           <figcaption class="piece-caption"><span class="label">No. 05</span><p>Client gift, personal, not promotional.</p></figcaption>
-        </figure>
-        <figure class="piece" data-reveal>
-          <div class="frame-wrap" data-parallax="-0.03"><div class="frame"><div class="mat"><div class="crop" style="aspect-ratio: 4 / 3;"><img src="assets/v3/piece-borrasca.jpg" alt="Borrasca prosecco preserved with gold leaf in a white frame" loading="lazy" style="--zoom: 2.0; --focus: 50% 52%;"></div></div></div></div>
-          <figcaption class="piece-caption"><span class="label">No. 06</span><p>Celebration prosecco, with the cork that flew.</p></figcaption>
         </figure>
       </div>
     </div>
@@ -758,13 +757,26 @@ h3 { font-size: 1.35rem; }
     </div>
   </section>
 
-  <!-- Local trust -->
+  <!-- Local trust + Bride's List -->
   <section class="section">
-    <div class="wrap local" data-reveal>
-      <p class="label">The Studio</p>
-      <h2>Handmade in Tampa Bay.</h2>
-      <hr class="hairline local-rule">
-      <p>Every piece is cut, composed, and framed by hand in our studio. One bottle, one story, one of one. Ships nationwide.</p>
+    <div class="wrap studio-grid">
+      <div class="studio-copy" data-reveal>
+        <p class="label">The Studio</p>
+        <h2>Handmade in Tampa Bay.</h2>
+        <hr class="hairline local-rule">
+        <p>Every piece is cut, composed, and framed by hand in our studio. One bottle, one story, one of one. Ships nationwide.</p>
+        <div class="featured-in">
+          <p class="label">As Seen On</p>
+          <p class="featured-name">The Bride's List</p>
+        </div>
+      </div>
+      <div class="studio-art" data-reveal>
+        <div class="frame-wrap" data-parallax="0.05">
+          <div class="art" style="aspect-ratio: 4 / 5;">
+            <img src="assets/v3/brideslist.jpg" alt="Kirklyn holding a finished piece, featured on The Bride's List" loading="lazy" style="--focus: 50% 30%;">
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
