@@ -444,15 +444,15 @@ h3 { font-size: 1.35rem; }
 .compare-table .cell.head.hl .label { color: var(--accent); }
 @media (max-width: 700px) {
   .compare-scroll { overflow: visible; }
-  .compare-table { display: grid; grid-template-columns: 0.95fr 1fr 1.15fr; min-width: 0; }
+  .compare-table { display: grid; grid-template-columns: minmax(106px, 0.92fr) 1fr 1.12fr; min-width: 0; }
   .compare-table .cell[data-col="In a shadow box"],
   .compare-table .cell.head:nth-child(3) { display: none; }
   .compare-table .cell { padding: 1rem 0.3rem; border-bottom: 1px solid var(--line); }
   .compare-table .cell p { text-wrap: balance; }
   .compare-table .row-label { padding-left: 0; }
-  .compare-table .cell.head { padding: 0.6rem 0.4rem 0.7rem 0; border-bottom-color: var(--ink); }
+  .compare-table .cell.head { padding: 0.6rem 0.3rem 0.7rem; border-bottom-color: var(--ink); }
   .compare-table .cell.head .label { font-size: 0.56rem; letter-spacing: 0.14em; }
-  .compare-table .row-label { font-size: 1rem; }
+  .compare-table .row-label { font-size: 0.95rem; white-space: nowrap; }
   .compare-table .cell p { font-size: 0.85rem; line-height: 1.45; }
   .compare-table .hl { background: var(--bg); padding-left: 0.3rem; padding-right: 0.3rem; }
   .compare-table .cell.head.hl { border-top: 2px solid var(--accent); }
@@ -842,25 +842,27 @@ h3 { font-size: 1.35rem; }
 .pour-line { display: flex; flex-direction: column; align-items: center; padding: 0.6rem 0 0.2rem; }
 .pl-bottle {
   position: relative;
-  width: 13px; height: 36px;
-  border-radius: 5px 5px 6px 6px;
+  width: 20px; height: 58px;
+  border-radius: 7px 7px 9px 9px;
   background: linear-gradient(165deg, #3A2228 0%, #241318 60%, #140A0D 100%);
-  transform: rotate(128deg) translate(2px, -7px);
-  margin-bottom: 14px;
+  transform: rotate(-125deg);
+  transform-origin: 50% 50%;
+  margin-bottom: 4px;
+  margin-left: 54px;
 }
 .pl-bottle::before {
   content: "";
-  position: absolute; top: -11px; left: 4px;
-  width: 5px; height: 13px;
-  border-radius: 2.5px 2.5px 0 0;
-  background: linear-gradient(165deg, #7E2B33, #45141A);
+  position: absolute; top: -16px; left: 6.5px;
+  width: 7px; height: 19px;
+  border-radius: 3.5px 3.5px 0 0;
+  background: linear-gradient(165deg, #2E191E 55%, #7E2B33 56%, #45141A 100%);
 }
 .pl-bottle::after {
   content: "";
-  position: absolute; top: 14px; left: 1.5px;
-  width: 10px; height: 9px;
+  position: absolute; top: 23px; left: 2.5px;
+  width: 15px; height: 15px;
   background: linear-gradient(170deg, #F2E8D2, #DEC9A2);
-  border-radius: 1px;
+  border-radius: 1.5px;
 }
 .pl-glass {
   position: relative;
@@ -1156,12 +1158,7 @@ h3 { font-size: 1.35rem; }
     </div>
   </section>
 
-  <div class="pour-line" aria-hidden="true">
-    <span class="pl-bottle"></span>
-    <span class="thread" data-thread></span>
-    <span class="pl-glass"><span class="pl-fill" data-fill></span></span>
-    <span class="pl-stem"></span><span class="pl-foot"></span>
-  </div>
+  
 
   <!-- Quotes -->
   <section class="section quotes">
@@ -1218,12 +1215,7 @@ h3 { font-size: 1.35rem; }
     </div>
   </section>
 
-  <div class="pour-line" aria-hidden="true">
-    <span class="pl-bottle"></span>
-    <span class="thread" data-thread></span>
-    <span class="pl-glass"><span class="pl-fill" data-fill></span></span>
-    <span class="pl-stem"></span><span class="pl-foot"></span>
-  </div>
+  
 
   <!-- Final CTA + intake -->
   <section class="final" id="begin">
