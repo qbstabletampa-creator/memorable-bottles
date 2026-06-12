@@ -444,27 +444,32 @@ h3 { font-size: 1.35rem; }
 .compare-table .cell.head.hl .label { color: var(--accent); }
 @media (max-width: 700px) {
   .compare-scroll { overflow: visible; }
-  .compare-table { display: block; min-width: 0; }
+  .compare-table { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; min-width: 0; }
   .compare-table .cell.head { display: none; }
+  .compare-table .cell[data-col="In a shadow box"] { display: none; }
   .compare-table .row-label {
-    padding: 1.5rem 0 0.6rem; border-bottom: none;
+    grid-column: 1 / -1;
+    padding: 1.4rem 0 0.4rem; border-bottom: none;
     font-size: 1.3rem;
   }
-  .compare-table .cell { padding: 0.55rem 0; border-bottom: none; justify-content: space-between; gap: 1rem; }
-  .compare-table .cell[data-col]::before {
-    content: attr(data-col);
-    font-family: var(--font-body); font-size: 0.64rem; font-weight: 600;
-    letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--ink-soft); flex-shrink: 0;
+  .compare-table .cell {
+    flex-direction: column; align-items: flex-start; gap: 0.35rem;
+    padding: 0.85rem 0.9rem; border-bottom: none;
   }
-  .compare-table .cell p { text-align: right; }
+  .compare-table .cell[data-col]::before {
+    font-family: var(--font-body); font-size: 0.6rem; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .compare-table .cell[data-col="On the shelf"] { background: rgba(17,17,17,0.045); }
+  .compare-table .cell[data-col="On the shelf"]::before { content: "Without"; }
   .compare-table .cell.hl {
     background: var(--bg);
     border-left: 2px solid var(--accent);
-    padding-left: 0.8rem; padding-right: 0.5rem;
-    margin-top: 0.25rem;
+    margin-top: 0;
   }
-  .compare-table .cell.hl::before { color: var(--accent); }
+  .compare-table .cell.hl::before { content: "Memorable Bottles"; color: var(--accent); }
+  .compare-table .cell p { text-align: left; font-size: 0.92rem; line-height: 1.45; }
 }
 
 /* ---------- listicle ---------- */
@@ -643,20 +648,33 @@ h3 { font-size: 1.35rem; }
 @keyframes introBottleIn { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .intro .bottle-box { animation: none; } }
 .intro .bottle-box .shard {
-  background: linear-gradient(152deg, rgba(231,239,237,0.95) 0%, rgba(176,199,191,0.8) 30%, rgba(110,140,124,0.85) 58%, rgba(38,58,46,0.95) 100%);
+  background: linear-gradient(152deg, rgba(186,205,196,0.85) 0%, rgba(62,88,70,0.95) 38%, rgba(24,38,29,0.98) 75%, rgba(10,16,12,1) 100%);
 }
 .intro .bottle-box .shard:nth-child(3n) {
-  background: linear-gradient(160deg, rgba(247,242,234,0.9) 0%, rgba(196,210,201,0.8) 40%, rgba(72,98,82,0.92) 100%);
+  background: linear-gradient(160deg, rgba(214,226,221,0.85) 0%, rgba(216,148,118,0.4) 35%, rgba(40,60,47,0.96) 70%, rgba(13,21,16,1) 100%);
 }
 .intro .bottle-box .shard:nth-child(4n) {
-  background: linear-gradient(148deg, rgba(221,231,229,0.95) 0%, rgba(184,155,94,0.45) 45%, rgba(52,74,60,0.95) 100%);
+  background: linear-gradient(148deg, rgba(231,239,237,0.8) 0%, rgba(52,76,61,0.95) 45%, rgba(16,26,20,0.98) 100%);
+}
+/* copper foil over the neck and collar */
+.intro .bottle-box .shard:nth-child(-n+4) {
+  background: linear-gradient(155deg, #F0C9A8 0%, #DD9C72 35%, #C97F56 60%, #8C5239 100%);
 }
 .intro-bottle-label {
   position: absolute; z-index: 2;
-  left: 20%; right: 20%; top: 57%; height: 10.5%;
-  background: linear-gradient(165deg, #E8D9B8 0%, #CDB078 55%, #B89B5E 100%);
-  border: 1px solid rgba(247,242,234,0.5);
+  left: 20%; right: 20%; top: 57%; height: 12%;
+  background: linear-gradient(170deg, #F7DDD3 0%, #F0C5B8 55%, #E3AC9D 100%);
+  border: 1px solid rgba(184,155,94,0.75);
   opacity: 0;
+}
+.intro-bottle-label::after {
+  content: "";
+  position: absolute; left: 50%; top: 50%;
+  width: 26px; height: 26px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 32%, #F2D389, #C99A3F 70%);
+  opacity: 0.92;
 }
 .intro .shatter-captions { z-index: 3; }
 .intro .shatter-captions .cap .label { color: var(--accent); }
