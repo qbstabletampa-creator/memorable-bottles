@@ -616,6 +616,120 @@ h3 { font-size: 1.35rem; }
 .footer-links a { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; text-decoration: none; color: var(--ink-soft); }
 .footer-links a:hover { color: var(--ink); }
 .footer-note { font-size: 0.78rem; color: var(--ink-soft); }
+
+/* ---------- compare polish: checks and crosses ---------- */
+.compare-table .row-label { font-family: var(--font-accent); font-style: italic; font-weight: 500; font-size: 1.3rem; }
+.compare-table .cell[data-col] p::before {
+  content: "\2715";
+  display: inline-block;
+  margin-right: 0.55rem;
+  font-size: 0.72em;
+  color: rgba(110, 98, 87, 0.4);
+}
+.compare-table .cell.head p::before, .compare-table .cell.head.hl p::before { content: none; }
+.compare-table .cell.hl p::before {
+  content: "\2713";
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.85em;
+}
+
+/* ---------- ambient fizz (champagne bubbles) ---------- */
+.stats, .quotes, .final { position: relative; overflow: hidden; }
+.stats .wrap, .quotes-inner, .final .final-grid { position: relative; z-index: 1; }
+.fizz {
+  position: absolute; bottom: -12px; z-index: 0; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(184,155,94,0.8), rgba(184,155,94,0.08));
+  opacity: 0; pointer-events: none;
+}
+@keyframes fizzRise {
+  0% { transform: translateY(0); opacity: 0; }
+  12% { opacity: 0.55; }
+  100% { transform: translateY(-110vh) translateX(2.4vw); opacity: 0; }
+}
+@media (prefers-reduced-motion: no-preference) { .fizz { animation: fizzRise linear infinite; } }
+.fizz.f1 { left: 12%; width: 6px; height: 6px; animation-duration: 14s; animation-delay: 1s; }
+.fizz.f2 { left: 33%; width: 4px; height: 4px; animation-duration: 18s; animation-delay: 7s; }
+.fizz.f3 { left: 57%; width: 5px; height: 5px; animation-duration: 15s; animation-delay: 4s; }
+.fizz.f4 { left: 78%; width: 4px; height: 4px; animation-duration: 19s; animation-delay: 10s; }
+.fizz.f5 { left: 90%; width: 6px; height: 6px; animation-duration: 16s; animation-delay: 2s; }
+.final .fizz { background: radial-gradient(circle at 35% 35%, rgba(232,217,184,0.85), rgba(184,155,94,0.12)); }
+
+/* ---------- cork pop (final section) ---------- */
+.cork-stage { position: absolute; bottom: 3%; left: 2.5%; width: 160px; height: 170px; pointer-events: none; z-index: 0; }
+.cork {
+  position: absolute; bottom: 0; left: 8px;
+  width: 15px; height: 23px;
+  border-radius: 5px 5px 8px 8px;
+  background: linear-gradient(170deg, #E3C595 0%, #C49A66 55%, #97703F 100%);
+  opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cork { animation: corkFly 9s cubic-bezier(0.2, 0.8, 0.6, 1) infinite; }
+  .pop-line { animation: popBurst 9s ease-out infinite; }
+}
+@keyframes corkFly {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+  2% { opacity: 1; }
+  11% { transform: translate(96px, -118px) rotate(170deg); opacity: 1; }
+  17% { transform: translate(128px, -142px) rotate(230deg); opacity: 0; }
+  100% { transform: translate(128px, -142px) rotate(230deg); opacity: 0; }
+}
+.pop-line {
+  position: absolute; bottom: 18px; left: 12px;
+  width: 14px; height: 2px; border-radius: 2px;
+  background: var(--accent);
+  opacity: 0; transform-origin: 0 50%;
+}
+.pop-line.p1 { rotate: -28deg; }
+.pop-line.p2 { rotate: -62deg; }
+.pop-line.p3 { rotate: -95deg; }
+@keyframes popBurst {
+  0% { transform: scaleX(0.2) translateX(0); opacity: 0; }
+  2.5% { opacity: 0.9; }
+  9% { transform: scaleX(1.4) translateX(26px); opacity: 0; }
+  100% { transform: scaleX(1.4) translateX(26px); opacity: 0; }
+}
+
+/* ---------- champagne pour (quotes bg) ---------- */
+.pour { position: absolute; top: 4%; right: 9%; width: 110px; height: 78%; opacity: 0.55; pointer-events: none; z-index: 0; }
+.pour-stream {
+  position: absolute; top: 0; left: 50%; margin-left: -1.5px;
+  width: 3px; height: 52%;
+  background: linear-gradient(to bottom, rgba(184,155,94,0.05), rgba(184,155,94,0.6));
+  transform-origin: top; transform: scaleY(0);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .pour-stream { animation: pourFlow 8s ease-in-out infinite; }
+  .pour-fill { animation: pourFill 8s ease-in-out infinite; }
+}
+@keyframes pourFlow {
+  0%, 12% { transform: scaleY(0); }
+  26%, 68% { transform: scaleY(1); }
+  82%, 100% { transform: scaleY(0); }
+}
+.pour-glass {
+  position: absolute; top: 52%; left: 50%; transform: translateX(-50%);
+  width: 86px; height: 50px;
+  border: 1.5px solid rgba(184, 155, 94, 0.55);
+  border-top: none;
+  border-radius: 0 0 70px 70px;
+  overflow: hidden;
+}
+.pour-fill {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 18%;
+  background: linear-gradient(to top, rgba(184,155,94,0.32), rgba(184,155,94,0.14));
+}
+@keyframes pourFill {
+  0%, 14% { height: 8%; }
+  70%, 78% { height: 62%; }
+  96%, 100% { height: 8%; }
+}
+.pour-stem { position: absolute; top: calc(52% + 50px); left: 50%; width: 1.5px; height: 34px; background: rgba(184,155,94,0.5); }
+.pour-foot { position: absolute; top: calc(52% + 84px); left: 50%; transform: translateX(-50%); width: 44px; height: 1.5px; background: rgba(184,155,94,0.5); }
+@media (max-width: 760px) { .pour { right: -2%; opacity: 0.35; } }
+
 </style>
 </head>
 <body>
@@ -713,6 +827,7 @@ h3 { font-size: 1.35rem; }
 
   <!-- Stats -->
   <section class="section stats">
+    <span class="fizz f1"></span><span class="fizz f3"></span><span class="fizz f5"></span>
     <div class="wrap" data-reveal>
       <div class="stats-grid">
         <div class="stat">
@@ -901,6 +1016,12 @@ h3 { font-size: 1.35rem; }
 
   <!-- Quotes -->
   <section class="section quotes">
+    <div class="pour" aria-hidden="true">
+      <span class="pour-stream"></span>
+      <span class="pour-glass"><span class="pour-fill"></span></span>
+      <span class="pour-stem"></span>
+      <span class="pour-foot"></span>
+    </div>
     <div class="wrap quotes-inner" data-reveal>
       <p class="label">Kind Words</p>
       <div class="quote-stage">
@@ -952,6 +1073,8 @@ h3 { font-size: 1.35rem; }
 
   <!-- Final CTA + intake -->
   <section class="final" id="begin">
+    <span class="fizz f1"></span><span class="fizz f2"></span><span class="fizz f3"></span><span class="fizz f4"></span><span class="fizz f5"></span>
+    <div class="cork-stage" aria-hidden="true"><span class="pop-line p1"></span><span class="pop-line p2"></span><span class="pop-line p3"></span><span class="cork"></span></div>
     <div class="wrap final-grid">
       <div class="final-copy" data-reveal>
         <p class="label">Begin</p>
