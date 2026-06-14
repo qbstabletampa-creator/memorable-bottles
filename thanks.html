@@ -78,11 +78,13 @@ h1 .accent {
 .step-row:last-child { border-bottom: 1px solid var(--line); }
 .step-row .n {
   font-family: var(--font-head); font-size: 1rem; color: var(--accent);
-  letter-spacing: 0.1em; padding-top: 0.12rem;
+  letter-spacing: 0.1em; padding-top: 0.2rem;
 }
+.step-head { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.32rem; }
+.step-head .ic { width: 18px; height: 18px; flex-shrink: 0; color: var(--accent); }
 .step-row h2 {
   font-family: var(--font-head); font-weight: 600; font-size: 1.12rem;
-  line-height: 1.2; color: var(--ink); margin-bottom: 0.28rem;
+  line-height: 1.2; color: var(--ink); margin: 0;
 }
 .step-row p { font-size: 0.92rem; color: var(--ink-soft); line-height: 1.55; }
 
@@ -112,7 +114,7 @@ footer a { color: var(--accent); text-decoration: none; }
 
     <h1>Your moment is in <span class="accent">good hands</span></h1>
 
-    <p class="lede">Thank you. Kirklyn has your details and will be in touch within one business day with everything you need.</p>
+    <p class="lede">Thank you. I've got your details, and I'll be in touch within one business day with everything you need.</p>
 
     <div class="next">
       <p class="next-label">What happens next</p>
@@ -120,32 +122,44 @@ footer a { color: var(--accent); text-decoration: none; }
       <div class="step-row">
         <span class="n">01</span>
         <div>
-          <h2>We connect</h2>
-          <p>Kirklyn reaches out the way you prefer, text, email, or a quick call.</p>
+          <div class="step-head">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.8-.9L3 21l1.9-5.2A8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z" /></svg>
+            <h2>We connect</h2>
+          </div>
+          <p>I'll reach out the way you prefer, text, email, or a quick call.</p>
         </div>
       </div>
 
       <div class="step-row">
         <span class="n">02</span>
         <div>
-          <h2>We shape your piece</h2>
-          <p>We talk through the details, frame size and color, plus any customizations you have in mind.</p>
+          <div class="step-head">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z" /></svg>
+            <h2>We shape your piece</h2>
+          </div>
+          <p>We'll talk through the details, frame size and color, plus any customizations you have in mind.</p>
         </div>
       </div>
 
       <div class="step-row">
         <span class="n">03</span>
         <div>
-          <h2>You send your bottle</h2>
-          <p>We'll give you clear, simple directions to get it to the studio safely.</p>
+          <div class="step-head">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" /><path d="M3.3 7L12 12l8.7-5M12 22V12" /></svg>
+            <h2>You send your bottle</h2>
+          </div>
+          <p>I'll send you clear, simple directions to get it to me safely.</p>
         </div>
       </div>
 
       <div class="step-row">
         <span class="n">04</span>
         <div>
-          <h2>It's ready to hang</h2>
-          <p>About three weeks after your bottle arrives, your finished piece is on its way back to you.</p>
+          <div class="step-head">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="1" /><path d="M4 15l4-4 3 3 4-5 5 6" /></svg>
+            <h2>It's ready to hang</h2>
+          </div>
+          <p>About three weeks after it arrives, I'll have your finished piece on its way back to you.</p>
         </div>
       </div>
     </div>
@@ -155,7 +169,7 @@ footer a { color: var(--accent); text-decoration: none; }
 </main>
 
 <footer>
-  Questions? Text Kirklyn at <a href="tel:+14044512226">(404) 451-2226</a><br />
+  Questions? Text me anytime at <a href="tel:+14044512226">(404) 451-2226</a><br />
   Preserving your special moments, one bottle at a time. Tampa, FL · Ships nationwide.
 </footer>
 </body>
