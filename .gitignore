@@ -2,3 +2,15 @@ preview*.jpeg
 assets/_*
 assets/**/_*
 _*.json
+
+.pmloop/
+
+# Local generation byproducts and dumps — never commit (public repo)
+*.py
+*.mp4
+*.json
+frame-*.jpg
+logo-a.png
+logo-b.png
+restage-*.png
+recframes/

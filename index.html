@@ -83,8 +83,6 @@ h3 { font-size: 1.35rem; }
   transition: background 0.3s ease, color 0.3s ease;
 }
 .btn:hover { background: transparent; color: var(--ink); }
-.btn-ghost { background: transparent; color: var(--bg); border-color: rgba(247,242,234,0.55); }
-.btn-ghost:hover { background: var(--bg); color: var(--ink); }
 
 .textlink {
   font-family: var(--font-body);
@@ -158,41 +156,6 @@ h3 { font-size: 1.35rem; }
   .nav .btn { padding: 0.6rem 1rem; font-size: 0.64rem; white-space: nowrap; }
 }
 
-/* ---------- masthead ---------- */
-.masthead { padding: 7.2rem 0 0; }
-.masthead-title {
-  font-family: var(--font-head);
-  font-weight: 700;
-  font-size: clamp(2rem, 7.3vw, 7.2rem);
-  line-height: 0.98;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
-  text-align: center;
-  white-space: nowrap;
-  animation: mastheadIn 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-@keyframes mastheadIn {
-  from { opacity: 0; transform: translateY(34px); }
-  to { opacity: 1; transform: none; }
-}
-@media (prefers-reduced-motion: reduce) { .masthead-title { animation: none; } }
-.masthead-sub {
-  display: flex; justify-content: space-between; align-items: baseline;
-  padding: 1.1rem 0 1.4rem;
-  border-bottom: 1px solid var(--ink);
-  margin-bottom: 0;
-}
-.masthead-sub p {
-  font-family: var(--font-accent); font-style: italic; font-size: clamp(0.95rem, 1.6vw, 1.25rem);
-  color: var(--ink-soft);
-}
-@media (max-width: 600px) {
-  .masthead { padding-top: 4.9rem; }
-  .masthead-title { font-size: 8vw; }
-  .masthead-sub { flex-direction: column; gap: 0.05rem; padding: 0.7rem 0 0.9rem; }
-  .masthead-sub p { font-size: 0.92rem; }
-}
-
 /* ---------- hero ---------- */
 .hero { position: relative; min-height: 92vh; min-height: 92svh; display: flex; align-items: flex-end; overflow: hidden; }
 @media (max-width: 600px) {
@@ -254,8 +217,9 @@ h3 { font-size: 1.35rem; }
   transform-origin: var(--focus, 50% 50%);
   transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.piece:hover .art img { transform: scale(calc(var(--zoom, 1) * 1.045)); }
-@media (prefers-reduced-motion: reduce) { .piece:hover .art img { transform: scale(var(--zoom, 1)); } }
+/* gallery-piece hover micro-zoom removed: it cropped into the frame. Gallery
+   pieces use object-fit:contain + transform:none so the whole frame always shows.
+   The Moment art (.memory-art .art img) keeps the base cover/scale rule above. */
 @media (max-width: 860px) {
   .memory-grid { grid-template-columns: 1fr; }
 }
@@ -353,22 +317,154 @@ h3 { font-size: 1.35rem; }
 
 /* ---------- gallery ---------- */
 .gallery-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; margin-bottom: 4rem; flex-wrap: wrap; }
-.gallery-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(2.4rem, 5vw, 5rem) clamp(2rem, 4.5vw, 4.5rem);
+
+/* ----- thumbnail carousel (continuous marquee) ----- */
+.carousel { position: relative; }
+/* Vertical padding inside the viewport so the ~48px per-piece glow shows above
+   and below each card and is NOT clipped by overflow:hidden. Horizontal stays
+   clipped so off-screen duplicated cards don't bleed out. */
+.carousel-viewport { overflow: hidden; padding: 56px 0; margin: -56px 0; }
+.carousel-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
 }
-.piece { margin: 0; }
-.piece:nth-child(even) { transform: translateY(clamp(1.5rem, 4vw, 4rem)); }
-.piece .art { transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.6s ease; }
-.piece:hover .art { transform: translateY(-8px); box-shadow: 0 56px 96px -44px rgba(17,17,17,0.6); }
-@media (prefers-reduced-motion: reduce) { .piece:hover .art { transform: none; } }
-.piece-caption { margin-top: 1.3rem; }
+/* Each .piece carries its own right margin (incl. the last of set 1) so the
+   spacing at the set1 -> set2 seam is identical to every other gap. Track width
+   = 2x set width, JS wraps at -50% -> pixel-perfect, no visible reset. */
+.piece {
+  margin: 0 clamp(1.4rem, 3vw, 2.6rem) 0 0;
+  flex: 0 0 clamp(260px, 30vw, 360px);
+  -webkit-appearance: none; appearance: none;
+  background: none; border: none; padding: 0; text-align: left;
+  font: inherit; color: inherit; cursor: pointer;
+  display: block;
+}
+/* Consistent frame area; image is CONTAINED so the whole framed photo shows,
+   never cropped. Letterbox space fills with ivory so the frame reads cleanly. */
+/* Block frame so the border hugs the actual photo (inline ignored aspect-ratio
+   and left the colored border floating off the image). The art shrink-wraps the
+   image at its natural shape, so each card flows as its own framed picture. */
+.piece .frame-wrap { display: block; }
+.piece .art {
+  display: block;
+  background: var(--bg);
+  overflow: hidden;
+  /* Pretty colored frame, matched per-piece via --edge (a tone pulled from the
+     image). Subtle 2px colored border + thin white mat line (inset), hugging the
+     image edge to edge with a soft matching glow. */
+  border: 1.5px solid var(--edge, rgba(184, 155, 94, 0.42));
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.45) inset, 0 0 30px 2px var(--glow, rgba(184,155,94,0.14)), 0 34px 70px -40px rgba(17,17,17,0.5);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.6s ease, border-color 0.6s ease;
+}
+.piece .art img {
+  display: block;
+  width: 100%; height: auto;    /* image defines its own height; border hugs it */
+  transform: none;              /* no zoom crop on gallery pieces */
+}
+/* hover lifts the card (no image scale, so the frame stays fully visible at rest) */
+.piece:hover .art, .piece:focus-visible .art { transform: translateY(-8px); box-shadow: 0 0 0 1px rgba(255,255,255,0.35) inset, 0 0 56px 5px var(--glow, rgba(184,155,94,0.2)), 0 56px 96px -44px rgba(17,17,17,0.6); }
+.piece:focus-visible { outline: none; }
+.piece:focus-visible .art { box-shadow: 0 0 0 2px var(--accent), 0 0 56px 5px var(--glow, rgba(184,155,94,0.2)), 0 56px 96px -44px rgba(17,17,17,0.6); }
+@media (prefers-reduced-motion: reduce) { .piece:hover .art, .piece:focus-visible .art { transform: none; } }
+/* Captions hidden on the carousel thumbnails (CJ: let the framed images flow).
+   Kept in the DOM so the lightbox still reads No./label/caption when enlarged. */
+.piece-caption { display: none; }
+.piece-caption--legacy { margin-top: 1.3rem; }
 .piece-caption .label { display: block; margin-bottom: 0.3rem; }
 .piece-caption p { font-family: var(--font-accent); font-style: italic; font-size: 1.15rem; color: var(--ink-soft); }
+
+/* prev/next chevrons */
+.carousel-nav {
+  -webkit-appearance: none; appearance: none; border-radius: 0;
+  position: absolute; top: clamp(120px, 16vw, 170px); transform: translateY(-50%);
+  z-index: 4; width: 46px; height: 46px;
+  background: var(--surface); border: 1px solid var(--line); color: var(--ink);
+  font-size: 1.1rem; line-height: 1; cursor: pointer;
+  display: grid; place-items: center;
+  box-shadow: 0 14px 30px -16px rgba(17,17,17,0.5);
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.carousel-nav:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.carousel-nav:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.carousel-prev { left: -12px; }
+.carousel-next { right: -12px; }
+@media (max-width: 760px) { .carousel-nav { display: none; } }
+
+/* reduced motion + no-JS fallback: manual scroll-snap row (no auto-motion) */
+@media (prefers-reduced-motion: reduce) {
+  .carousel-viewport { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+  .carousel-track { transform: none !important; width: max-content; }
+  .piece { scroll-snap-align: start; }
+  .carousel-nav { display: none; }
+}
+/* JS-applied manual mode (matches reduced-motion: scrollable, no transform marquee) */
+.carousel-viewport.is-manual { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+.carousel-viewport.is-manual .carousel-track { transform: none !important; }
+.carousel-viewport.is-manual .piece { scroll-snap-align: start; }
+
 @media (max-width: 700px) {
-  .gallery-grid { grid-template-columns: 1fr; }
-  .piece:nth-child(even) { transform: none; }
+  .piece { flex: 0 0 clamp(220px, 72vw, 300px); }
+}
+
+/* ----- lightbox ----- */
+.lightbox {
+  position: fixed; inset: 0; z-index: 200;
+  display: none;
+  align-items: center; justify-content: center;
+  padding: clamp(1rem, 4vw, 3rem);
+  background: rgba(17, 17, 17, 0.88);
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  opacity: 0; transition: opacity 0.3s ease;
+}
+.lightbox.is-open { display: flex; opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .lightbox { transition: none; } }
+body.lb-lock { overflow: hidden; }
+.lightbox-figure {
+  position: relative;
+  display: flex; flex-direction: column; align-items: center;
+  max-width: min(640px, 92vw);
+  margin: 0;
+}
+.lightbox-art {
+  overflow: hidden;
+  border: 1px solid var(--lb-edge, rgba(184, 155, 94, 0.4));
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.35) inset, 0 0 64px 6px var(--lb-glow, rgba(184, 155, 94, 0.2)), 0 44px 88px -44px rgba(0,0,0,0.8);
+  background: var(--surface);
+  max-height: 74vh;
+}
+.lightbox-art img { width: 100%; height: 100%; max-height: 74vh; object-fit: contain; }
+.lightbox-caption { text-align: center; margin-top: 1.4rem; color: var(--bg); }
+.lightbox-caption .label { display: block; margin-bottom: 0.4rem; color: var(--accent); }
+.lightbox-caption p { font-family: var(--font-accent); font-style: italic; font-size: 1.2rem; color: rgba(247, 242, 234, 0.92); }
+.lightbox-close {
+  -webkit-appearance: none; appearance: none; border-radius: 0;
+  position: absolute; top: -3.2rem; right: 0;
+  width: 44px; height: 44px;
+  background: none; border: 1px solid rgba(247, 242, 234, 0.45); color: var(--bg);
+  font-size: 1.3rem; line-height: 1; cursor: pointer;
+  display: grid; place-items: center;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.lightbox-close:hover { background: var(--bg); color: var(--ink); border-color: var(--bg); }
+.lightbox-nav {
+  -webkit-appearance: none; appearance: none; border-radius: 0;
+  position: absolute; top: 50%; transform: translateY(-50%);
+  z-index: 2; width: 52px; height: 52px;
+  background: rgba(247, 242, 234, 0.12); border: 1px solid rgba(247, 242, 234, 0.4); color: var(--bg);
+  font-size: 1.4rem; line-height: 1; cursor: pointer;
+  display: grid; place-items: center;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+.lightbox-nav:hover { background: var(--bg); color: var(--ink); }
+.lightbox-prev { left: clamp(-0.5rem, -2vw, -3.4rem); }
+.lightbox-next { right: clamp(-0.5rem, -2vw, -3.4rem); }
+.lightbox-close:focus-visible, .lightbox-nav:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (max-width: 600px) {
+  .lightbox-prev { left: 0.2rem; }
+  .lightbox-next { right: 0.2rem; }
+  .lightbox-nav { background: rgba(17,17,17,0.5); }
+  .lightbox-close { top: -3rem; }
 }
 
 /* ---------- manifesto ---------- */
@@ -419,6 +515,67 @@ h3 { font-size: 1.35rem; }
 @keyframes ribbonScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: reduce) { .ribbon-track { animation: none; } }
 
+/* ---------- reviews marquee (social proof) ---------- */
+/* Snug under the stats so Bride's List -> stat numbers -> reviews reads as one social-proof block */
+.section.reviews { padding: 0.6rem 0 6rem; }
+.reviews { background: var(--bg); position: relative; overflow: hidden; }
+.reviews-marquee { position: relative; }
+/* Edge fade via overlay gradients (NOT mask-image). iOS Safari drops a masked +
+   animated layer when it scrolls offscreen and back, blanking the reviews; plain
+   overlays repaint reliably. */
+.reviews-marquee::before, .reviews-marquee::after {
+  content: ""; position: absolute; top: 0; bottom: 0; width: 9%;
+  z-index: 2; pointer-events: none;
+}
+.reviews-marquee::before { left: 0; background: linear-gradient(to right, var(--bg), transparent); }
+.reviews-marquee::after { right: 0; background: linear-gradient(to left, var(--bg), transparent); }
+.reviews-track {
+  display: flex;
+  width: max-content;
+  padding: 0.5rem 0;
+  animation: reviewScroll 170s linear infinite;
+  /* keep a persistent compositor layer so iOS doesn't evict/blank it on scroll */
+  will-change: transform;
+  backface-visibility: hidden;
+}
+/* margin-right on EVERY card (incl. the last of set 1) so spacing at the set1->set2
+   seam is identical to every other inter-card gap. Set width = 12 * (card + 1.5rem),
+   track = exactly 2x set width, so translateX(-50%) lands pixel-perfect every loop. */
+.reviews-track > figure { margin-right: 1.5rem; }
+@keyframes reviewScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.reviews:hover .reviews-track { animation-play-state: paused; }
+.reviews-track > figure {
+  flex: 0 0 clamp(280px, 78vw, 380px);
+  display: flex; flex-direction: column;
+  min-height: 300px;
+  padding: 2rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 56px -36px rgba(17,17,17,0.45);
+}
+.review-stars {
+  color: var(--accent);
+  font-size: 1.05rem;
+  letter-spacing: 0.22em;
+  margin-bottom: 1.2rem;
+}
+.review-quote {
+  font-family: var(--font-accent); font-style: italic;
+  font-size: 1.12rem; line-height: 1.5;
+  color: var(--ink-soft);
+  flex: 1 1 auto;
+}
+.review-name {
+  font-family: var(--font-head); font-weight: 600;
+  font-size: 1rem; color: var(--ink);
+  margin-top: 1.4rem;
+}
+.review-role { margin-top: 0.4rem; font-size: 0.62rem; color: var(--ink-soft); }
+@media (prefers-reduced-motion: reduce) {
+  .reviews-marquee { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .reviews-track { animation: none; }
+}
+
 /* ---------- compare ---------- */
 .compare-band { background: var(--surface); }
 .compare-scroll { overflow-x: auto; margin-top: clamp(40px, 6vh, 72px); }
@@ -443,16 +600,24 @@ h3 { font-size: 1.35rem; }
 .compare-table .cell.head.hl .label { color: var(--accent); }
 @media (max-width: 700px) {
   .compare-scroll { overflow: visible; }
-  .compare-table { display: grid; grid-template-columns: minmax(116px, 0.92fr) 1.06fr 1fr; min-width: 0; }
+  /* label column fixed (auto was hogging width); the two data columns are EQUAL
+     width so the Memorable column matches the storage column (only highlight differs). */
+  .compare-table { display: grid; grid-template-columns: 114px 1fr 1fr; min-width: 0; }
+  .compare-table .row-label { min-width: 0; }
   .compare-table .cell[data-col="In a shadow box"],
   .compare-table .cell.head:nth-child(3) { display: none; }
-  .compare-table .cell { padding: 1rem 0.3rem; border-bottom: 1px solid var(--line); }
+  .compare-table .cell { padding: 0.95rem 0.25rem; border-bottom: 1px solid var(--line); }
   .compare-table .cell p { text-wrap: balance; }
   .compare-table .row-label { padding-left: 0; }
-  .compare-table .cell.head { padding: 0.6rem 0.3rem 0.7rem; border-bottom-color: var(--ink); }
-  .compare-table .cell.head .label { font-size: 0.56rem; letter-spacing: 0.14em; }
-  .compare-table .row-label { font-size: 0.9rem; white-space: nowrap; padding-right: 0.5rem; }
-  .compare-table .cell p { font-size: 0.79rem; line-height: 1.5; }
+  .compare-table .cell.head { padding: 0.6rem 0.25rem 0.7rem; border-bottom-color: var(--ink); }
+  .compare-table .cell.head .label { font-size: 0.54rem; letter-spacing: 0.12em; }
+  /* one line per label (icon kept, just sized to fit) so no row is taller */
+  .compare-table .row-label { font-size: 0.75rem; white-space: nowrap; padding-right: 0.35rem; gap: 0.3rem; }
+  .compare-table .row-label .ic { width: 12px; }
+  /* short parallel copy fits one line in both data columns (wrap stays as a
+     graceful fallback, never forced) */
+  .compare-table .cell p { font-size: 0.72rem; line-height: 1.45; }
+  .compare-table .cell[data-col] p::before, .compare-table .cell.hl p::before { margin-right: 0.35rem; }
   .compare-table .hl { background: var(--bg); padding-left: 0.3rem; padding-right: 0.3rem; }
   .compare-table .cell.head.hl { border-top: 2px solid var(--accent); }
 }
@@ -464,6 +629,9 @@ h3 { font-size: 1.35rem; }
   gap: clamp(40px, 6vw, 100px);
   align-items: start;
 }
+/* tighten the gap between Worth Keeping and the Studio/Bride's List section */
+.worth { padding-bottom: 4rem; }
+.worth + .section { padding-top: 4rem; }
 .worth-head { position: sticky; top: 110px; }
 .worth-head .body-soft { color: var(--ink-soft); margin-top: 1rem; }
 .worth-list { display: flex; flex-direction: column; }
@@ -485,10 +653,9 @@ h3 { font-size: 1.35rem; }
 }
 
 /* ---------- reveal stagger ---------- */
-.steps .step:nth-child(2), .lanes .lane:nth-child(2), .gallery-grid .piece:nth-child(2) { transition-delay: 0.12s; }
-.steps .step:nth-child(3), .lanes .lane:nth-child(3), .gallery-grid .piece:nth-child(3) { transition-delay: 0.24s; }
-.steps .step:nth-child(4), .lanes .lane:nth-child(4), .gallery-grid .piece:nth-child(4) { transition-delay: 0.36s; }
-.lanes .lane:nth-child(5), .gallery-grid .piece:nth-child(5) { transition-delay: 0.48s; }
+.steps .step:nth-child(2) { transition-delay: 0.12s; }
+.steps .step:nth-child(3) { transition-delay: 0.24s; }
+.steps .step:nth-child(4) { transition-delay: 0.36s; }
 
 /* ---------- studio + bride's list ---------- */
 .studio-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(2.5rem, 6vw, 6.5rem); align-items: center; }
@@ -512,48 +679,19 @@ h3 { font-size: 1.35rem; }
 @media (max-width: 900px) { .steps { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 540px) { .steps { grid-template-columns: 1fr; } }
 
-/* ---------- gift lanes ---------- */
-.lanes { display: grid; grid-template-columns: repeat(5, 1fr); margin-top: 4rem; border-left: 1px solid var(--line); }
-.lane {
-  border-right: 1px solid var(--line); border-top: 1px solid var(--ink);
-  padding: 1.8rem 1.4rem 2.6rem; text-decoration: none; color: var(--ink);
-  display: flex; flex-direction: column; gap: 0.8rem;
-  transition: background 0.35s ease;
-}
-.lane:hover { background: var(--ink); color: var(--bg); }
-.lane:hover p { color: var(--band-soft); }
-.lane h3 { font-size: 1.16rem; }
-.lane p { font-size: 0.88rem; color: var(--ink-soft); flex: 1; }
-.lane-arrow { color: var(--accent); font-size: 1rem; transition: transform 0.3s ease; }
-.lane:hover .lane-arrow { transform: translateX(6px); }
-@media (max-width: 980px) { .lanes { grid-template-columns: 1fr 1fr; } .lane:nth-child(5) { grid-column: 1 / -1; } }
-@media (max-width: 540px) { .lanes { grid-template-columns: 1fr; } .lane:nth-child(5) { grid-column: auto; } }
-
-/* ---------- quotes ---------- */
-.quotes-inner { text-align: center; max-width: 46rem; margin-inline: auto; }
-.quote-stage { position: relative; min-height: 11rem; margin-top: 2.6rem; }
-.quote { position: absolute; inset: 0; opacity: 0; transition: opacity 0.8s ease; }
-.quote.active { opacity: 1; }
-.quote p { font-family: var(--font-accent); font-style: italic; font-size: clamp(1.3rem, 2.6vw, 1.85rem); line-height: 1.4; }
-.quote cite { display: block; margin-top: 1.4rem; font-style: normal; }
-.quote-dots { display: flex; gap: 0.7rem; justify-content: center; margin-top: 2rem; }
-.quote-dot { width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--accent); background: transparent; cursor: pointer; padding: 0; }
-.quote-dot.active { background: var(--accent); }
-
-/* ---------- local ---------- */
-.local { text-align: center; max-width: 38rem; margin-inline: auto; }
-.local h2 { margin: 1rem 0 1.6rem; }
-.local-rule { width: 72px; margin: 0 auto 1.6rem; }
-.local p { color: var(--ink-soft); }
-
 /* ---------- final + intake ---------- */
 .final { background: var(--band); color: var(--band-ink); padding: 7.5rem 0; }
 .final-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(3rem, 7vw, 7rem); align-items: start; }
 .final-copy h2 { margin: 1.1rem 0 1.2rem; font-weight: 500; }
 .final-copy .micro { font-family: var(--font-accent); font-style: italic; font-size: 1.15rem; color: var(--band-soft); }
-.final-reassure { margin-top: 2.6rem; display: grid; gap: 0.5rem; }
-.final-reassure p { font-size: 0.85rem; color: var(--band-soft); }
-.final-reassure p::before { content: "—"; color: var(--accent); margin-right: 0.6rem; }
+.final-reassure { margin-top: clamp(2.6rem, 5vw, 4rem); display: flex; flex-wrap: wrap; justify-content: center; gap: 0.9rem 2.6rem; }
+.final-reassure p { display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; color: var(--band-soft); }
+/* When they stack (narrow screens), keep both lines left-aligned to each other
+   as a centered block, so the second line sits flush under the first. */
+@media (max-width: 680px) {
+  .final-reassure { flex-direction: column; align-items: flex-start; width: fit-content; margin-left: auto; margin-right: auto; gap: 0.75rem; }
+}
+/* dashes removed (CJ + writing law). Icon glyph added per line below. */
 @media (max-width: 860px) { .final-grid { grid-template-columns: 1fr; } }
 
 .intake {
@@ -741,10 +879,10 @@ h3 { font-size: 1.35rem; }
 }
 
 /* ---------- ambient fizz (champagne bubbles) ---------- */
-.stats, .quotes, .final { position: relative; overflow: hidden; }
+.stats, .final { position: relative; overflow: hidden; }
 .section.stats { padding: 0.4rem 0 3.4rem; }
 .stat { padding-top: 2.4rem; padding-bottom: 2.6rem; }
-.stats .wrap, .quotes-inner, .final .final-grid { position: relative; z-index: 1; }
+.stats .wrap, .final .final-grid { position: relative; z-index: 1; }
 .fizz {
   position: absolute; bottom: -12px; z-index: 0; border-radius: 50%;
   background: radial-gradient(circle at 35% 35%, rgba(184,155,94,0.8), rgba(184,155,94,0.08));
@@ -799,46 +937,6 @@ h3 { font-size: 1.35rem; }
   100% { transform: scaleX(1.4) translateX(26px); opacity: 0; }
 }
 
-/* ---------- champagne pour (quotes bg) ---------- */
-.pour { position: absolute; top: 4%; right: 9%; width: 110px; height: 78%; opacity: 0.55; pointer-events: none; z-index: 0; }
-.pour-stream {
-  position: absolute; top: 0; left: 50%; margin-left: -1.5px;
-  width: 3px; height: 52%;
-  background: linear-gradient(to bottom, rgba(184,155,94,0.05), rgba(184,155,94,0.6));
-  transform-origin: top; transform: scaleY(0);
-}
-@media (prefers-reduced-motion: no-preference) {
-  .pour-stream { animation: pourFlow 8s ease-in-out infinite; }
-  .pour-fill { animation: pourFill 8s ease-in-out infinite; }
-}
-@keyframes pourFlow {
-  0%, 12% { transform: scaleY(0); }
-  26%, 68% { transform: scaleY(1); }
-  82%, 100% { transform: scaleY(0); }
-}
-.pour-glass {
-  position: absolute; top: 52%; left: 50%; transform: translateX(-50%);
-  width: 86px; height: 50px;
-  border: 1.5px solid rgba(184, 155, 94, 0.55);
-  border-top: none;
-  border-radius: 0 0 70px 70px;
-  overflow: hidden;
-}
-.pour-fill {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  height: 18%;
-  background: linear-gradient(to top, rgba(184,155,94,0.32), rgba(184,155,94,0.14));
-}
-@keyframes pourFill {
-  0%, 14% { height: 8%; }
-  70%, 78% { height: 62%; }
-  96%, 100% { height: 8%; }
-}
-.pour-stem { position: absolute; top: calc(52% + 50px); left: 50%; width: 1.5px; height: 34px; background: rgba(184,155,94,0.5); }
-.pour-foot { position: absolute; top: calc(52% + 84px); left: 50%; transform: translateX(-50%); width: 44px; height: 1.5px; background: rgba(184,155,94,0.5); }
-@media (max-width: 760px) { .pour { right: -2%; opacity: 0.35; } }
-
-
 /* ---------- pour-line: bottle pours into a glass as you scroll ---------- */
 .pour-line { display: flex; flex-direction: column; align-items: center; padding: 0.6rem 0 0.2rem; }
 .pl-bottle {
@@ -885,9 +983,57 @@ h3 { font-size: 1.35rem; }
   .pl-fill { height: 50% !important; }
 }
 
+/* ---------- line icons (gold, thin-stroke, one shared sprite) ---------- */
+.ic {
+  flex: none; width: 1em; height: 1em;
+  fill: none; stroke: currentColor; stroke-width: 1.5;
+  stroke-linecap: round; stroke-linejoin: round;
+  color: var(--accent);
+  vertical-align: middle;
+}
+.icon-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* How It Works: small muted glyph inline, leading the step number */
+.step-head { display: flex; align-items: center; gap: 0.5rem; }
+.step-head .ic { width: 16px; height: 16px; color: rgba(184, 155, 94, 0.6); }
+.step-head .step-num { margin: 0; }
+
+/* Worth Keeping: icon replaces the bare number column's emptiness */
+.worth-num-wrap { display: flex; flex-direction: column; align-items: flex-start; gap: 0.55rem; }
+.worth-num-wrap .ic { width: 26px; height: 26px; }
+
+/* Compare: small glyph before each row label */
+.compare-table .row-label { display: flex; align-items: center; gap: 0.6rem; }
+.compare-table .row-label .ic { width: 20px; height: 20px; }
+@media (max-width: 700px) {
+  .compare-table .row-label { gap: 0.4rem; }
+  .compare-table .row-label .ic { width: 16px; height: 16px; }
+}
+
+/* Reassurance: centered trust row under the form, glyph + line */
+.final-reassure .ic { width: 18px; height: 18px; color: var(--accent); }
+
 </style>
 </head>
 <body>
+
+<!-- Shared line-icon sprite. Thin gold strokes, referenced via <use href="#ic-*">. -->
+<svg class="icon-sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="ic-bottle" viewBox="0 0 24 24"><path d="M10 2v3.5L8 9V19a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V9l-2-3.5V2"/><path d="M10 2h4"/><path d="M8 14h8"/></symbol>
+  <symbol id="ic-pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></symbol>
+  <symbol id="ic-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 5-5"/></symbol>
+  <symbol id="ic-frame" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></symbol>
+  <symbol id="ic-flute" viewBox="0 0 24 24"><path d="M8.5 3h7l-1.3 7.2a2.2 2.2 0 0 1-4.4 0L8.5 3z"/><path d="M12 12.4V20"/><path d="M9 20h6"/></symbol>
+  <symbol id="ic-ring" viewBox="0 0 24 24"><ellipse cx="12" cy="15.5" rx="5" ry="5.5"/><path d="M8.5 6.5l1.5-2h4l1.5 2-3.5 3.6z"/><path d="M8.5 6.5h7"/></symbol>
+  <symbol id="ic-calendar" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="16.5" rx="2"/><path d="M3 9.5h18M8 3v4M16 3v4"/></symbol>
+  <symbol id="ic-home" viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 20z"/><path d="M9.5 21.5V13h5v8.5"/></symbol>
+  <symbol id="ic-heart" viewBox="0 0 24 24"><path d="M12 20.5l-1.3-1.2C6 14.9 3 12.2 3 8.8 3 6.3 5 4.5 7.4 4.5c1.4 0 2.7.6 3.6 1.7.9-1.1 2.2-1.7 3.6-1.7C18.9 4.5 21 6.3 21 8.8c0 3.4-3 6.1-7.7 10.5L12 20.5z"/></symbol>
+  <symbol id="ic-tag" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.2"/></symbol>
+  <symbol id="ic-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></symbol>
+  <symbol id="ic-pin" viewBox="0 0 24 24"><path d="M12 21s6.5-5.8 6.5-10.5A6.5 6.5 0 0 0 5.5 10.5C5.5 15.2 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.3"/></symbol>
+  <symbol id="ic-shield" viewBox="0 0 24 24"><path d="M12 2.5l7.5 3v5.5c0 4.5-3.2 7.8-7.5 9.5-4.3-1.7-7.5-5-7.5-9.5V5.5L12 2.5z"/><path d="M9 11.5l2 2 4-4"/></symbol>
+</svg>
 
 <header class="nav" id="nav">
   <div class="wrap nav-inner">
@@ -967,8 +1113,126 @@ h3 { font-size: 1.35rem; }
     </div>
   </section>
 
+  <!-- Reviews -->
+  <section class="section reviews">
+    <div class="reviews-marquee">
+      <div class="reviews-track">
+        <figure class="review-card">
+          <div class="review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="review-quote">&ldquo;I got this as a closing gift after a big commercial real estate deal, and it was perfect. Such a unique and thoughtful way to remember a special moment. The quality and detail were amazing!&rdquo;</blockquote>
+          <figcaption><p class="review-name">Julia S</p><p class="review-role label">President, Commercial Real Estate Company</p></figcaption>
+        </figure>
+        <figure class="review-card">
+          <div class="review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="review-quote">&ldquo;I&rsquo;ve ordered multiple pieces now for coworkers and one for myself, and everyone has loved them. Such a cool, personal gift and the finished product always looks awesome. Highly recommend!&rdquo;</blockquote>
+          <figcaption><p class="review-name">Jordan H</p><p class="review-role label">Senior Manager, Insurance Firm</p></figcaption>
+        </figure>
+        <figure class="review-card">
+          <div class="review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="review-quote">&ldquo;I was surprised with this at my bachelorette party using our engagement bottle, and it was such a special gift. It was personal, beautiful, and something I&rsquo;ll keep forever. Such a sweet way to remember that moment!&rdquo;</blockquote>
+          <figcaption><p class="review-name">Stacy R</p><p class="review-role label">Bride 2024</p></figcaption>
+        </figure>
+        <figure class="review-card">
+          <div class="review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="review-quote">&ldquo;It looks amazing in my wine room and is such a great conversation starter. Everyone who sees it asks about it. Such a unique and beautiful piece!&rdquo;</blockquote>
+          <figcaption><p class="review-name">Anita M</p><p class="review-role label">Verified Buyer</p></figcaption>
+        </figure>
+        <figure class="review-card">
+          <div class="review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="review-quote">&ldquo;I have mine displayed in the lobby area of my spray tan business, and I get compliments on it all the time. Clients are always asking about the bottle piece. It looks so good and adds such a fun, personal touch!&rdquo;</blockquote>
+          <figcaption><p class="review-name">Brittany S</p><p class="review-role label">Owner, Spray Tan Business</p></figcaption>
+        </figure>
+        <figure class="review-card">
+          <div class="review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="review-quote">&ldquo;Absolutely love how mine turned out! It is such a unique and thoughtful keepsake. The quality is beautiful, and it makes such a special gift.&rdquo;</blockquote>
+          <figcaption><p class="review-name">Allie M</p><p class="review-role label">Verified Buyer</p></figcaption>
+        </figure>
+        <figure class="review-card">
+          <div class="review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="review-quote">&ldquo;This came out even better than expected. Such a cool way to save a special bottle and turn it into something you can actually display. Highly recommend!&rdquo;</blockquote>
+          <figcaption><p class="review-name">Anthony T</p><p class="review-role label">Verified Buyer</p></figcaption>
+        </figure>
+        <figure class="review-card">
+          <div class="review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="review-quote">&ldquo;Such a beautiful and personal keepsake. It turned out even better than I imagined and is something I&rsquo;ll treasure forever. I absolutely love it!&rdquo;</blockquote>
+          <figcaption><p class="review-name">Hannah M</p><p class="review-role label">Verified Buyer</p></figcaption>
+        </figure>
+        <figure class="review-card">
+          <div class="review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="review-quote">&ldquo;This is such a thoughtful and unique gift idea. The finished piece looks amazing and feels so special. I would definitely order again!&rdquo;</blockquote>
+          <figcaption><p class="review-name">Taylor L</p><p class="review-role label">Verified Buyer</p></figcaption>
+        </figure>
+        <figure class="review-card">
+          <div class="review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="review-quote">&ldquo;Beautiful artwork and such an easy process. The product arrived in perfect shape and looks amazing. So happy with my purchase!&rdquo;</blockquote>
+          <figcaption><p class="review-name">Etsy Buyer</p><p class="review-role label">Verified Buyer</p></figcaption>
+        </figure>
+        <figure class="review-card">
+          <div class="review-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="review-quote">&ldquo;My husband thought this was such a cool gift. The attention to detail, customer service, and overall product are amazing. Such a special gift to commemorate a big life moment!&rdquo;</blockquote>
+          <figcaption><p class="review-name">Jenna</p><p class="review-role label">Verified Buyer</p></figcaption>
+        </figure>
+        <figure class="review-card" aria-hidden="true">
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="review-quote">&ldquo;I got this as a closing gift after a big commercial real estate deal, and it was perfect. Such a unique and thoughtful way to remember a special moment. The quality and detail were amazing!&rdquo;</blockquote>
+          <figcaption><p class="review-name">Julia S</p><p class="review-role label">President, Commercial Real Estate Company</p></figcaption>
+        </figure>
+        <figure class="review-card" aria-hidden="true">
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="review-quote">&ldquo;I&rsquo;ve ordered multiple pieces now for coworkers and one for myself, and everyone has loved them. Such a cool, personal gift and the finished product always looks awesome. Highly recommend!&rdquo;</blockquote>
+          <figcaption><p class="review-name">Jordan H</p><p class="review-role label">Senior Manager, Insurance Firm</p></figcaption>
+        </figure>
+        <figure class="review-card" aria-hidden="true">
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="review-quote">&ldquo;I was surprised with this at my bachelorette party using our engagement bottle, and it was such a special gift. It was personal, beautiful, and something I&rsquo;ll keep forever. Such a sweet way to remember that moment!&rdquo;</blockquote>
+          <figcaption><p class="review-name">Stacy R</p><p class="review-role label">Bride 2024</p></figcaption>
+        </figure>
+        <figure class="review-card" aria-hidden="true">
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="review-quote">&ldquo;It looks amazing in my wine room and is such a great conversation starter. Everyone who sees it asks about it. Such a unique and beautiful piece!&rdquo;</blockquote>
+          <figcaption><p class="review-name">Anita M</p><p class="review-role label">Verified Buyer</p></figcaption>
+        </figure>
+        <figure class="review-card" aria-hidden="true">
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="review-quote">&ldquo;I have mine displayed in the lobby area of my spray tan business, and I get compliments on it all the time. Clients are always asking about the bottle piece. It looks so good and adds such a fun, personal touch!&rdquo;</blockquote>
+          <figcaption><p class="review-name">Brittany S</p><p class="review-role label">Owner, Spray Tan Business</p></figcaption>
+        </figure>
+        <figure class="review-card" aria-hidden="true">
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="review-quote">&ldquo;Absolutely love how mine turned out! It is such a unique and thoughtful keepsake. The quality is beautiful, and it makes such a special gift.&rdquo;</blockquote>
+          <figcaption><p class="review-name">Allie M</p><p class="review-role label">Verified Buyer</p></figcaption>
+        </figure>
+        <figure class="review-card" aria-hidden="true">
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="review-quote">&ldquo;This came out even better than expected. Such a cool way to save a special bottle and turn it into something you can actually display. Highly recommend!&rdquo;</blockquote>
+          <figcaption><p class="review-name">Anthony T</p><p class="review-role label">Verified Buyer</p></figcaption>
+        </figure>
+        <figure class="review-card" aria-hidden="true">
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="review-quote">&ldquo;Such a beautiful and personal keepsake. It turned out even better than I imagined and is something I&rsquo;ll treasure forever. I absolutely love it!&rdquo;</blockquote>
+          <figcaption><p class="review-name">Hannah M</p><p class="review-role label">Verified Buyer</p></figcaption>
+        </figure>
+        <figure class="review-card" aria-hidden="true">
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="review-quote">&ldquo;This is such a thoughtful and unique gift idea. The finished piece looks amazing and feels so special. I would definitely order again!&rdquo;</blockquote>
+          <figcaption><p class="review-name">Taylor L</p><p class="review-role label">Verified Buyer</p></figcaption>
+        </figure>
+        <figure class="review-card" aria-hidden="true">
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="review-quote">&ldquo;Beautiful artwork and such an easy process. The product arrived in perfect shape and looks amazing. So happy with my purchase!&rdquo;</blockquote>
+          <figcaption><p class="review-name">Etsy Buyer</p><p class="review-role label">Verified Buyer</p></figcaption>
+        </figure>
+        <figure class="review-card" aria-hidden="true">
+          <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="review-quote">&ldquo;My husband thought this was such a cool gift. The attention to detail, customer service, and overall product are amazing. Such a special gift to commemorate a big life moment!&rdquo;</blockquote>
+          <figcaption><p class="review-name">Jenna</p><p class="review-role label">Verified Buyer</p></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
 
-<!-- The Moment -->  <!-- The Moment -->
+
+<!-- The Moment -->
   <section class="section">
     <div class="wrap memory-grid">
       <div class="memory-copy" data-reveal>
@@ -1004,27 +1268,47 @@ h3 { font-size: 1.35rem; }
         </div>
         <a class="textlink" href="#begin">Request a Custom Piece</a>
       </div>
-      <div class="gallery-grid">
-        <figure class="piece" data-reveal>
-          <div class="frame-wrap" data-parallax="-0.04"><div class="art" style="aspect-ratio: 4 / 5; --edge: #D7A6A0; --glow: rgba(215,166,160,0.55);"><img src="assets/v3/art-rose.jpg" alt="Veuve Clicquot rose champagne preserved with green glass and rose leaf" loading="lazy"></div></div>
-          <figcaption class="piece-caption"><span class="label">No. 01</span><p>Wedding champagne, preserved for the couple.</p></figcaption>
-        </figure>
-        <figure class="piece" data-reveal>
-          <div class="frame-wrap" data-parallax="0.06"><div class="art" style="aspect-ratio: 1 / 1; --edge: #9FB4A6; --glow: rgba(159,180,166,0.5);"><img src="assets/v3/art-chateau.jpg" alt="Chateau Bordeaux preserved mid-shatter" loading="lazy"></div></div>
-          <figcaption class="piece-caption"><span class="label">No. 02</span><p>Proposal wine, kept from the night of the yes.</p></figcaption>
-        </figure>
-        <figure class="piece" data-reveal>
-          <div class="frame-wrap" data-parallax="0.05"><div class="art" style="aspect-ratio: 1 / 1; --edge: #A4453F; --glow: rgba(164,69,63,0.42);"><img src="assets/v3/art-vintage-red.jpg" alt="Vintage dry red wine preserved with green glass" loading="lazy"></div></div>
-          <figcaption class="piece-caption"><span class="label">No. 03</span><p>Anniversary wine, turned into a forever piece.</p></figcaption>
-        </figure>
-        <figure class="piece" data-reveal>
-          <div class="frame-wrap" data-parallax="-0.04"><div class="art" style="aspect-ratio: 4 / 5; --edge: #3D6BE0; --glow: rgba(61,107,224,0.5);"><img src="assets/v3/art-cobalt.jpg" alt="Cobalt blue bottle preserved mid-shatter" loading="lazy"></div></div>
-          <figcaption class="piece-caption"><span class="label">No. 04</span><p>Closing gift, framed for a first home.</p></figcaption>
-        </figure>
-        <figure class="piece" data-reveal>
-          <div class="frame-wrap" data-parallax="0.05"><div class="art" style="aspect-ratio: 1 / 1; --edge: #4E66B8; --glow: rgba(78,102,184,0.48);"><img src="assets/v3/art-ceramic.jpg" alt="Blue and white ceramic bottle preserved in resin" loading="lazy"></div></div>
-          <figcaption class="piece-caption"><span class="label">No. 05</span><p>Client gift, after a big partnership.</p></figcaption>
-        </figure>
+      <!-- Thumbnail carousel: each .piece is a button that opens the lightbox.
+           To swap in a new photo, change only the img src on that piece. -->
+      <div class="carousel" data-reveal>
+        <button class="carousel-nav carousel-prev" type="button" aria-label="Previous pieces">&#8249;</button>
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="carousel-track" role="list">
+            <button class="piece" type="button" role="listitem" aria-label="View No. 01, Prosecco rose, gold leaf and silver. Opens larger view.">
+              <span class="frame-wrap"><span class="art" style="--edge: #C9A96A; --glow: rgba(201,169,106,0.55);"><img src="assets/v3/piece-01-borrasca.jpg" alt="Borrasca prosecco rose bottle preserved by hand with gold leaf and silver, framed as one of one wall art" width="1001" height="1004"></span></span>
+              <span class="piece-caption"><span class="label">No. 01</span><p>Prosecco rosé, gold leaf and silver.</p></span>
+            </button>
+            <button class="piece" type="button" role="listitem" aria-label="View No. 02, Veuve Clicquot rose, framed in black. Opens larger view.">
+              <span class="frame-wrap"><span class="art" style="--edge: #D7A6A0; --glow: rgba(215,166,160,0.55);"><img src="assets/v3/piece-02-veuve-noir.jpg" alt="Veuve Clicquot rose champagne bottle preserved by hand, framed in black as one of one wall art" width="1034" height="1361" loading="lazy"></span></span>
+              <span class="piece-caption"><span class="label">No. 02</span><p>Veuve Clicquot rosé, framed in black.</p></span>
+            </button>
+            <button class="piece" type="button" role="listitem" aria-label="View No. 03, Hand-painted porcelain, preserved in blue. Opens larger view.">
+              <span class="frame-wrap"><span class="art" style="--edge: #3D6BE0; --glow: rgba(61,107,224,0.50);"><img src="assets/v3/piece-03-porcelain-noir.jpg" alt="Hand-painted porcelain bottle preserved by hand in blue, framed as one of one wall art" width="945" height="1047" loading="lazy"></span></span>
+              <span class="piece-caption"><span class="label">No. 03</span><p>Hand-painted porcelain, preserved in blue.</p></span>
+            </button>
+            <button class="piece" type="button" role="listitem" aria-label="View No. 04, Veuve Clicquot, green glass and bloom. Opens larger view.">
+              <span class="frame-wrap"><span class="art" style="--edge: #9FB4A6; --glow: rgba(159,180,166,0.50);"><img src="assets/v3/piece-04-veuve-verre.jpg" alt="Veuve Clicquot bottle preserved by hand in green glass with floral bloom, framed as one of one wall art" width="1004" height="1215" loading="lazy"></span></span>
+              <span class="piece-caption"><span class="label">No. 04</span><p>Veuve Clicquot, green glass and bloom.</p></span>
+            </button>
+            <button class="piece" type="button" role="listitem" aria-label="View No. 05, A dry red, saved from the table. Opens larger view.">
+              <span class="frame-wrap"><span class="art" style="--edge: #A4453F; --glow: rgba(164,69,63,0.45);"><img src="assets/v3/piece-05-george-red.jpg" alt="A dry red wine bottle saved from the table and preserved by hand, framed as one of one wall art" width="924" height="917" loading="lazy"></span></span>
+              <span class="piece-caption"><span class="label">No. 05</span><p>A dry red, saved from the table.</p></span>
+            </button>
+            <button class="piece" type="button" role="listitem" aria-label="View No. 06, Cabernet, framed in silver. Opens larger view.">
+              <span class="frame-wrap"><span class="art" style="--edge: #B89B5E; --glow: rgba(184,155,94,0.50);"><img src="assets/v3/piece-06-josh-cab.jpg" alt="Josh cabernet wine bottle preserved by hand, framed in silver as one of one wall art" width="1036" height="1012" loading="lazy"></span></span>
+              <span class="piece-caption"><span class="label">No. 06</span><p>Cabernet, framed in silver.</p></span>
+            </button>
+            <button class="piece" type="button" role="listitem" aria-label="View No. 07, A cobalt bottle, shattered into blue. Opens larger view.">
+              <span class="frame-wrap"><span class="art" style="--edge: #2F4FC0; --glow: rgba(47,79,192,0.50);"><img src="assets/v3/piece-07-lambo-blue.jpg" alt="A cobalt blue bottle shattered and preserved by hand into blue, framed as one of one wall art" width="1065" height="1236" loading="lazy"></span></span>
+              <span class="piece-caption"><span class="label">No. 07</span><p>A cobalt bottle, shattered into blue.</p></span>
+            </button>
+            <button class="piece" type="button" role="listitem" aria-label="View No. 08, Porcelain in bloom, framed in white. Opens larger view.">
+              <span class="frame-wrap"><span class="art" style="--edge: #7E97D8; --glow: rgba(126,151,216,0.50);"><img src="assets/v3/piece-08-porcelain-blanc.jpg" alt="Porcelain bottle in floral bloom preserved by hand, framed in white as one of one wall art" width="967" height="1097" loading="lazy"></span></span>
+              <span class="piece-caption"><span class="label">No. 08</span><p>Porcelain in bloom, framed in white.</p></span>
+            </button>
+          </div>
+        </div>
+        <button class="carousel-nav carousel-next" type="button" aria-label="Next pieces">&#8250;</button>
       </div>
     </div>
   </section>
@@ -1046,22 +1330,22 @@ h3 { font-size: 1.35rem; }
       </div>
       <div class="steps">
         <div class="step" data-reveal>
-          <p class="step-num">01</p>
+          <div class="step-head"><svg class="ic" aria-hidden="true"><use href="#ic-bottle"/></svg><p class="step-num">01</p></div>
           <h3>Save the bottle</h3>
           <p>Keep the bottle from the moment you want to remember.</p>
         </div>
         <div class="step" data-reveal>
-          <p class="step-num">02</p>
+          <div class="step-head"><svg class="ic" aria-hidden="true"><use href="#ic-pen"/></svg><p class="step-num">02</p></div>
           <h3>Share the story</h3>
           <p>The date, the occasion, the names, the details you want included.</p>
         </div>
         <div class="step" data-reveal>
-          <p class="step-num">03</p>
+          <div class="step-head"><svg class="ic" aria-hidden="true"><use href="#ic-check"/></svg><p class="step-num">03</p></div>
           <h3>Approve the direction</h3>
           <p>We confirm the style, frame, layout, and timeline together.</p>
         </div>
         <div class="step" data-reveal>
-          <p class="step-num">04</p>
+          <div class="step-head"><svg class="ic" aria-hidden="true"><use href="#ic-frame"/></svg><p class="step-num">04</p></div>
           <h3>Keep it forever</h3>
           <p>Your bottle becomes a custom framed piece, ready to hang or gift.</p>
         </div>
@@ -1088,22 +1372,22 @@ h3 { font-size: 1.35rem; }
           <div class="cell head"><p class="label">In a shadow box</p></div>
           <div class="cell head hl"><p class="label">Memorable Bottles</p></div>
 
-          <div class="cell row-label">The bottle</div>
+          <div class="cell row-label"><svg class="ic" aria-hidden="true"><use href="#ic-bottle"/></svg>The bottle</div>
           <div class="cell" data-col="In storage"><p>Gathers dust</p></div>
           <div class="cell" data-col="In a shadow box"><p>Sits whole and bulky</p></div>
-          <div class="cell hl" data-col="Memorable Bottles"><p>Becomes the artwork</p></div>
+          <div class="cell hl" data-col="Memorable Bottles"><p>Becomes the art</p></div>
 
-          <div class="cell row-label">The label</div>
+          <div class="cell row-label"><svg class="ic" aria-hidden="true"><use href="#ic-tag"/></svg>The label</div>
           <div class="cell" data-col="In storage"><p>Fades with time</p></div>
           <div class="cell" data-col="In a shadow box"><p>Hard to see</p></div>
-          <div class="cell hl" data-col="Memorable Bottles"><p>Centered and preserved</p></div>
+          <div class="cell hl" data-col="Memorable Bottles"><p>Front and center</p></div>
 
-          <div class="cell row-label">The story</div>
+          <div class="cell row-label"><svg class="ic" aria-hidden="true"><use href="#ic-book"/></svg>The story</div>
           <div class="cell" data-col="In storage"><p>Goes untold</p></div>
           <div class="cell" data-col="In a shadow box"><p>Left out</p></div>
-          <div class="cell hl" data-col="Memorable Bottles"><p>Composed into the piece</p></div>
+          <div class="cell hl" data-col="Memorable Bottles"><p>Part of the piece</p></div>
 
-          <div class="cell row-label">Years from now</div>
+          <div class="cell row-label"><svg class="ic" aria-hidden="true"><use href="#ic-clock"/></svg>Years later</div>
           <div class="cell" data-col="In storage"><p>Lost in a move</p></div>
           <div class="cell" data-col="In a shadow box"><p>Put away</p></div>
           <div class="cell hl" data-col="Memorable Bottles"><p>Still on the wall</p></div>
@@ -1122,74 +1406,40 @@ h3 { font-size: 1.35rem; }
       </div>
       <div class="worth-list" data-reveal>
         <div class="worth-item">
-          <p class="worth-num">01</p>
+          <div class="worth-num-wrap"><svg class="ic" aria-hidden="true"><use href="#ic-flute"/></svg><p class="worth-num">01</p></div>
           <div class="worth-body">
             <h3>The wedding champagne</h3>
             <p>Poured at the toast, saved from the sweetheart table.</p>
           </div>
         </div>
         <div class="worth-item">
-          <p class="worth-num">02</p>
+          <div class="worth-num-wrap"><svg class="ic" aria-hidden="true"><use href="#ic-ring"/></svg><p class="worth-num">02</p></div>
           <div class="worth-body">
             <h3>The proposal wine</h3>
             <p>Opened with shaking hands, right after the yes.</p>
           </div>
         </div>
         <div class="worth-item">
-          <p class="worth-num">03</p>
+          <div class="worth-num-wrap"><svg class="ic" aria-hidden="true"><use href="#ic-calendar"/></svg><p class="worth-num">03</p></div>
           <div class="worth-body">
             <h3>The anniversary vintage</h3>
             <p>The same label, another year of choosing each other.</p>
           </div>
         </div>
         <div class="worth-item">
-          <p class="worth-num">04</p>
+          <div class="worth-num-wrap"><svg class="ic" aria-hidden="true"><use href="#ic-home"/></svg><p class="worth-num">04</p></div>
           <div class="worth-body">
             <h3>The closing bottle</h3>
             <p>Popped on the porch of a first home.</p>
           </div>
         </div>
         <div class="worth-item">
-          <p class="worth-num">05</p>
+          <div class="worth-num-wrap"><svg class="ic" aria-hidden="true"><use href="#ic-heart"/></svg><p class="worth-num">05</p></div>
           <div class="worth-body">
             <h3>The one you can't explain</h3>
             <p>If you saved it, it already matters.</p>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  
-
-  <!-- Quotes -->
-  <section class="section quotes">
-    <div class="pour" aria-hidden="true">
-      <span class="pour-stream"></span>
-      <span class="pour-glass"><span class="pour-fill"></span></span>
-      <span class="pour-stem"></span>
-      <span class="pour-foot"></span>
-    </div>
-    <div class="wrap quotes-inner" data-reveal>
-      <p class="label">Kind Words</p>
-      <div class="quote-stage">
-        <blockquote class="quote active">
-          <p>"We almost threw the bottle away. Now it's the first thing people ask about in our living room."</p>
-          <cite class="label">Wedding couple · Tampa</cite>
-        </blockquote>
-        <blockquote class="quote">
-          <p>"I've sent a lot of closing gifts. This is the only one clients still text me photos of."</p>
-          <cite class="label">Realtor · St. Petersburg</cite>
-        </blockquote>
-        <blockquote class="quote">
-          <p>"It came out more beautiful than the night itself, and that night was hard to beat."</p>
-          <cite class="label">Anniversary piece · Clearwater</cite>
-        </blockquote>
-      </div>
-      <div class="quote-dots">
-        <button class="quote-dot active" type="button" aria-label="Quote 1"></button>
-        <button class="quote-dot" type="button" aria-label="Quote 2"></button>
-        <button class="quote-dot" type="button" aria-label="Quote 3"></button>
       </div>
     </div>
   </section>
@@ -1217,8 +1467,6 @@ h3 { font-size: 1.35rem; }
     </div>
   </section>
 
-  
-
   <!-- Final CTA + intake -->
   <section class="final" id="begin">
     <span class="fizz f1"></span><span class="fizz f2"></span><span class="fizz f3"></span><span class="fizz f4"></span><span class="fizz f5"></span>
@@ -1228,10 +1476,6 @@ h3 { font-size: 1.35rem; }
         <p class="label">Begin</p>
         <h2>Ready to preserve your bottle?</h2>
         <p class="micro">Made from your bottle. Designed around your story. One of one.</p>
-        <div class="final-reassure">
-          <p>No payment to begin. We reply within two business days.</p>
-          <p>Handmade in Tampa Bay. Ships nationwide.</p>
-        </div>
       </div>
       <div class="intake" data-reveal>
         <div class="intake-progress">
@@ -1305,6 +1549,12 @@ h3 { font-size: 1.35rem; }
         </form>
       </div>
     </div>
+    <div class="wrap" data-reveal>
+      <div class="final-reassure">
+        <p><svg class="ic" aria-hidden="true"><use href="#ic-shield"/></svg>No payment to begin. We reply within two business days.</p>
+        <p><svg class="ic" aria-hidden="true"><use href="#ic-pin"/></svg>Handmade in Tampa Bay. Ships nationwide.</p>
+      </div>
+    </div>
   </section>
 
 </main>
@@ -1320,6 +1570,20 @@ h3 { font-size: 1.35rem; }
     <p class="footer-note">© Memorable Bottles · Handmade in Tampa Bay</p>
   </div>
 </footer>
+
+<!-- Lightbox (populated by JS from the carousel thumbnails — one source of truth) -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Gallery piece, enlarged" hidden>
+  <button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous piece">&#8249;</button>
+  <figure class="lightbox-figure">
+    <button class="lightbox-close" type="button" aria-label="Close">&#10005;</button>
+    <span class="lightbox-art" id="lightbox-art"><img id="lightbox-img" src="" alt=""></span>
+    <figcaption class="lightbox-caption">
+      <span class="label" id="lightbox-label"></span>
+      <p id="lightbox-text"></p>
+    </figcaption>
+  </figure>
+  <button class="lightbox-nav lightbox-next" type="button" aria-label="Next piece">&#8250;</button>
+</div>
 
 <script>
 (function () {
@@ -1561,28 +1825,6 @@ h3 { font-size: 1.35rem; }
   renderParallax();
   renderThreads();
 
-  /* ---------- quotes ---------- */
-  var quotes = document.querySelectorAll('.quote');
-  var dots = document.querySelectorAll('.quote-dot');
-  var qi = 0, qTimer = null;
-  function showQuote(i) {
-    qi = i;
-    quotes.forEach(function (q, j) { q.classList.toggle('active', j === i); });
-    dots.forEach(function (d, j) { d.classList.toggle('active', j === i); });
-  }
-  function startQuotes() {
-    if (reduced.matches) return;
-    qTimer = setInterval(function () { showQuote((qi + 1) % quotes.length); }, 6000);
-  }
-  dots.forEach(function (d, i) {
-    d.addEventListener('click', function () {
-      clearInterval(qTimer);
-      showQuote(i);
-      startQuotes();
-    });
-  });
-  startQuotes();
-
   /* ---------- intake form ---------- */
   var form = document.getElementById('intake-form');
   var steps = form.querySelectorAll('.intake-step');
@@ -1617,6 +1859,227 @@ h3 { font-size: 1.35rem; }
   form.querySelectorAll('.intake-back').forEach(function (btn) {
     btn.addEventListener('click', function () { showStep(Math.max(0, current - 1)); });
   });
+
+  /* ---------- gallery carousel + lightbox ---------- */
+  (function () {
+    var track = document.getElementById('carousel-track');
+    var lightbox = document.getElementById('lightbox');
+    if (!track || !lightbox) return;
+
+    var viewport = track.closest('.carousel-viewport');
+    // Original (real) pieces only. These stay in the a11y tree and open the
+    // lightbox. ONE source of truth: lightbox data is read from these.
+    var pieces = Array.prototype.slice.call(track.querySelectorAll('.piece'));
+    var data = pieces.map(function (piece) {
+      var art = piece.querySelector('.art');
+      var img = piece.querySelector('img');
+      return {
+        src: img.getAttribute('src'),
+        alt: img.getAttribute('alt') || '',
+        edge: art.style.getPropertyValue('--edge').trim(),
+        glow: art.style.getPropertyValue('--glow').trim(),
+        label: (piece.querySelector('.piece-caption .label') || {}).textContent || '',
+        caption: (piece.querySelector('.piece-caption p') || {}).textContent || ''
+      };
+    });
+
+    var cPrev = document.querySelector('.carousel-prev');
+    var cNext = document.querySelector('.carousel-next');
+
+    /* ===== continuous marquee (rAF transform, seamless wrap) =====
+       The real set is duplicated once (clones are aria-hidden + untabbable, no
+       click handlers). The track scrolls left forever; when it has moved a full
+       set width we add the set width back, so the position is identical pixel
+       for pixel and there is NO visible reset/jump. Chevrons nudge by one card,
+       hover/lightbox pause it. Reduced motion = manual scrollable row, no rAF. */
+    var paused = false;
+    var raf = null;
+    var offset = 0;          // current translateX (negative = scrolled left)
+    var setWidth = 0;        // width of one full set of real pieces
+    var cloned = false;
+    var lastTs = 0;
+    var SPEED = 42;          // px per second of drift
+
+    function cardStep() {
+      if (pieces.length < 2) return pieces.length ? pieces[0].offsetWidth : 0;
+      return pieces[1].offsetLeft - pieces[0].offsetLeft; // width + margin
+    }
+    function measureSet() {
+      // sum of the real pieces' advance (card width + right margin) for all 8
+      var total = 0, i;
+      for (i = 0; i < pieces.length; i++) {
+        var w = pieces[i].getBoundingClientRect().width;
+        var mr = parseFloat(getComputedStyle(pieces[i]).marginRight) || 0;
+        total += w + mr;
+      }
+      return total;
+    }
+    function buildClones() {
+      if (cloned) return;
+      pieces.forEach(function (p) {
+        var c = p.cloneNode(true);
+        c.setAttribute('aria-hidden', 'true');
+        c.setAttribute('tabindex', '-1');
+        c.setAttribute('data-clone', '');
+        c.removeAttribute('id');
+        track.appendChild(c);
+      });
+      cloned = true;
+    }
+    function removeClones() {
+      Array.prototype.slice.call(track.querySelectorAll('[data-clone]')).forEach(function (c) { c.remove(); });
+      cloned = false;
+    }
+    function wrap() {
+      // keep offset within (-setWidth, 0] -> the visual position repeats exactly
+      if (setWidth <= 0) return;
+      while (offset <= -setWidth) offset += setWidth;
+      while (offset > 0) offset -= setWidth;
+    }
+    function render() {
+      track.style.transform = 'translateX(' + offset + 'px)';
+    }
+    function tick(ts) {
+      if (!lastTs) lastTs = ts;
+      var dt = (ts - lastTs) / 1000;
+      lastTs = ts;
+      if (!paused) {
+        offset -= SPEED * dt;
+        wrap();
+        render();
+      }
+      raf = window.requestAnimationFrame(tick);
+    }
+    function startMarquee() {
+      if (reduced.matches || raf) return;
+      setWidth = measureSet();
+      lastTs = 0;
+      raf = window.requestAnimationFrame(tick);
+    }
+    function stopMarquee() {
+      if (raf) { window.cancelAnimationFrame(raf); raf = null; }
+    }
+    // Chevrons nudge the drift by one card, keeping continuity (no snap-back).
+    function nudge(dir) {
+      if (reduced.matches) return;
+      offset -= dir * cardStep();
+      wrap();
+      render();
+    }
+    if (cNext) cNext.addEventListener('click', function () { nudge(1); });
+    if (cPrev) cPrev.addEventListener('click', function () { nudge(-1); });
+
+    // pause on hover (and stays paused while lightbox open via lbOpen check)
+    var carouselEl = track.closest('.carousel');
+    if (carouselEl) {
+      carouselEl.addEventListener('mouseenter', function () { paused = true; });
+      carouselEl.addEventListener('mouseleave', function () { if (!lbOpen) paused = false; });
+    }
+
+    /* ===== mode switch: marquee vs reduced-motion manual row ===== */
+    function applyCarouselMode() {
+      if (reduced.matches) {
+        stopMarquee();
+        removeClones();
+        offset = 0;
+        track.style.transform = '';
+        if (viewport) viewport.classList.add('is-manual');
+      } else {
+        if (viewport) viewport.classList.remove('is-manual');
+        buildClones();
+        offset = 0; render();
+        startMarquee();
+      }
+    }
+    reduced.addEventListener('change', applyCarouselMode);
+    window.addEventListener('resize', function () {
+      if (!reduced.matches) { setWidth = measureSet(); wrap(); render(); }
+    }, { passive: true });
+
+    /* ===== lightbox ===== */
+    var lbImg = document.getElementById('lightbox-img');
+    var lbArt = document.getElementById('lightbox-art');
+    var lbLabel = document.getElementById('lightbox-label');
+    var lbText = document.getElementById('lightbox-text');
+    var lbClose = lightbox.querySelector('.lightbox-close');
+    var lbPrev = lightbox.querySelector('.lightbox-prev');
+    var lbNext = lightbox.querySelector('.lightbox-next');
+    var lbOpen = false;
+    var lbIndex = 0;
+    var lastFocused = null;
+
+    function renderLightbox() {
+      var d = data[lbIndex];
+      lbImg.src = d.src;
+      lbImg.alt = d.alt;
+      lbArt.style.setProperty('--lb-edge', d.edge);
+      lbArt.style.setProperty('--lb-glow', d.glow);
+      lbLabel.textContent = d.label;
+      lbText.textContent = d.caption;
+    }
+    function openLightbox(i) {
+      lbIndex = i;
+      lastFocused = document.activeElement;
+      renderLightbox();
+      lightbox.hidden = false;
+      // force reflow so the transition runs
+      void lightbox.offsetWidth;
+      lightbox.classList.add('is-open');
+      document.body.classList.add('lb-lock');
+      lbOpen = true;
+      paused = true;   // pauses the marquee while the lightbox is open
+      lbClose.focus();
+    }
+    function closeLightbox() {
+      lightbox.classList.remove('is-open');
+      document.body.classList.remove('lb-lock');
+      lbOpen = false;
+      paused = false;
+      lightbox.hidden = true; // base .lightbox rule already hides via display:none; attr keeps state honest
+      if (lastFocused && lastFocused.focus) lastFocused.focus();
+      // marquee resumes (paused=false); lastTs resets on next tick automatically
+    }
+    function lbAdvance(dir) {
+      lbIndex = (lbIndex + dir + data.length) % data.length;
+      renderLightbox();
+    }
+
+    pieces.forEach(function (piece, i) {
+      piece.addEventListener('click', function () { openLightbox(i); });
+    });
+    lbClose.addEventListener('click', closeLightbox);
+    lbPrev.addEventListener('click', function () { lbAdvance(-1); });
+    lbNext.addEventListener('click', function () { lbAdvance(1); });
+    // backdrop click closes, but not clicks on the figure
+    lightbox.addEventListener('click', function (e) {
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (!lbOpen) return;
+      if (e.key === 'Escape') { closeLightbox(); }
+      else if (e.key === 'ArrowLeft') { lbAdvance(-1); }
+      else if (e.key === 'ArrowRight') { lbAdvance(1); }
+      else if (e.key === 'Tab') {
+        // simple focus trap across the three controls
+        var f = [lbClose, lbPrev, lbNext];
+        var idx = f.indexOf(document.activeElement);
+        if (idx === -1) { e.preventDefault(); lbClose.focus(); return; }
+        e.preventDefault();
+        var nextIdx = (idx + (e.shiftKey ? -1 : 1) + f.length) % f.length;
+        f[nextIdx].focus();
+      }
+    });
+
+    // touch swipe inside lightbox
+    var tx = 0;
+    lightbox.addEventListener('touchstart', function (e) { tx = e.touches[0].clientX; }, { passive: true });
+    lightbox.addEventListener('touchend', function (e) {
+      var dx = e.changedTouches[0].clientX - tx;
+      if (Math.abs(dx) > 40) lbAdvance(dx < 0 ? 1 : -1);
+    }, { passive: true });
+
+    applyCarouselMode();
+  })();
 })();
 </script>
 
