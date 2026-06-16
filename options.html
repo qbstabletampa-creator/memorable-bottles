@@ -203,11 +203,11 @@ h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 500; letter-spacing: -0.01e
       <!-- 1. Frame size -->
       <div class="intake-step active">
         <h3>Choose your frame size.</h3>
-        <p class="step-sub">A starting point. We finalize the exact size together after you reserve.</p>
+        <p class="step-sub">Pick the size that fits your space.</p>
         <div class="chip-row" data-key="size" data-advance="true" id="size-row">
           <!-- rendered from FRAME_SIZES -->
         </div>
-        <p class="step-hint">Sizing finalized with you after you reserve.</p>
+        <p class="step-hint">Every piece arrives ready to hang, hardware included.</p>
       </div>
 
       <!-- 2. Frame color -->
@@ -216,7 +216,8 @@ h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 500; letter-spacing: -0.01e
         <div class="chip-row" data-key="frame_color" data-advance="true">
           <button class="chip" type="button" data-value="White">White</button>
           <button class="chip" type="button" data-value="Black">Black</button>
-          <button class="chip" type="button" data-value="Wood">Wood (beige)</button>
+          <button class="chip" type="button" data-value="Tan">Tan</button>
+          <button class="chip" type="button" data-value="Brown">Brown</button>
         </div>
       </div>
 
@@ -232,9 +233,11 @@ h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 500; letter-spacing: -0.01e
       <!-- 4. Foil lettering -->
       <div class="intake-step">
         <h3>Add foil lettering?</h3>
-        <p class="step-sub">Names, the date, a short line, pressed in gold foil.</p>
+        <p class="step-sub">Names, the date, a short line, pressed in foil. <span class="addon">(+$10)</span></p>
         <div class="chip-row" data-key="foil" data-advance="true">
-          <button class="chip" type="button" data-value="Yes">Yes, add foil <span class="addon">(+$10)</span></button>
+          <button class="chip" type="button" data-value="Gold">Gold foil</button>
+          <button class="chip" type="button" data-value="Silver">Silver foil</button>
+          <button class="chip" type="button" data-value="Rose gold">Rose gold foil</button>
           <button class="chip" type="button" data-value="No">No thanks</button>
         </div>
       </div>
@@ -295,6 +298,7 @@ h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 500; letter-spacing: -0.01e
         <div class="deposit-note">
           <span class="label">The Deposit</span>
           <p><strong>A $100 deposit secures your order and reserves your spot.</strong> The balance (any add-ons or a larger frame) is invoiced once your piece is finished, before it ships.</p>
+          <p>You'll see a photo of your finished piece to approve before it ships.</p>
         </div>
 
         <div class="intake-actions">
@@ -317,13 +321,12 @@ h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 500; letter-spacing: -0.01e
   'use strict';
 
   // ============================================================
-  // FRAME SIZES — easy-edit. Adding real dimensions later = editing
-  // this ONE array. The size step renders its choices from here.
-  // TODO(Kirklyn): replace with real dimensions when she sends them.
+  // FRAME SIZES — easy-edit. Dimensions confirmed by Kirklyn 2026-06-16.
+  // To change a size, edit this ONE array; the size step renders from it.
   // ============================================================
   var FRAME_SIZES = [
-    { label: "Standard", value: "Standard" },
-    { label: "Large", value: "Large" }
+    { label: "Standard — 16x20", value: "Standard (16x20)" },
+    { label: "Large — 18x24", value: "Large (18x24)" }
   ];
 
   var form = document.getElementById('builder-form');
