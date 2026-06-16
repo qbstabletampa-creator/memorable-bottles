@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Build Your Piece — Memorable Bottles</title>
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   Memorable Bottles — Build Your Piece (private, post-consult)
+   v3 design system: ivory base, ink structure, champagne accent.
+   Tokens + intake patterns lifted from index.html.
+   ============================================================ */
+:root {
+  --font-head: 'Playfair Display', serif;
+  --font-accent: 'Cormorant Garamond', serif;
+  --font-body: 'Inter', 'Helvetica Neue', sans-serif;
+
+  --bg: #F7F2EA;
+  --surface: #FFFFFF;
+  --ink: #111111;
+  --ink-soft: #6E6257;
+  --accent: #B89B5E;
+  --line: rgba(184, 155, 94, 0.35);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; max-width: 100%; }
+
+.wrap { width: min(720px, 92vw); margin-inline: auto; }
+
+.label {
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+h1, h2, h3 { font-family: var(--font-head); font-weight: 600; line-height: 1.08; }
+h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 500; letter-spacing: -0.01em; }
+
+/* ---------- masthead ---------- */
+.masthead {
+  padding: clamp(2.2rem, 5vw, 3.4rem) 0 0;
+  text-align: center;
+}
+.masthead .emblem { width: 56px; margin: 0 auto 1rem; }
+.wordmark {
+  font-family: var(--font-head); font-weight: 700;
+  font-size: clamp(1.1rem, 3vw, 1.4rem);
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink);
+  text-decoration: none; display: inline-block;
+}
+
+/* ---------- intro ---------- */
+.intro { text-align: center; padding: clamp(2.4rem, 5vw, 3.4rem) 0 1.6rem; }
+.intro h1 { margin: 1rem 0 1.2rem; }
+.intro .micro {
+  font-family: var(--font-accent); font-style: italic;
+  font-size: 1.18rem; color: var(--ink-soft); max-width: 32rem; margin: 0 auto;
+}
+
+/* ---------- builder card (mirrors .intake) ---------- */
+.intake {
+  background: var(--surface); color: var(--ink);
+  padding: clamp(1.8rem, 3.6vw, 3.2rem);
+  border-top: 2px solid var(--accent);
+  box-shadow: 0 36px 80px -36px rgba(0,0,0,0.45);
+  margin: 1.6rem 0 4rem;
+}
+.intake-progress { display: flex; gap: 6px; margin-bottom: 1rem; }
+.intake-progress span { flex: 1; height: 3px; background: rgba(184, 155, 94, 0.22); }
+.intake-progress span.done { background: var(--accent); }
+.intake-step-label { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.8rem; }
+.intake-step { display: none; }
+.intake-step.active { display: block; }
+.intake-step h3 { font-weight: 600; font-size: 1.5rem; margin-bottom: 0.4rem; }
+.step-sub { font-family: var(--font-accent); font-style: italic; font-size: 1.05rem; color: var(--ink-soft); margin-bottom: 1.6rem; }
+.intake-step h3 + .chip-row, .intake-step h3 + .field { margin-top: 1.4rem; }
+.chip-row { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+.chip {
+  -webkit-appearance: none; appearance: none; border-radius: 0;
+  font-family: var(--font-body); font-size: 0.88rem; font-weight: 500;
+  color: var(--ink);
+  padding: 0.85rem 1.5rem; background: var(--surface); border: 1px solid rgba(17,17,17,0.18);
+  cursor: pointer; transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
+}
+.chip:hover { border-color: var(--accent); }
+.chip.selected { background: var(--ink); color: var(--bg); border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--accent); }
+.chip .addon { color: var(--accent); font-weight: 600; }
+.chip.selected .addon { color: var(--bg); }
+.field { margin-top: 1.8rem; }
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.field-grid .field { margin-top: 1.8rem; }
+.field label { display: block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 0.6rem; }
+.field input, .field textarea {
+  -webkit-appearance: none; appearance: none; border-radius: 0;
+  width: 100%; font-family: var(--font-body); font-size: 1rem;
+  padding: 0.95rem 1.1rem; background: var(--surface);
+  border: 1px solid rgba(17,17,17,0.18); color: var(--ink); resize: vertical;
+}
+.field input::placeholder, .field textarea::placeholder { color: rgba(110, 98, 87, 0.55); }
+.field input:focus, .field textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.intake-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 2.4rem; gap: 1rem; }
+.intake-back {
+  -webkit-appearance: none; appearance: none; border-radius: 0;
+  background: none; border: none; font-family: var(--font-body); font-size: 0.76rem; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); cursor: pointer;
+}
+.intake-back:hover { color: var(--ink); }
+.btn-card {
+  -webkit-appearance: none; appearance: none; border-radius: 0;
+  border: 1px solid var(--ink); background: var(--ink); color: var(--bg);
+  font-family: var(--font-body); font-size: 0.74rem; font-weight: 600; letter-spacing: 0.22em;
+  text-transform: uppercase; padding: 1rem 2.2rem; cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.btn-card:hover { background: transparent; color: var(--ink); }
+.intake-note { margin-top: 1.4rem; font-size: 0.8rem; color: var(--ink-soft); }
+.step-hint { margin-top: 1.2rem; font-size: 0.82rem; color: var(--ink-soft); font-style: italic; font-family: var(--font-accent); }
+.hp { position: absolute; left: -5000px; opacity: 0; height: 0; width: 0; overflow: hidden; }
+@media (max-width: 540px) { .field-grid { grid-template-columns: 1fr; } }
+
+/* ---------- review summary ---------- */
+.review-list { border-top: 1px solid var(--line); margin-top: 0.4rem; }
+.review-row {
+  display: grid; grid-template-columns: 38% 1fr;
+  gap: 1rem; padding: 0.95rem 0; border-bottom: 1px solid var(--line);
+  align-items: baseline;
+}
+.review-row dt {
+  font-size: 0.66rem; font-weight: 600; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--ink-soft);
+}
+.review-row dd {
+  font-family: var(--font-head); font-size: 1.05rem; color: var(--ink);
+}
+.review-row dd.empty { font-family: var(--font-accent); font-style: italic; font-weight: 400; color: var(--ink-soft); font-size: 1rem; }
+.deposit-note {
+  margin-top: 2rem; padding: 1.4rem 1.5rem;
+  background: var(--bg); border: 1px solid var(--line);
+}
+.deposit-note .label { display: block; margin-bottom: 0.6rem; }
+.deposit-note p { font-size: 0.92rem; color: var(--ink-soft); }
+.deposit-note strong { color: var(--ink); font-weight: 600; }
+
+/* ---------- footer ---------- */
+.footer { padding: 2.6rem 0 3rem; border-top: 1px solid var(--line); text-align: center; }
+.footer-note { font-size: 0.78rem; color: var(--ink-soft); }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <img class="emblem" src="assets/v3/logo-emblem.png" alt="" aria-hidden="true">
+  <a class="wordmark" href="https://memorablebottles.com">Memorable Bottles</a>
+</header>
+
+<main class="wrap">
+
+  <section class="intro">
+    <p class="label">Your Piece</p>
+    <h1>Let's build your piece.</h1>
+    <p class="micro">A few quick choices and a deposit to hold your spot. I'll handle the rest.</p>
+  </section>
+
+  <div class="intake">
+    <div class="intake-progress" aria-hidden="true">
+      <span class="done"></span>
+      <span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <p class="intake-step-label">Step <span id="step-now">1</span> of 8</p>
+
+    <form id="builder-form" action="https://options.memorablebottles.com" method="POST">
+      <!-- honeypot: offscreen, never tabbable, never autofilled -->
+      <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+      <!-- hidden inputs the chip steps write into -->
+      <input type="hidden" name="size" id="in-size">
+      <input type="hidden" name="frame_color" id="in-frame_color">
+      <input type="hidden" name="background_color" id="in-background_color">
+      <input type="hidden" name="foil" id="in-foil">
+      <input type="hidden" name="plaque" id="in-plaque">
+
+      <!-- 1. Frame size -->
+      <div class="intake-step active">
+        <h3>Choose your frame size.</h3>
+        <p class="step-sub">A starting point. We finalize the exact size together after you reserve.</p>
+        <div class="chip-row" data-key="size" data-advance="true" id="size-row">
+          <!-- rendered from FRAME_SIZES -->
+        </div>
+        <p class="step-hint">Sizing finalized with you after you reserve.</p>
+      </div>
+
+      <!-- 2. Frame color -->
+      <div class="intake-step">
+        <h3>Pick a frame color.</h3>
+        <div class="chip-row" data-key="frame_color" data-advance="true">
+          <button class="chip" type="button" data-value="White">White</button>
+          <button class="chip" type="button" data-value="Black">Black</button>
+          <button class="chip" type="button" data-value="Wood">Wood (beige)</button>
+        </div>
+      </div>
+
+      <!-- 3. Background color -->
+      <div class="intake-step">
+        <h3>Pick a background color.</h3>
+        <div class="chip-row" data-key="background_color" data-advance="true">
+          <button class="chip" type="button" data-value="White">White</button>
+          <button class="chip" type="button" data-value="Black">Black</button>
+        </div>
+      </div>
+
+      <!-- 4. Foil lettering -->
+      <div class="intake-step">
+        <h3>Add foil lettering?</h3>
+        <p class="step-sub">Names, the date, a short line, pressed in gold foil.</p>
+        <div class="chip-row" data-key="foil" data-advance="true">
+          <button class="chip" type="button" data-value="Yes">Yes, add foil <span class="addon">(+$10)</span></button>
+          <button class="chip" type="button" data-value="No">No thanks</button>
+        </div>
+      </div>
+
+      <!-- 5. Nameplate / plaque -->
+      <div class="intake-step">
+        <h3>Add a nameplate?</h3>
+        <p class="step-sub">A small engraved plaque mounted on the frame.</p>
+        <div class="chip-row" data-key="plaque" data-advance="true">
+          <button class="chip" type="button" data-value="Yes">Yes, add a nameplate <span class="addon">(+$25)</span></button>
+          <button class="chip" type="button" data-value="No">No thanks</button>
+        </div>
+      </div>
+
+      <!-- 6. Special requests -->
+      <div class="intake-step">
+        <h3>Any special requests?</h3>
+        <p class="step-sub">Optional. Tell me anything that makes this yours.</p>
+        <div class="field">
+          <label for="in-requests">Special requests, optional</label>
+          <textarea id="in-requests" name="requests" rows="4" placeholder="Names, the date, placement notes, anything else."></textarea>
+        </div>
+        <div class="intake-actions">
+          <button class="intake-back" type="button">← Back</button>
+          <button class="btn-card" type="button" data-next>Continue</button>
+        </div>
+      </div>
+
+      <!-- 7. Your details -->
+      <div class="intake-step">
+        <h3>Where should I reach you?</h3>
+        <div class="field-grid">
+          <div class="field">
+            <label for="in-name">Name</label>
+            <input id="in-name" name="name" type="text" autocomplete="name" placeholder="Your name" required>
+          </div>
+          <div class="field">
+            <label for="in-email">Email</label>
+            <input id="in-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="in-phone">Phone, optional</label>
+          <input id="in-phone" name="phone" type="tel" autocomplete="tel" placeholder="(813) 000-0000">
+        </div>
+        <div class="intake-actions">
+          <button class="intake-back" type="button">← Back</button>
+          <button class="btn-card" type="button" data-next data-validate>Review</button>
+        </div>
+      </div>
+
+      <!-- 8. Review -->
+      <div class="intake-step">
+        <h3>Review your piece.</h3>
+        <p class="step-sub">Here's everything. Change anything by stepping back.</p>
+        <dl class="review-list" id="review-list"><!-- filled by JS --></dl>
+
+        <div class="deposit-note">
+          <span class="label">The Deposit</span>
+          <p><strong>A $100 deposit secures your order and reserves your spot.</strong> The balance (any add-ons or a larger frame) is invoiced once your piece is finished, before it ships.</p>
+        </div>
+
+        <div class="intake-actions">
+          <button class="intake-back" type="button">← Back</button>
+          <button class="btn-card" type="submit">Continue to deposit</button>
+        </div>
+        <p class="intake-note">You'll be taken to a secure $100 deposit checkout to reserve your spot.</p>
+      </div>
+    </form>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <p class="footer-note">© Memorable Bottles · Handmade in Tampa Bay</p>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  // ============================================================
+  // FRAME SIZES — easy-edit. Adding real dimensions later = editing
+  // this ONE array. The size step renders its choices from here.
+  // TODO(Kirklyn): replace with real dimensions when she sends them.
+  // ============================================================
+  var FRAME_SIZES = [
+    { label: "Standard", value: "Standard" },
+    { label: "Large", value: "Large" }
+  ];
+
+  var form = document.getElementById('builder-form');
+  var steps = form.querySelectorAll('.intake-step');
+  var bars = document.querySelectorAll('.intake-progress span');
+  var stepNow = document.getElementById('step-now');
+  var TOTAL = steps.length;
+  var current = 0;
+
+  // Render the size step choices from FRAME_SIZES.
+  var sizeRow = document.getElementById('size-row');
+  FRAME_SIZES.forEach(function (s) {
+    var b = document.createElement('button');
+    b.className = 'chip';
+    b.type = 'button';
+    b.setAttribute('data-value', s.value);
+    b.textContent = s.label;
+    sizeRow.appendChild(b);
+  });
+
+  function showStep(i) {
+    current = Math.max(0, Math.min(TOTAL - 1, i));
+    steps.forEach(function (s, j) { s.classList.toggle('active', j === current); });
+    bars.forEach(function (b, j) { b.classList.toggle('done', j <= current); });
+    stepNow.textContent = current + 1;
+    if (current === TOTAL - 1) renderReview();
+    if (typeof window.scrollTo === 'function') {
+      var card = document.querySelector('.intake');
+      if (card) window.scrollTo({ top: Math.max(0, card.offsetTop - 24), behavior: 'auto' });
+    }
+  }
+
+  // Chip steps: write the chip's value into its hidden input. Use data-value
+  // (so "Yes"/"No" submit, not the "+$10" label text). Auto-advance when set.
+  form.querySelectorAll('.chip-row').forEach(function (row) {
+    var key = row.dataset.key;
+    var advance = row.dataset.advance === 'true';
+    var hidden = document.getElementById('in-' + key);
+    // delegate so dynamically-rendered size chips work too
+    row.addEventListener('click', function (e) {
+      var chip = e.target.closest('.chip');
+      if (!chip || !row.contains(chip)) return;
+      row.querySelectorAll('.chip').forEach(function (c) { c.classList.remove('selected'); });
+      chip.classList.add('selected');
+      hidden.value = chip.getAttribute('data-value');
+      if (advance) setTimeout(function () { showStep(current + 1); }, 240);
+    });
+  });
+
+  form.querySelectorAll('[data-next]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      // The details step validates name + email before advancing to review.
+      if (btn.hasAttribute('data-validate')) {
+        var name = document.getElementById('in-name');
+        var email = document.getElementById('in-email');
+        if (!name.value.trim()) { name.focus(); name.reportValidity && name.reportValidity(); return; }
+        if (!email.checkValidity()) { email.focus(); email.reportValidity && email.reportValidity(); return; }
+      }
+      showStep(current + 1);
+    });
+  });
+  form.querySelectorAll('.intake-back').forEach(function (btn) {
+    btn.addEventListener('click', function () { showStep(current - 1); });
+  });
+
+  // Build the review summary from the current form state.
+  function renderReview() {
+    var v = function (id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; };
+    var rows = [
+      { dt: 'Frame size', val: v('in-size') },
+      { dt: 'Frame color', val: v('in-frame_color') },
+      { dt: 'Background', val: v('in-background_color') },
+      { dt: 'Foil lettering', val: v('in-foil') },
+      { dt: 'Nameplate', val: v('in-plaque') },
+      { dt: 'Special requests', val: v('in-requests') },
+      { dt: 'Name', val: v('in-name') },
+      { dt: 'Email', val: v('in-email') },
+      { dt: 'Phone', val: v('in-phone') }
+    ];
+    var list = document.getElementById('review-list');
+    list.innerHTML = '';
+    rows.forEach(function (r) {
+      var dt = document.createElement('dt');
+      dt.textContent = r.dt;
+      var dd = document.createElement('dd');
+      if (r.val) { dd.textContent = r.val; }
+      else { dd.textContent = '—'; dd.className = 'empty'; }
+      var wrap = document.createElement('div');
+      wrap.className = 'review-row';
+      wrap.appendChild(dt); wrap.appendChild(dd);
+      list.appendChild(wrap);
+    });
+  }
+
+  // The final submit is a NORMAL form POST (no fetch). The browser follows the
+  // Worker's 303 redirect to the Stripe $100 deposit. We only guard the honeypot.
+  form.addEventListener('submit', function (e) {
+    var hp = form.querySelector('input[name="_honey"]');
+    if (hp && hp.value) { e.preventDefault(); return; }
+    // let it submit normally
+  });
+
+  showStep(0);
+})();
+</script>
+
+</body>
+</html>
