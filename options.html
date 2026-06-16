@@ -85,15 +85,16 @@ h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 500; letter-spacing: -0.01e
   box-shadow: 0 36px 80px -36px rgba(0,0,0,0.45);
   margin: 1.6rem 0 4rem;
 }
-.intake-progress { display: flex; gap: 6px; margin-bottom: 1rem; }
-.intake-progress span { flex: 1; height: 3px; background: rgba(184, 155, 94, 0.22); }
-.intake-progress span.done { background: var(--accent); }
-.intake-step-label { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 1.8rem; }
+.intake-progress { height: 2px; background: rgba(184, 155, 94, 0.25); margin-bottom: 1.8rem; overflow: hidden; }
+.intake-progress .fill { height: 100%; width: 0; background: var(--accent); transition: width 0.35s ease; }
 .intake-step { display: none; }
 .intake-step.active { display: block; }
 .intake-step h3 { font-weight: 600; font-size: 1.5rem; margin-bottom: 0.4rem; }
 .step-sub { font-family: var(--font-accent); font-style: italic; font-size: 1.05rem; color: var(--ink-soft); margin-bottom: 1.6rem; }
 .intake-step h3 + .chip-row, .intake-step h3 + .field { margin-top: 1.4rem; }
+.chip-group { margin-top: 1.6rem; }
+.chip-group:first-of-type { margin-top: 1.4rem; }
+.chip-group-label { display: block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 0.7rem; }
 .chip-row { display: flex; flex-wrap: wrap; gap: 0.7rem; }
 .chip {
   -webkit-appearance: none; appearance: none; border-radius: 0;
@@ -183,11 +184,8 @@ h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 500; letter-spacing: -0.01e
 
   <div class="intake">
     <div class="intake-progress" aria-hidden="true">
-      <span class="done"></span>
-      <span></span><span></span><span></span>
-      <span></span><span></span><span></span><span></span>
+      <div class="fill" id="progress-fill"></div>
     </div>
-    <p class="intake-step-label">Step <span id="step-now">1</span> of 8</p>
 
     <form id="builder-form" action="https://options.memorablebottles.com" method="POST">
       <!-- honeypot: offscreen, never tabbable, never autofilled -->
@@ -200,49 +198,53 @@ h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 500; letter-spacing: -0.01e
       <input type="hidden" name="foil" id="in-foil">
       <input type="hidden" name="plaque" id="in-plaque">
 
-      <!-- 1. Frame size -->
+      <!-- 1. Your piece (size + frame color + background, gated continue) -->
       <div class="intake-step active">
-        <h3>Choose your frame size.</h3>
-        <p class="step-sub">Pick the size that fits your space.</p>
-        <div class="chip-row" data-key="size" data-advance="true" id="size-row">
-          <!-- rendered from FRAME_SIZES -->
+        <h3>Your piece.</h3>
+        <div class="chip-group">
+          <span class="chip-group-label">Size</span>
+          <div class="chip-row" data-key="size" id="size-row">
+            <!-- rendered from FRAME_SIZES -->
+          </div>
+        </div>
+        <div class="chip-group">
+          <span class="chip-group-label">Frame color</span>
+          <div class="chip-row" data-key="frame_color">
+            <button class="chip" type="button" data-value="White">White</button>
+            <button class="chip" type="button" data-value="Black">Black</button>
+            <button class="chip" type="button" data-value="Tan">Tan</button>
+            <button class="chip" type="button" data-value="Brown">Brown</button>
+          </div>
+        </div>
+        <div class="chip-group">
+          <span class="chip-group-label">Background</span>
+          <div class="chip-row" data-key="background_color">
+            <button class="chip" type="button" data-value="White">White</button>
+            <button class="chip" type="button" data-value="Black">Black</button>
+          </div>
         </div>
         <p class="step-hint">Every piece arrives ready to hang, hardware included.</p>
-      </div>
-
-      <!-- 2. Frame color -->
-      <div class="intake-step">
-        <h3>Pick a frame color.</h3>
-        <div class="chip-row" data-key="frame_color" data-advance="true">
-          <button class="chip" type="button" data-value="White">White</button>
-          <button class="chip" type="button" data-value="Black">Black</button>
-          <button class="chip" type="button" data-value="Tan">Tan</button>
-          <button class="chip" type="button" data-value="Brown">Brown</button>
+        <div class="intake-actions">
+          <span class="step-hint" id="piece-hint" style="margin-top:0;display:none;">Pick a size, frame color, and background to continue.</span>
+          <button class="btn-card" type="button" id="piece-continue" style="margin-left:auto;">Continue</button>
         </div>
       </div>
 
-      <!-- 3. Background color -->
+      <!-- 2. Foil -->
       <div class="intake-step">
-        <h3>Pick a background color.</h3>
-        <div class="chip-row" data-key="background_color" data-advance="true">
-          <button class="chip" type="button" data-value="White">White</button>
-          <button class="chip" type="button" data-value="Black">Black</button>
-        </div>
-      </div>
-
-      <!-- 4. Foil lettering -->
-      <div class="intake-step">
-        <h3>Add foil lettering?</h3>
-        <p class="step-sub">Names, the date, a short line, pressed in foil. <span class="addon">(+$10)</span></p>
+        <h3>Add foil?</h3>
         <div class="chip-row" data-key="foil" data-advance="true">
-          <button class="chip" type="button" data-value="Gold">Gold foil</button>
-          <button class="chip" type="button" data-value="Silver">Silver foil</button>
-          <button class="chip" type="button" data-value="Rose gold">Rose gold foil</button>
-          <button class="chip" type="button" data-value="No">No thanks</button>
+          <button class="chip" type="button" data-value="Gold">Gold <span class="addon">(+$10)</span></button>
+          <button class="chip" type="button" data-value="Silver">Silver <span class="addon">(+$10)</span></button>
+          <button class="chip" type="button" data-value="Rose gold">Rose gold <span class="addon">(+$10)</span></button>
+          <button class="chip" type="button" data-value="No">No foil</button>
+        </div>
+        <div class="intake-actions">
+          <button class="intake-back" type="button">← Back</button>
         </div>
       </div>
 
-      <!-- 5. Nameplate / plaque -->
+      <!-- 3. Nameplate / plaque -->
       <div class="intake-step">
         <h3>Add a nameplate?</h3>
         <p class="step-sub">A small engraved plaque mounted on the frame.</p>
@@ -250,9 +252,12 @@ h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 500; letter-spacing: -0.01e
           <button class="chip" type="button" data-value="Yes">Yes, add a nameplate <span class="addon">(+$25)</span></button>
           <button class="chip" type="button" data-value="No">No thanks</button>
         </div>
+        <div class="intake-actions">
+          <button class="intake-back" type="button">← Back</button>
+        </div>
       </div>
 
-      <!-- 6. Special requests -->
+      <!-- 4. Special requests -->
       <div class="intake-step">
         <h3>Any special requests?</h3>
         <p class="step-sub">Optional. Tell me anything that makes this yours.</p>
@@ -266,7 +271,7 @@ h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 500; letter-spacing: -0.01e
         </div>
       </div>
 
-      <!-- 7. Your details -->
+      <!-- 5. Your details -->
       <div class="intake-step">
         <h3>Where should I reach you?</h3>
         <div class="field-grid">
@@ -275,13 +280,9 @@ h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 500; letter-spacing: -0.01e
             <input id="in-name" name="name" type="text" autocomplete="name" placeholder="Your name" required>
           </div>
           <div class="field">
-            <label for="in-email">Email</label>
-            <input id="in-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+            <label for="in-phone">Phone</label>
+            <input id="in-phone" name="phone" type="tel" autocomplete="tel" placeholder="(813) 000-0000">
           </div>
-        </div>
-        <div class="field">
-          <label for="in-phone">Phone, optional</label>
-          <input id="in-phone" name="phone" type="tel" autocomplete="tel" placeholder="(813) 000-0000">
         </div>
         <div class="intake-actions">
           <button class="intake-back" type="button">← Back</button>
@@ -289,7 +290,7 @@ h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 500; letter-spacing: -0.01e
         </div>
       </div>
 
-      <!-- 8. Review -->
+      <!-- 6. Review -->
       <div class="intake-step">
         <h3>Review your piece.</h3>
         <p class="step-sub">Here's everything. Change anything by stepping back.</p>
@@ -331,8 +332,7 @@ h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 500; letter-spacing: -0.01e
 
   var form = document.getElementById('builder-form');
   var steps = form.querySelectorAll('.intake-step');
-  var bars = document.querySelectorAll('.intake-progress span');
-  var stepNow = document.getElementById('step-now');
+  var progressFill = document.getElementById('progress-fill');
   var TOTAL = steps.length;
   var current = 0;
 
@@ -350,8 +350,7 @@ h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 500; letter-spacing: -0.01e
   function showStep(i) {
     current = Math.max(0, Math.min(TOTAL - 1, i));
     steps.forEach(function (s, j) { s.classList.toggle('active', j === current); });
-    bars.forEach(function (b, j) { b.classList.toggle('done', j <= current); });
-    stepNow.textContent = current + 1;
+    progressFill.style.width = ((current + 1) / TOTAL * 100) + '%';
     if (current === TOTAL - 1) renderReview();
     if (typeof window.scrollTo === 'function') {
       var card = document.querySelector('.intake');
@@ -373,17 +372,35 @@ h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 500; letter-spacing: -0.01e
       chip.classList.add('selected');
       hidden.value = chip.getAttribute('data-value');
       if (advance) setTimeout(function () { showStep(current + 1); }, 240);
+      else syncPieceGate();
     });
+  });
+
+  // Step 1 "Your piece" gate: Continue blocked until size + frame color + background are all set.
+  var pieceContinue = document.getElementById('piece-continue');
+  var pieceHint = document.getElementById('piece-hint');
+  function pieceComplete() {
+    return !!(document.getElementById('in-size').value &&
+              document.getElementById('in-frame_color').value &&
+              document.getElementById('in-background_color').value);
+  }
+  function syncPieceGate() {
+    if (pieceComplete() && pieceHint) pieceHint.style.display = 'none';
+  }
+  pieceContinue.addEventListener('click', function () {
+    if (!pieceComplete()) {
+      if (pieceHint) pieceHint.style.display = 'block';
+      return;
+    }
+    showStep(current + 1);
   });
 
   form.querySelectorAll('[data-next]').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      // The details step validates name + email before advancing to review.
+      // The details step validates name before advancing to review.
       if (btn.hasAttribute('data-validate')) {
         var name = document.getElementById('in-name');
-        var email = document.getElementById('in-email');
         if (!name.value.trim()) { name.focus(); name.reportValidity && name.reportValidity(); return; }
-        if (!email.checkValidity()) { email.focus(); email.reportValidity && email.reportValidity(); return; }
       }
       showStep(current + 1);
     });
@@ -396,14 +413,13 @@ h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 500; letter-spacing: -0.01e
   function renderReview() {
     var v = function (id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; };
     var rows = [
-      { dt: 'Frame size', val: v('in-size') },
+      { dt: 'Size', val: v('in-size') },
       { dt: 'Frame color', val: v('in-frame_color') },
       { dt: 'Background', val: v('in-background_color') },
-      { dt: 'Foil lettering', val: v('in-foil') },
+      { dt: 'Foil', val: v('in-foil') },
       { dt: 'Nameplate', val: v('in-plaque') },
       { dt: 'Special requests', val: v('in-requests') },
       { dt: 'Name', val: v('in-name') },
-      { dt: 'Email', val: v('in-email') },
       { dt: 'Phone', val: v('in-phone') }
     ];
     var list = document.getElementById('review-list');
