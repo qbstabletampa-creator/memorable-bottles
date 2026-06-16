@@ -1013,6 +1013,82 @@ body.lb-lock { overflow: hidden; }
 /* Reassurance: centered trust row under the form, glyph + line */
 .final-reassure .ic { width: 18px; height: 18px; color: var(--accent); }
 
+/* ---------- pricing band ---------- */
+.pricing-head { max-width: 46rem; }
+.pricing-lede { margin-top: 1.4rem; color: var(--ink-soft); font-size: 1.06rem; }
+.pricing-ticks {
+  list-style: none;
+  margin-top: 3rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.6rem 2.4rem;
+  border-top: 1px solid var(--line);
+  padding-top: 2.4rem;
+}
+.pricing-ticks li { display: flex; align-items: center; gap: 0.75rem; font-weight: 500; }
+.pricing-ticks .ic { width: 22px; height: 22px; color: var(--accent); }
+@media (max-width: 760px) {
+  .pricing-ticks { grid-template-columns: 1fr; gap: 1.1rem; }
+}
+
+/* ---------- faq accordion ---------- */
+.faq-list {
+  margin-top: 3rem;
+  max-width: 52rem;
+  border-top: 1px solid var(--line);
+}
+.faq-item { border-bottom: 1px solid var(--line); }
+.faq-q { margin: 0; font-family: var(--font-body); font-weight: 400; }
+.faq-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.4rem;
+  padding: 1.6rem 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+  color: var(--ink);
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: clamp(1.12rem, 2vw, 1.4rem);
+  line-height: 1.25;
+}
+.faq-q-text { flex: 1; }
+.faq-mark {
+  flex: none;
+  position: relative;
+  width: 18px;
+  height: 18px;
+}
+.faq-mark::before,
+.faq-mark::after {
+  content: "";
+  position: absolute;
+  background: var(--accent);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.faq-mark::before { top: 50%; left: 0; width: 100%; height: 2px; transform: translateY(-50%); }
+.faq-mark::after { left: 50%; top: 0; width: 2px; height: 100%; transform: translateX(-50%); }
+.faq-item.is-open .faq-mark::after { opacity: 0; transform: translateX(-50%) scaleY(0); }
+.faq-trigger:hover { color: var(--accent); }
+.faq-trigger:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.faq-panel {
+  overflow: hidden;
+  height: 0;
+  opacity: 0;
+  transition: height 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
+}
+.faq-item.is-open .faq-panel { opacity: 1; }
+.faq-panel-inner { padding: 0 0 1.7rem; color: var(--ink-soft); font-size: 1.02rem; }
+.faq-panel-inner p { max-width: 46rem; }
+@media (prefers-reduced-motion: reduce) {
+  .faq-panel { transition: none; }
+  .faq-mark::before, .faq-mark::after { transition: none; }
+}
+
 </style>
 </head>
 <body>
@@ -1461,6 +1537,99 @@ body.lb-lock { overflow: hidden; }
         <div class="frame-wrap" data-parallax="0.05">
           <div class="art" style="aspect-ratio: 4 / 5; --edge: #93B3C9; --glow: rgba(147,179,201,0.5);">
             <img src="assets/v3/brideslist.jpg" alt="Kirklyn holding a finished piece, featured on The Bride's List" loading="lazy" style="--focus: 50% 30%;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing band -->
+  <section class="section pricing" id="pricing">
+    <div class="wrap">
+      <div class="section-head pricing-head" data-reveal>
+        <p class="label">The Investment</p>
+        <h2>Starting at $399</h2>
+        <p class="pricing-lede">Each piece is handmade to order and starts at $399, with return shipping included. Add foil lettering, a nameplate, or step up to a larger frame whenever you're ready to make it yours.</p>
+      </div>
+      <ul class="pricing-ticks" data-reveal>
+        <li><svg class="ic" aria-hidden="true"><use href="#ic-check"/></svg><span>Handmade, one at a time</span></li>
+        <li><svg class="ic" aria-hidden="true"><use href="#ic-check"/></svg><span>One of one, never repeated</span></li>
+        <li><svg class="ic" aria-hidden="true"><use href="#ic-check"/></svg><span>Return shipping included</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section faq" id="faq">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <p class="label">Questions</p>
+        <h2>Before you begin</h2>
+      </div>
+      <div class="faq-list" data-reveal>
+        <div class="faq-item is-open">
+          <h3 class="faq-q">
+            <button type="button" class="faq-trigger" aria-expanded="true" aria-controls="faq-panel-1" id="faq-btn-1">
+              <span class="faq-q-text">How much does it cost?</span>
+              <span class="faq-mark" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="faq-panel" id="faq-panel-1" role="region" aria-labelledby="faq-btn-1">
+            <div class="faq-panel-inner">
+              <p>Pieces start at $399, and that includes shipping the finished piece back to you. From there you can add foil lettering ($10), a nameplate ($25), or step up to a larger frame (from $499). The only thing you cover is getting your bottle to me.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <h3 class="faq-q">
+            <button type="button" class="faq-trigger" aria-expanded="false" aria-controls="faq-panel-2" id="faq-btn-2">
+              <span class="faq-q-text">What can you use?</span>
+              <span class="faq-mark" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="faq-panel" id="faq-panel-2" role="region" aria-labelledby="faq-btn-2">
+            <div class="faq-panel-inner">
+              <p>Honestly, just about anything with a story. Wine and champagne are the most common, but I've framed spirits, and even a baseball bat. If you saved it, there's a good chance I can turn it into something worth hanging. Not sure yours works? Send me a photo and I'll tell you.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <h3 class="faq-q">
+            <button type="button" class="faq-trigger" aria-expanded="false" aria-controls="faq-panel-3" id="faq-btn-3">
+              <span class="faq-q-text">How do I get my bottle to you?</span>
+              <span class="faq-mark" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="faq-panel" id="faq-panel-3" role="region" aria-labelledby="faq-btn-3">
+            <div class="faq-panel-inner">
+              <p>Most people ship USPS or FedEx, nothing fancy. Just pack it well, plenty of bubble wrap or cushion so it arrives safe and whole. No one has ever sent me a bottle that showed up damaged, so you've got this. And if you can, save the cork and label too, they make the final piece feel complete.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <h3 class="faq-q">
+            <button type="button" class="faq-trigger" aria-expanded="false" aria-controls="faq-panel-4" id="faq-btn-4">
+              <span class="faq-q-text">How long does it take?</span>
+              <span class="faq-mark" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="faq-panel" id="faq-panel-4" role="region" aria-labelledby="faq-btn-4">
+            <div class="faq-panel-inner">
+              <p>Once your bottle reaches me, I ask for up to 21 days, though most pieces go out sooner. In a hurry? I offer a 10-day rush once it arrives for an extra $30.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <h3 class="faq-q">
+            <button type="button" class="faq-trigger" aria-expanded="false" aria-controls="faq-panel-5" id="faq-btn-5">
+              <span class="faq-q-text">When and how do I pay?</span>
+              <span class="faq-mark" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="faq-panel" id="faq-panel-5" role="region" aria-labelledby="faq-btn-5">
+            <div class="faq-panel-inner">
+              <p>A $100 deposit secures your order and reserves your spot. Once your piece is finished, I'll send an invoice for the balance before it ships. That's it, no surprises.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -2074,6 +2243,62 @@ body.lb-lock { overflow: hidden; }
     }, { passive: true });
 
     applyCarouselMode();
+  })();
+
+  /* ---------- faq accordion ---------- */
+  (function () {
+    var items = Array.prototype.slice.call(document.querySelectorAll('.faq-item'));
+    if (!items.length) return;
+
+    function panelOf(item) { return item.querySelector('.faq-panel'); }
+    function triggerOf(item) { return item.querySelector('.faq-trigger'); }
+
+    function setOpenHeight(item) {
+      var panel = panelOf(item);
+      if (reduced.matches) { panel.style.height = 'auto'; return; }
+      panel.style.height = panel.scrollHeight + 'px';
+    }
+
+    function open(item) {
+      item.classList.add('is-open');
+      triggerOf(item).setAttribute('aria-expanded', 'true');
+      setOpenHeight(item);
+    }
+    function close(item) {
+      var panel = panelOf(item);
+      item.classList.remove('is-open');
+      triggerOf(item).setAttribute('aria-expanded', 'false');
+      if (reduced.matches) { panel.style.height = '0px'; return; }
+      // from auto/explicit -> force a measured value, then to 0 so it animates
+      panel.style.height = panel.scrollHeight + 'px';
+      // force reflow
+      void panel.offsetHeight;
+      panel.style.height = '0px';
+    }
+
+    items.forEach(function (item) {
+      var trigger = triggerOf(item);
+      // sync initial state from markup
+      if (item.classList.contains('is-open')) { open(item); }
+      else { panelOf(item).style.height = '0px'; }
+
+      trigger.addEventListener('click', function () {
+        var isOpen = item.classList.contains('is-open');
+        if (isOpen) { close(item); }
+        else { open(item); }
+      });
+    });
+
+    // keep open panels correctly sized on resize
+    var resizeTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () {
+        items.forEach(function (item) {
+          if (item.classList.contains('is-open')) setOpenHeight(item);
+        });
+      }, 150);
+    }, { passive: true });
   })();
 })();
 </script>
