@@ -237,6 +237,7 @@ h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 500; letter-spacing: -0.01e
           <button class="chip" type="button" data-value="Gold">Gold <span class="addon">(+$10)</span></button>
           <button class="chip" type="button" data-value="Silver">Silver <span class="addon">(+$10)</span></button>
           <button class="chip" type="button" data-value="Rose gold">Rose gold <span class="addon">(+$10)</span></button>
+          <button class="chip" type="button" data-value="Other">Other <span class="addon">(+$10)</span></button>
           <button class="chip" type="button" data-value="No">No foil</button>
         </div>
         <div class="intake-actions">
@@ -326,8 +327,8 @@ h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 500; letter-spacing: -0.01e
   // To change a size, edit this ONE array; the size step renders from it.
   // ============================================================
   var FRAME_SIZES = [
-    { label: "Standard — 16x20", value: "Standard (16x20)" },
-    { label: "Large — 18x24", value: "Large (18x24)" }
+    { label: "Standard · 16x20", addon: "$399", value: "Standard (16x20)" },
+    { label: "Large · 18x24", addon: "+$100", value: "Large (18x24)" }
   ];
 
   var form = document.getElementById('builder-form');
@@ -343,7 +344,7 @@ h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 500; letter-spacing: -0.01e
     b.className = 'chip';
     b.type = 'button';
     b.setAttribute('data-value', s.value);
-    b.textContent = s.label;
+    b.innerHTML = s.label + (s.addon ? ' <span class="addon">' + s.addon + '</span>' : '');
     sizeRow.appendChild(b);
   });
 
